@@ -1,5 +1,19 @@
 <!DOCTYPE HTML>
 <!--
+
+<pre><code>
+i = 0;
+while (!deck.isInOrder()) {
+print 'Iteration ' + i;
+deck.shuffle();
+i++;
+}
+print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
+</section>
+
+
+
+
 	Read Only by HTML5 UP
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
@@ -18,8 +32,8 @@
 				<header>
 					<span class="image avatar"><img src="images/me_pic.jpg" alt="" /></span>
 					<h1 id="logo"><a href="#">Enrique Nueve</a></h1>
-					<p>Undergraduate Statistics Major and ML Researcher.<br />
-					Aspring Quantitative Analyst</p>
+					<p>Undergraduate Statistics Major and Machine Learning Researcher.<br />
+					Aspring Quantitative Analyst.</p>
 				</header>
 				<nav id="nav">
 					<ul>
@@ -30,6 +44,7 @@
 				<footer>
 					<ul class="icons">
 						<li><a href="https://github.com/RealestRick-C137" class="icon brands fa-github"><span class="label">Github</span></a></li>
+						<li><a href="https://www.linkedin.com/in/enrique-nueve-7a050115b/" class="icon brands fa-linkedin"><span class="label">linkedin</span></a></li>
 					</ul>
 				</footer>
 			</section>
@@ -48,25 +63,59 @@
 								<div class="container">
 									<header class="major">
 										<h2> *IN PROGRESS* </h2>
-										<h2>Python implmentation of the paper "A General Reflex Fuzzy Min-Max Neural Network."</h2>
+										<h2>Python implementation of the paper "A General Reflex Fuzzy Min-Max Neural Network."</h2>
 										<p> July 2019 </p>
 									</header>
-									<p> Like many data scientist, I came upon the issue of trying to decide between picking a model that
-									would be highly accurate yet also intepretible. My specific problem at the time, was trying to classify
-								win, draws, and loss for Japanese soccer games. To my unawerness, Japanese soccer games are some
-							of the most competitive games in all of sports. Team's statistics are extremely volitle from week to week making it
-						extremely difficult to pick up paterns. </p>
-									<pre><code>i = 0;
 
-while (!deck.isInOrder()) {
-	print 'Iteration ' + i;
-	deck.shuffle();
-	i++;
-}
 
-print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
-								</section>
+									<p>	&emsp; A common issue that arises in creating models is deciding between high accuracy and low interpretability or high
+										interpretability and low accuracy. This issue becomes even cloudier when the data doesn't fully represent the events
+										that are being modeled. Due to the lack of information provided in the data, a compromise that allows for the continual
+										use of the data is weakening the restrictions of the accepted outputs of the model. A modern implementation of this type of
+										model is a Bayesian Neural Network. This model has weights that consist of two trainable parameters that represent mean and variance.
+										This allows for the model to output a a range of possible outcomes.
+										Although Bayesian Networks and Bayesian Deep Learing overall is currently growing, there exisit another family of models
+										that allow for high levels of interpretability. These models are called Fuzzy Networks.</p>
 
+									<p>	&emsp; Fuzzy Networks are based around the theorms of fuzzy sets.
+										Fuzzy sets were made by Lotfi A. Zadeh and Dieter Klaua in 1965. A fuzzy set consists of a set
+										and a membership function which states how much an element(data-sampel) is part of that particular
+										fuzzy set. These ideas of fuzzy sets were futher developed by Zadeh into the ideas of fuzzy logic. Unlike classic logic
+										fuzzy logic allows for continous-intervals of truth. Throught the rules of fuzzy logic, Fuzzy Networks were inspired.
+									</p>
+
+									<p> &emsp; Fuzzy networks are usually classification models however, there are varients that do regression. In this post I will
+										be covering Fuzzy Networks that do clasification. Furthermore, Fuzzy Networks are supervised learning models. The data set consits
+										of training examples with labled targets of two or more different classes. Fuzzy Networks create trainable sets called hyperboxes.
+										Hyperboxes conisit of two parameters, a min and a max, that define a lower and upper corner of a rectangular area. Hyperboxes also have
+										a membership function that states how much an element is part of that particular hyperbox based on a its distance from the defined
+										rectangular area respective to the set. Finally, the hyperbox has tag saying which class it is associated to. Fuzzy Networks during their training
+										period has two stages, expanison and contraction.
+									</p>
+
+									<p> &emsp; During the expansion phase, hyperboxes are created and expanded by conecting to other hyperboxes. When a data sample
+										is introduced during the expansion phase two outcomes can happen. One, a new hyperbox could be formed. This occurs when no hyperboxes
+										meet an expansion critera neccessary thus a new hyperbox of the respective labeled class is created. This implies whenever a data sampel
+										from a class is introduced for the first time, a hyperbox with the tag of that respective class will always be made. The min and max
+										parameters wil be a vector equiviliant to the training sample's values. It is neccesary that your input data be scalled between zero and one.
+										Since intially min and max parameters are equal to each other, although this set is called a hyperbox, it initally geometrically appears
+										as a point. The second event that can occur during the expansion phase is expansion itself.
+									</p>
+
+									<p> &emsp; If two points meet the expansion critera, then two hyperboxes join togther to form one large hyperbox with min and max parameters
+										based on the min[min-parameter] and max[max-parameter] of the two sets. Expansion can only occur if the class of the two hyperboxes
+										are the same. The second part of the training phase, contraction, occurs if the hyperbox that was just expanded, now overlaps
+										already made hyperboxes of different classes.
+									</p>
+
+
+
+
+
+									<figure>
+									<img src="images/FuzzyNetwork.jpg" class = "image fit"  alt="Reflex Fuzzy Network Diagram" />
+									<figcaption> Source: Reflex Fuzzy Network (from Nandedkar, Biswas)</figcaption>
+								</figure>
 
 								</div>
 							</section>
