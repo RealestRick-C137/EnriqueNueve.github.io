@@ -19,112 +19,142 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-	<head>
-		<title>Enrique Nueve Blog</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-	</head>
-	<body class="is-preload">
 
-		<!-- Header -->
-			<section id="header">
-				<header>
-					<span class="image avatar"><img src="images/me_pic.jpg" alt="" /></span>
-					<h1 id="logo"><a href="#">Enrique Nueve</a></h1>
-					<p>Undergraduate Statistics Major and Machine Learning Researcher.<br />
-					Aspring Quantitative Analyst.</p>
-				</header>
-				<nav id="nav">
-					<ul>
-						<li><a href="index.html" class="active">Home</a></li>
+<head>
+	<title>Enrique Nueve Blog</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+</head>
 
-					</ul>
-				</nav>
-				<footer>
-					<ul class="icons">
-						<li><a href="https://github.com/RealestRick-C137" class="icon brands fa-github"><span class="label">Github</span></a></li>
-						<li><a href="https://www.linkedin.com/in/enrique-nueve-7a050115b/" class="icon brands fa-linkedin"><span class="label">linkedin</span></a></li>
-					</ul>
-				</footer>
+<body class="is-preload">
+
+	<!-- Header -->
+	<section id="header">
+		<header>
+			<span class="image avatar"><img src="images/me_pic.jpg" alt="" /></span>
+			<h1 id="logo"><a href="#">Enrique Nueve</a></h1>
+			<p>Undergraduate Statistics Major and Machine Learning Researcher.<br />
+				Aspring Quantitative Analyst.</p>
+		</header>
+		<nav id="nav">
+			<ul>
+				<li><a href="index.html" class="active">Home</a></li>
+
+			</ul>
+		</nav>
+		<footer>
+			<ul class="icons">
+				<li><a href="https://github.com/RealestRick-C137" class="icon brands fa-github"><span class="label">Github</span></a></li>
+				<li><a href="https://www.linkedin.com/in/enrique-nueve-7a050115b/" class="icon brands fa-linkedin"><span class="label">linkedin</span></a></li>
+			</ul>
+		</footer>
+	</section>
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Main -->
+		<div id="main">
+
+			<!-- One -->
+			<section id="one">
+				<div class="image main" data-position="center">
+					<img src="images/chicago_banner.jpg" alt="" />
+				</div>
+				<div class="container">
+					<header class="major">
+						<h2> *IN PROGRESS* </h2>
+						<h2>Python implementation of the paper "A General Reflex Fuzzy Min-Max Neural Network."</h2>
+						<p> July 2019 </p>
+					</header>
+
+
+					<p> &emsp; A common issue that arises in creating models is deciding between high accuracy and low interpretability or high
+						interpretability and low accuracy. This issue becomes even cloudier when the data doesn't fully represent the events
+						that are being modeled. Due to the lack of information provided in the data, a compromise that allows for the continual
+						use of the data is weakening the restrictions of the accepted outputs of the model. A modern implementation of this type of
+						model is a Bayesian Neural Network. This model has weights that consist of two trainable parameters that represent mean and variance.
+						This allows for the model to output a a range of possible outcomes.
+						Although Bayesian Networks and Bayesian Deep Learing overall is currently growing, there exisit another family of models
+						that allow for high levels of interpretability. These models are called Fuzzy Networks.</p>
+
+					<p> &emsp; Fuzzy Networks are based around the theorms of fuzzy sets.
+						Fuzzy sets were made by Lotfi A. Zadeh and Dieter Klaua in 1965. A fuzzy set consists of a set
+						and a membership function which states how much an element(data-sample) is part of that particular
+						fuzzy set. These ideas of fuzzy sets were futher developed by Zadeh into the ideas of fuzzy logic. Unlike classic logic
+						fuzzy logic allows for continous-intervals of truth. Throught the rules of fuzzy logic, Fuzzy Networks were inspired.
+					</p>
+
+					<figure>
+						<img src="images/boxes_plot_example.png" class="image fit" alt="Hyperbox diagram" />
+						<figcaption> Hyperbox Example: Red corners are min and max parameter of the hyperboxes. </figcaption>
+					</figure>
+
+					<p></p>
+					<p> &emsp; Fuzzy networks are usually classification models however, there are varients that do regression. In this post I will
+						be covering Fuzzy Networks that do clasification. Furthermore, Fuzzy Networks are supervised learning models. The data set consits
+						of training examples with labled targets of two or more different classes. Fuzzy Networks create trainable sets called hyperboxes.
+						Hyperboxes conisit of two parameters, a min and a max, that define a lower and upper corner of a rectangular area. Hyperboxes also have
+						a membership function that states how much an element is part of that particular hyperbox based on a its distance from the defined
+						rectangular area respective to the set. Finally, the hyperbox has tag saying which class it is associated to. Fuzzy Networks during their training
+						period has two stages, expanison and contraction.
+					</p>
+
+					<figure>
+						<img src="images/MemberShipFunction.jpg" class="image fit" alt="Membership Function" />
+						<figcaption> Membership Function [Nandedkar, Biswas]. </figcaption>
+					</figure>
+
+
+					<p></p>
+					<p> &emsp; During the expansion phase, hyperboxes are created and expanded by conecting to other hyperboxes. When a data sample
+						is introduced during the expansion phase two outcomes can happen. One, a new hyperbox could be formed. This occurs when no hyperboxes
+						meet an expansion critera neccessary thus a new hyperbox of the respective labeled class is created. This implies whenever a data sampel
+						from a class is introduced for the first time, a hyperbox with the tag of that respective class will always be made. The min and max
+						parameters wil be a vector equiviliant to the training sample's values. It is neccesary that your input data be scalled between zero and one.
+						Since intially min and max parameters are equal to each other, although this set is called a hyperbox, it initally geometrically appears
+						as a point. The second event that can occur during the expansion phase is expansion itself.
+					</p>
+
+					<figure>
+						<img src="images/overlap_boxes.png" class="image fit" alt="Overlap boxes" />
+						<figcaption> Overlap of boxes after expansion phase and before contraction phase. </figcaption>
+					</figure>
+
+
+					<p></p>
+					<p> &emsp; If two points meet the expansion critera, then two hyperboxes join togther to form one large hyperbox with min and max parameters
+						based on the min[min-parameter] and max[max-parameter] of the two sets. Expansion can only occur if the class of the two hyperboxes
+						are the same. The second part of the training phase, contraction, occurs if the hyperbox that was just expanded, now overlaps
+						already made hyperboxes of different classes.
+					</p>
+
+
+					<figure>
+						<img src="images/contraction_example.png" class="image fit" alt="Contraction boxes" />
+						<figcaption> Boxes after contaction. </figcaption>
+					</figure>
+
+
+					<p></p>
+					<h5> Conclusion</h5>
+					<p> &emsp; Although this post covered the conceptual princicples of the General Reflex Fuzzy Min-Max Neural Network, I highly reccomend to
+						read the paper this implementation is based on
+						<a href="http://www.engineeringletters.com/issues_v14/issue_1/EL_14_1_29.pdf"> (CLICK HERE TO BE REDIRECTED TO THE PAPER)</a>
+						. The code for the this build can be found at my github page by clicking
+						<a href="https://github.com/RealestRick-C137/ReflexFuzzyNetworkImplementation"> HERE </a>
+					</p>
+
+
+				</div>
 			</section>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
-
-				<!-- Main -->
-					<div id="main">
-
-						<!-- One -->
-							<section id="one">
-								<div class="image main" data-position="center">
-									<img src="images/chicago_banner.jpg" alt="" />
-								</div>
-								<div class="container">
-									<header class="major">
-										<h2> *IN PROGRESS* </h2>
-										<h2>Python implementation of the paper "A General Reflex Fuzzy Min-Max Neural Network."</h2>
-										<p> July 2019 </p>
-									</header>
-
-
-									<p>	&emsp; A common issue that arises in creating models is deciding between high accuracy and low interpretability or high
-										interpretability and low accuracy. This issue becomes even cloudier when the data doesn't fully represent the events
-										that are being modeled. Due to the lack of information provided in the data, a compromise that allows for the continual
-										use of the data is weakening the restrictions of the accepted outputs of the model. A modern implementation of this type of
-										model is a Bayesian Neural Network. This model has weights that consist of two trainable parameters that represent mean and variance.
-										This allows for the model to output a a range of possible outcomes.
-										Although Bayesian Networks and Bayesian Deep Learing overall is currently growing, there exisit another family of models
-										that allow for high levels of interpretability. These models are called Fuzzy Networks.</p>
-
-									<p>	&emsp; Fuzzy Networks are based around the theorms of fuzzy sets.
-										Fuzzy sets were made by Lotfi A. Zadeh and Dieter Klaua in 1965. A fuzzy set consists of a set
-										and a membership function which states how much an element(data-sampel) is part of that particular
-										fuzzy set. These ideas of fuzzy sets were futher developed by Zadeh into the ideas of fuzzy logic. Unlike classic logic
-										fuzzy logic allows for continous-intervals of truth. Throught the rules of fuzzy logic, Fuzzy Networks were inspired.
-									</p>
-
-									<p> &emsp; Fuzzy networks are usually classification models however, there are varients that do regression. In this post I will
-										be covering Fuzzy Networks that do clasification. Furthermore, Fuzzy Networks are supervised learning models. The data set consits
-										of training examples with labled targets of two or more different classes. Fuzzy Networks create trainable sets called hyperboxes.
-										Hyperboxes conisit of two parameters, a min and a max, that define a lower and upper corner of a rectangular area. Hyperboxes also have
-										a membership function that states how much an element is part of that particular hyperbox based on a its distance from the defined
-										rectangular area respective to the set. Finally, the hyperbox has tag saying which class it is associated to. Fuzzy Networks during their training
-										period has two stages, expanison and contraction.
-									</p>
-
-									<p> &emsp; During the expansion phase, hyperboxes are created and expanded by conecting to other hyperboxes. When a data sample
-										is introduced during the expansion phase two outcomes can happen. One, a new hyperbox could be formed. This occurs when no hyperboxes
-										meet an expansion critera neccessary thus a new hyperbox of the respective labeled class is created. This implies whenever a data sampel
-										from a class is introduced for the first time, a hyperbox with the tag of that respective class will always be made. The min and max
-										parameters wil be a vector equiviliant to the training sample's values. It is neccesary that your input data be scalled between zero and one.
-										Since intially min and max parameters are equal to each other, although this set is called a hyperbox, it initally geometrically appears
-										as a point. The second event that can occur during the expansion phase is expansion itself.
-									</p>
-
-									<p> &emsp; If two points meet the expansion critera, then two hyperboxes join togther to form one large hyperbox with min and max parameters
-										based on the min[min-parameter] and max[max-parameter] of the two sets. Expansion can only occur if the class of the two hyperboxes
-										are the same. The second part of the training phase, contraction, occurs if the hyperbox that was just expanded, now overlaps
-										already made hyperboxes of different classes.
-									</p>
 
 
 
-
-
-									<figure>
-									<img src="images/FuzzyNetwork.jpg" class = "image fit"  alt="Reflex Fuzzy Network Diagram" />
-									<figcaption> Source: Reflex Fuzzy Network (from Nandedkar, Biswas)</figcaption>
-								</figure>
-
-								</div>
-							</section>
-
-
-
-
-						<!-- Five -->
-						<!--
+			<!-- Five -->
+			<!--
 							<section id="five">
 								<div class="container">
 									<h3>Elements</h3>
@@ -454,27 +484,29 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 							</section>
 						-->
 
-					</div>
+		</div>
 
-				<!-- Footer -->
-					<section id="footer">
-						<div class="container">
-							<ul class="copyright">
-								<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-							</ul>
-						</div>
-					</section>
-
+		<!-- Footer -->
+		<section id="footer">
+			<div class="container">
+				<ul class="copyright">
+					<li>&copy; Untitled. All rights reserved.</li>
+					<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+				</ul>
 			</div>
+		</section>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+	</div>
 
-	</body>
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+</body>
+
 </html>
