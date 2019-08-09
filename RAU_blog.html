@@ -64,12 +64,63 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 				</div>
 				<div class="container">
 					<header class="major">
+						<h2> IN PROGRESS </h2>
 						<h2>Creating a Recurrent Attention Unit from scratch</h2>
 						<p> August 2019 </p>
 					</header>
 
-					<h5> Intro</h5>
-					<p> &emsp; IN PROGRESS.
+					<h5> Intro </h5>
+					<p> &emsp; This project was my first full scale Machine Learning model implementation. I collected the data, cleaned the data,
+						built the model from scratch, ran test, and wrote an academic paper. Before this project, I had almost no experiance
+						with Deep Learing models besides working with a MLP on a generic data set such as MNIST or Iris. I've never had formal teaching
+						in machine learning, even today I've never taken a class. Even so, I was ambitious and wanted to become fluent in Deep Learning.
+						This was my junior year in college and I had just transfered from Community College and watned to emerse myself in the new envioerment.
+						I though upon transfering from Community College, I would then be able to take classes on Machine Learning and work with proffesors who were
+						experianced in Machine Learning. With that in mind, I signed up for a research program for transfer students who had no research experiance.
+						To my supresise, it was left up to the students to find a proffesor to work with. Even more to more surprise, the three professors
+						at the University who worked in Machine Learning were all on sabatical. I knew I wanted to get into Machine Learning, and decided
+						just to teach myself. How hard could it be?
+					</p>
+					<p></p>
+					<h5> 1. Choosing a Topic </h5>
+					<p> &emsp; I was now enrolled in this research program with no guidance. I did find a proffesor to work with yet, his focus was
+						in Data Mining, and had no experiance in Deep Learning. Although he provided much insight into the struture of research, in regard
+						to Deep Learning, he wasn't able to assit me. Even so, I wanted to be a Machine Learning researcher and being able to create and use
+						Deep Learning models is the backbone of Machine Learning. At the time, I thought I understood Neural Networks fairly well. I did happen
+						to build a Neural Network from scratch in Numpy (with the help of some tutorials...). So I felt faily confident I could pull this
+						project off yet, I didn't know at the time what the project was going to be.
+						<br></br>
+						&emsp; From my limited exposure, I knew only a handful of topics and concepts. Ovreall, I knew I wanted to be a Qunatitivae Analysit and
+						I wanted to do a Deep Learning project. Put one and one together, and after a quick couple of Googles, you realize why don't I do a Time
+						Series forcasting project (as I mentioned, this was my first large scale Machine Learning project). I was conciveced it was going to be
+						a breeze and since, I was using "Deep Leanring" it was going to be amazingly accurate. Even though I had no clue what was novel about
+						this project at the time, I brushed it off and decided a idea would come to me during the project.
+					</p>
+					<p></p>
+					<h5> 2. Tensors? What does tension have to with Deep Learning?  </h5>
+					<p> &emsp; Turns out tensors and tension have nothing do with each other, this was shocking. However, not as shocking as
+						having the realization that majority of Deep Learning post on the internet have no clue about the mathmatics of
+						backpropogation of networks. After a couple of weeks of pondering what to do for my project, I decided to build a
+						Reccurent Network to perform Time Series forcasting. Also, I decided I was going to built it only from Numpy. That means that
+						I had to perform the deviations for foward passing, backpropogation, and gradient updating by hand. After several weeks of no luck, I
+						decided to look up some tutorials on the mathmatics of backpropogation. Quickly, I noticed theses turiaals almost never showed any mathmatics
+						but were just a discuassion of the concept of backpropogation. I truged on and by hand I could derive a Neural Network with all of its
+						processes. I tested my deviations by building a new Neural Network from scratch (no tutorials) and was able to get it to work. Now I decided to
+						go back and look at some deviatons for Reccurent Networks. This time, less supressed, the deviations at best only showed how to perform
+						foward passes but never backpropogation for Reccurrent networks. So it was back to the drawing board.
+					</p>
+					<p> &emsp; After relentless testing, I found that the mathmatics for backpropogation just did not add up to how Reccruent networks
+						perform foward passing. This led me to realize that yes, standard backpropogation does not work on Reccruent network. Although
+						this may seem obvious if you have taken classes or had a book, neither which I had, this was absolutely shocking since no blog post or video
+						I watched ever mentioned this. Turns out, there is a varient of backpropogation called Backpropagation Through Time, BPTT. Upon discovering this,
+						my first thought was, since I was building a network from scratch, how do I derive this? Again, I learned the hard lesson of wanting
+						devitions from Compute Scientist is a loss cause. After several weeks of reading about Tensor Operationa and Tensor Calclus I figured out the deviations.
+						I coded the network and got it working on forcasting time series stock data.
+					</p>
+					<p></p>
+					<h5> 3. Mankind was never intended to take the Jacobian of a Kronecker Product </h5>
+					<p> &emsp; Looking back, this might have been the most antagonzing deviation I have ever attempted.
+
 					</p>
 
 
