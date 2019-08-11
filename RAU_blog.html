@@ -1,19 +1,5 @@
 <!DOCTYPE HTML>
 <!--
-
-<pre><code>
-i = 0;
-while (!deck.isInOrder()) {
-print 'Iteration ' + i;
-deck.shuffle();
-i++;
-}
-print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
-</section>
-
-
-
-
 	Read Only by HTML5 UP
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
@@ -97,7 +83,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 						this project at the time, I brushed it off and decided a idea would come to me during the project.
 					</p>
 					<p></p>
-					<h5> 2. Tensors? What does tension have to with Deep Learning?  </h5>
+					<h5> 2. Tensors? What does tension have to with Deep Learning? </h5>
 					<p> &emsp; Turns out tensors and tension have nothing do with each other, this was shocking. However, not as shocking as
 						having the realization that majority of Deep Learning post on the internet have no clue about the mathmatics of
 						backpropogation of networks. After a couple of weeks of pondering what to do for my project, I decided to build a
@@ -150,11 +136,92 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 						came back to my mind, how is the project unique?
 					</p>
 					<p></p>
-					<h5> 5. I was convinced having orginal ideas were impossible </h5>					
+					<h5> 5. I was convinced having orginal ideas were impossible </h5>
+					<p> &emsp; Being that this was my first offical research project, I never had experianced the
+						neccesity to have an original idea on command. This task seemed so unatural. There
+						are no guide books to have an original idea. I struggled for weeks to come up with a way
+						to make my project unique from any other Time Series Forcasting project. I had a clock running
+						out of time and a lack of experiance to match. However, I did learn about how to come up with
+						original ideas. I learned to stick with you intrpetation of things to have orginal ideas.
+						I taught myself everything about Deep Learning on my own. No feedback from anyone except
+						the mathmatics and the code of the models. No explnation ever why anything worked, I only
+						had definte proof from testing which left me to figure out the "why's" of Deep Learning. I
+						learned to question everything, be vicious to read about the topic I wasn't familer with,
+						and to not settle for unexplained reasons for anything that I built (Cough cough Tensorflow).
+						Although I did not have this clarity during the time I was looking for an original idea,
+						my perspective was always with me which led me to an original idea.
+					</p>
+					<p> &emsp; As I was frantically reading paper after paper for insperation, I came upon a paper
+						on adaptive activation functions. I ran upon a paper for a noisy activation function. It seemed
+						logical enough however, I noticed a a discpency between their outlook on activation functions
+						and mine. From working by the deivations and proofs of convegency for Neural Networks, I have
+						a strong belief about the necesity of activation functions to have nonlinear attributes to be able
+						to properly approximate functions. Even so, this paper proposed an acitvation function modification
+						to sigmoid in which gausian noise was added for outlieng values. This caused anyvalues not along the linear
+						shaped center of the function to have noise added. This makes sense for the purpose of serving as a regressor
+						however, with my undetstaning of how it is neccesasry for activation functions to have nonlinear
+						features, I decided I would make my own noisy activation function with nonlinear features.
+						This led to my original activation function the Noisy Exponential Activation Function, NEAF.
+					</p>
+					<p></p>
+					<h5> 6. Noisy Exponential Activation Function, NEAF </h5>
+
+					<figure>
+						<img src="RAU_images/NEAF_graph.png" class="image fit" alt="NEAF graph" />
+						<figcaption> Visual of NEAF </figcaption>
+					</figure>
+
+					<p></p>
+
+					<pre><code>
+	import numpy as np
+
+	def NEAF(x, deriv=False):
+	    def noise(x):
+	        return np.abs(np.random.randn(np.size(x)))
+
+	    def linear(x, deriv=False):
+	        if deriv:
+	            return 0.25
+	        return 0.25*x + 0.5
+
+	    def hard_sigmoid(x, deriv=False):
+	        if deriv:
+	            x = np.piecewise(x,[x >= 2, (-2<x) & (x<2) ,x <= -2],[lambda x: 0, lambda x: .25 ,lambda x: 0])
+	            return x
+	        return np.maximum(0, np.minimum(1, (x + 2) / 4))
+
+	    if deriv:
+	        x = linear(x)
+	        x = np.piecewise(x,[x > .975, (-.025<=x) & (x<=.975) ,x <= .025],
+	        [lambda x: -.01*noise(x)*(1-hard_sigmoid(x,deriv=True))*np.exp(x-hard_sigmoid(x)),
+	        lambda x: 1 ,
+	        lambda x: .01*noise(x)*(hard_sigmoid(x,deriv=True)-1)*np.exp(hard_sigmoid(x)-x)])
+	        x = x*.25
+	        return x
+
+	    x = linear(x)
+	    x = np.piecewise(x ,[x < 0.025, x > 0.025],[lambda x: 0.01 * np.exp(hard_sigmoid(x) - x) * noise(x), lambda x: x])
+	    x = np.piecewise(x ,[x > 0.975, x < 0.975],[lambda x: 1 - 0.01 * np.exp(x-hard_sigmoid(x)) * noise(x), lambda x: x])
+	    return x
+
+</code></pre>
+
+					<p></p>
+
+					<figure>
+						<img src="RAU_images/NEAF_formula.png" class="image fit" alt="NEAF formula" />
+						<figcaption> NEAF formula </figcaption>
+					</figure>
+
+
+
+
+
 
 					<p>
 						<h5> Citations </h5>
-						[1] IN PROGRESS
+						[1] Zhong, Guoqiang, Guohua Yue, and Xiao Ling. "Recurrent Attention Unit." arXiv preprint arXiv:1810.12754 (2018).
 					</p>
 
 
