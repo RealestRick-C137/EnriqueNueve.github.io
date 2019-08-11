@@ -120,9 +120,37 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 					<p></p>
 					<h5> 3. Mankind was never intended to take the Jacobian of a Kronecker Product </h5>
 					<p> &emsp; Looking back, this might have been the most antagonzing deviation I have ever attempted.
-
+						Upon working through the deviations of a Recurrent Network and specifically BPTT, I was ready for my
+						next challange. I was ready to take on a Recurrent Network with a state space, the LSTM. As I was doing
+						all the coding through Numpy, I had to perform the deviations myself. For the first time, I was introduced
+						to the Kronecker Product. Although this operatin isn't that complicated to compute,it causes the dimensionality
+						of the output to increase by the multiplied values of both matrix's dimension size of their rows. Howeverv,
+						the true issue was that by taking the jacobian of this output, the size grew once again. So how do you
+						perform backpropogation in respect to a weight that is nowhere near the dimension size of the
+						output of the Kronecker product which occurs as an operation in the LSTM. I did eventually figure
+						out the mathmatics yet, only for a vector input. Even so, nowhere has anyone ever posted the full
+						deviations for when you input a training sample in the form of a batch in the shape of a matrix. Although
+						today I do know how to compute this through a method of broadcasting and averaging out the backpropogated errors,
+						at the time I just couldn't figure it out. This led me to the much more computationally friendly GRU.
 					</p>
-
+					<p></p>
+					<h5> 4. Trust in the Multivariable Chain Rule </h5>
+					<p> &emsp; I was estatic to discover the Gated Reccruent Unit, GRU. The mathmatics
+						were fairly straight foward. Backpropagation for the network I was smoothly able to
+						derive and then code the network. I had the network working and was quite satisfied, till
+						I wasn't. The mathmatics for how the state network and input network combined just made
+						me feel off. How could combining two networks, with completly different data entered, be combined
+						and still make a logical network that could properly model. This led me to researching
+						the much older file of state space models. This led me to understand how the state could
+						serve as a map to intrpet which event is occuring and develop a "sudo mememory." This question
+						also led me to further understand Hilbert Spaces and how backpropogation can truly lead
+						to the construction of best approxoimations of Inner Product Spaces. This also led me to
+						the most unappreacited mathamtical proofs that every person who works with Machine Learning to
+						know about, "The Universal Approxoimation Theorem." Finanly, I had a working model yet, a question
+						came back to my mind, how is the project unique?
+					</p>
+					<p></p>
+					<h5> 5. I was convinced having orginal ideas were impossible </h5>					
 
 					<p>
 						<h5> Citations </h5>
