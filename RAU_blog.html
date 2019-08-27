@@ -55,7 +55,8 @@
 						<p> August 2019 </p>
 					</header>
 
-					<h2> This post first talks about the experiance during my first academic
+
+					<h2> This post first talks about the experiance of my first academic
 						research project. If you are solely intersted in the technical details
 						of the project, <a href="#jump1"> <u>click here</u> </a>. </h2>
 
@@ -73,19 +74,19 @@
 							and work with professors who were experienced in Machine Learning. With that in mind,
 							I signed up for a research program for transfer students who had no research experience.
               To my surprise, it was left up to the students to find a professor to work with.
-							Even more to more surprise, the three professors at the university who worked in Machine
+							Even more to more surprise, the three professors at the university who work in Machine
 							Learning were all on sabbatical. I knew I wanted to get into Machine Learning and decided
 							just to teach myself. How hard could it be?
 					</p>
 					<p></p>
 					<h5> 1. Choosing a Topic </h5>
 					<p> &emsp; I was now enrolled in this research program with no guidance. I did find a professor
-						to work with yet, his focus was in Data Mining, and had no experience in Deep Learning.
+						to work under yet, his focus was in Data Mining, and had no experience in Deep Learning.
 						Although he provided much insight into the structure of research, regarding Deep Learning,
-						he wasn't able to assist me. Even so, I wanted to be a Machine Learning researcher and being
-						able to create and use Deep Learning models is the backbone of Machine Learning. At the time,
+						he wasn't able to assist me. Even so, I wanted to be a Machine Learning researcher and wanted to
+						be able to create and use Deep Learning models. At the time,
 						I thought I understood Neural Networks fairly well. I did happen to build a Neural Network from
-						scratch in Numpy (with the help of some tutorials...). So I felt fairly confident I could pull
+						scratch in Numpy (with the help of some tutorials...). Inhand, I felt fairly confident I could pull
 						this project off yet, I didn't know at the time what the project was going to be.
 						<br></br>
 						&emsp; From my limited exposure, I knew only a handful of topics and concepts. Overall, I knew
@@ -102,13 +103,13 @@
 						not as shocking as having the realization that the majority of Deep Learning post on the internet
 						have no clue about the mathematics of backpropagation of networks. After a couple of weeks of pondering
 						what to do for my project, I decided to build a Recurrent Network to perform Time Series forecasting.
-						Also, I decided I was going to build it only from Numpy. That means that I had to perform the deviations
+						Also, I decided I was going to build it only with Numpy. That means that I had to perform the deviations
 						for forward passing, backpropagation, and gradient updating by hand. After several weeks of no luck, I
             decided to look up some tutorials on the mathematics of backpropagation. Quickly, I noticed theses tutorials
-						almost never showed any mathematics but were just a discussion of the concept of backpropagation. I
-						trudged on and by hand, I could derive a Neural Network with all of its processes. I tested my deviations
+						almost never showed any diviations but were just a discussion of the concept of backpropagation. Even so, I
+						trudged and eventually I could derive a Neural Network with all of its processes. I tested my deviations
 						by building a new Neural Network from scratch (no tutorials) and was able to get it to work. Now I decided
-						to go back and look at some deviations for Recurrent Networks. This time, less suppressed, the deviations at
+						to go back and look at some deviations for Recurrent Networks. This time, less surprised, the deviations at
 						best only showed how to perform foward passes but never backpropagation for Recurrent networks. So it was back
 						to the drawing board.
 					</p>
@@ -129,20 +130,20 @@
 					I was ready to take on a Recurrent Network with a state space, the LSTM. As I was doing all the coding through Numpy,
 					I had to perform the deviations myself. For the first time, I was introduced to the Kronecker Product.
 					Although this operation isn't that complicated to compute, it causes the dimensionality of the output to
-					increase by the multiplied values of both matrix's dimension size of their rows. However,
+					increase by the multiplied values of the matrix's dimension size of the rows and columns. However,
           the true issue was that by taking the jacobian of this output, the size grew once again. So how do you
 					perform backpropagation in respect to a weight that is nowhere near the dimension size of the output of the
-					Kronecker product which occurs as an operation in the LSTM? I did eventually figure out the mathematics
-					yet, only for a vector input. Even so, nowhere has anyone ever posted the full deviations for when you
-					input a training sample in the form of a batch in the shape of a matrix. Although today I do know
-					how to compute this through a method of broadcasting and averaging out the backpropagated errors,
+					Kronecker product which occurs as an operation in the LSTM? I had no idea and no post I could find did either.
+					I did eventually figure out the mathematics yet, only for a vector input. Even so, nowhere has anyone ever
+					posted the full deviations for when you input a training sample in the form of a batch in the shape of a matrix.
+					Although today I do know how to compute this through a method of broadcasting and averaging out the backpropagated errors,
           at the time I just couldn't figure it out. This led me to the much more computationally friendly GRU.
 					</p>
 					<p></p>
 					<h5> 4. Trust in the Multivariable Chain Rule </h5>
 					<p> &emsp; I was ecstatic to discover the Gated Reccruent Unit, GRU. The mathematics
-          were fairly straight forward. Backpropagation for the network I was smoothly able to derive and then
-					code the network. I had the network working and was quite satisfied, till I wasn't. The mathematics
+          were fairly straight forward. I was smoothly able to derive the backpropogations and got
+					the network coded. I had the network working and was quite satisfied, till I wasn't. The mathematics
 					for how the state network and input network combined just made me feel off. How could combine two
 					networks, with completely different data entered, be combined and still make a logical network
 					that could properly model? This led me to research the much older file of state-space models.
@@ -150,7 +151,8 @@
 					and develop a "sudo memory." This question also led me to further understand Hilbert Spaces and how
 					backpropagation can truly lead to the construction of best approximations of Inner Product Spaces. This also led me to
           the most unappreciated mathematical proofs that every person who works with Machine Learning to
-          know about, "The Universal Approximation Theorem." Finally, I had a working model yet, a question came back
+          know about, "The Universal Approximation Theorem." Finally, I was able to get a working network
+					and had a strong conceptual understanding of the theory behind Deep Learning yet, a question came back
 					to my mind, how is the project unique?
 					</p>
 					<p></p>
@@ -171,7 +173,7 @@
 					<p> &emsp; As I was frantically reading paper after paper for inspiration, I came upon a paper
           on adaptive activation functions. I ran upon a paper for a noisy activation function. It seemed logical
 					enough however, I noticed a discrepancy between their outlook on activation functions and mine. From working
-					by the deviations and proofs of convergence for Neural Networks, I have a strong belief about the necessity
+					through the deviations and proofs for convergence for Neural Networks, it has been shown the necessity
 					of activation functions to have nonlinear attributes to be able to properly approximate functions. Even so,
 					this paper proposed an activation function modification to sigmoid in which Gaussian noise was added for
 					outlying values. This caused any values not along the linear-shaped center of the function to have noise added.
@@ -181,12 +183,21 @@
 
 						however, with my understanding of how it is necessary for activation functions to have nonlinear
 	          features, I decided I would make my own noisy activation function with nonlinear features.
-	          This led to my original activation function the Noisy Exponential Activation Function, NEAF.	
+	          This led to my original activation function the Noisy Exponential Activation Function, NEAF.
 					</p>
 					<p></p>
 
 
 					<h5> 6. Noisy Exponential Activation Function, NEAF </h5>
+					<p> The Noisy Exponential Activation Function, NEAF, can be subsituted for any sigmoid or tanh function.
+						NEAF is built like a clipped sigmoid or tanh function. The values near the y-axis are passed through
+						a linear function while values outside a defined interval based around the y-axis are stepped to either
+						zero or one if sigmoid or negative one and one if tanh. For the stepped values, noise is added causing
+						the value to be pushed back down away from their respective bounds which will cause the neuron not to
+						saturate since overflow or underflow is avoided by the added noise. To help with convergence in the learning
+						process, the noise is passed through an expoential function causing the noise to maintin nonlinear attributes.
+						This can be seen by the visual below.
+					</p>
 
 					<figure>
 						<img src="RAU_images/NEAF_graph.png" class="image fit" alt="NEAF graph" />
@@ -194,6 +205,30 @@
 					</figure>
 
 					<p></p>
+
+					<p> NEAF can be cleanly expressed through a composite function. The function fist
+						passes inputed values through the clipped sigmoid or tanh. Then the output of the
+						clipped function is passed through another function which adds the expoential noise.
+						The sigmoid version of NEAF is expressed through the formula below.
+
+					</p>
+
+					<figure>
+						<img src="RAU_images/NEAF_formula.png" class="image fit" alt="NEAF formula" />
+						<figcaption> Sigmoid NEAF Formula </figcaption>
+					</figure>
+
+					<p></p>
+
+					<p> For sake of simplicity in regard to implemenation to your favorite machine learning
+						libary, code for NEAF is provided in the example below with only numpy. The function
+						is broken into three sub-functions (linear, hard_sigmoid, and noise) for simplicity. The values
+						are first passed through the linear function, then the through a piecewise function
+						that causes clipping by passing values ouside of the designated interval through the
+						hard_sigmoid function, and finally the values that were just clipped by hard_sigmoid are
+						passed through the noise function.
+
+					</p>
 
 					<pre><code>
 	import numpy as np
@@ -231,11 +266,20 @@
 
 					<p></p>
 
-					<figure>
-						<img src="RAU_images/NEAF_formula.png" class="image fit" alt="NEAF formula" />
-						<figcaption> NEAF formula </figcaption>
-					</figure>
-
+					<h5> Conclusion </h5>
+					<p> So does NEAF work? Yes, yes it does. You won't be finding NEAF at NIPS
+						any time soon but it definitly improves model performance. Through extended testing,
+						I was able to show that NEAF increases accuracy. Not suprrisngly, since NEAF acts
+						as a regressor, accuracy improved while mean square error dropped. To further about
+						NEAF, more information can be found in the short paper I wrote
+						<a href="https://github.com/RealestRick-C137/NEAF/blob/master/Noisy_Exponential_Activation_Function.pdf"> (LINK HERE)</a>.
+						If you want to take a look at the github page where NEAF is implimented into an RAU
+						for Financial Time-Series Forecasting
+						<a href="https://github.com/RealestRick-C137/NEAF"> (CLICK HERE)</a>.
+						Overall, I was very happy with this experiance which I was able to learn in depth more
+						about Deep Learning and was able to experiance the critical thinking and challanges
+						of a research project. 
+					</p>
 
 
 
