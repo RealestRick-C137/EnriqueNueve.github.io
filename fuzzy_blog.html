@@ -34,7 +34,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 		<header>
 			<span class="image avatar"><img src="images/me_pic.jpg" alt="" /></span>
 			<h1 id="logo"><a href="index.html">Enrique Nueve</a></h1>
-			<p>Senior Statistics Major and ML Researcher.<br />
+			<p>Senior Statistics Major and ML Researcher<br />
 			Aspiring Computational Statistician</p>
 		</header>
 		<nav id="nav">
@@ -70,22 +70,21 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 
 					<h5> Intro</h5>
 					<p> &emsp; A common issue that arises in creating models is deciding between high accuracy and low interpretability or high
-						interpretability and low accuracy. This issue becomes even cloudier when the data doesn't fully represent the events
-						that are being modeled. Due to the lack of information provided in the data, a compromise that allows for the continual
-						use of the data is weakening the restrictions of the accepted outputs of the model. A modern implementation of this type
-						of model is a Bayesian Neural Network. This model has weights that consist of two trainable parameters that represent mean
-						and variance. This allows the model to output a range of possible outcomes. Although Bayesian Networks and Bayesian Deep
-						Learning overall is currently growing, there exist another family of models that allow for high levels of interpretability.
-						These models are called Fuzzy Networks.
+						interpretability and low accuracy. This issue becomes even cloudier when the data doesn't fully represent the events that
+						are being modeled. Due to the lack of information provided in the data, a compromise that allows for the continual use of
+						the data is weakening the restrictions of the accepted outputs of the model. A modern implementation of this type of model
+						is a Bayesian Neural Network. This model has weights that consist of two trainable parameters that represent mean
+					and variance. This allows the model to output a range of possible outcomes. Although Bayesian Networks and Bayesian Deep
+					Learning overall are currently growing, there exists another family of models that allow for high levels of interpretability.
+					These models are called Fuzzy Networks.
 					</p>
 
 					<h5> Fuzzy Networks</h5>
 					<p> &emsp; Fuzzy Networks are based around the theorems of fuzzy sets.
-						Fuzzy sets were made by Lotfi A. Zadeh and Dieter Klaua in 1965. A fuzzy set consists of a set and a membership function
-						which states how much an element(data-sample) is part of that particular fuzzy set. These ideas of fuzzy sets were further
-						developed by Zadeh into the ideas of fuzzy logic. Unlike classical logic, fuzzy logic allows for continuous-intervals of truth.
-						The continuous truth intervals allow for an element to be given a non-binary value from zero to one rating how much that element
-						is part of a particular fuzzy set. Fuzzy sets also have very clean geometric properties allowing for easy visual interpretation on
+						Fuzzy sets were made by Lotfi A. Zadeh and Dieter Klaua in 1965. A fuzzy set consists of a set and a membership function, which states how much an element(data-sample) is part of that particular fuzzy set. These ideas of fuzzy sets were further
+						developed by Zadeh into the concept of fuzzy logic. Unlike classical logic, fuzzy logic allows for continuous-intervals of truth.
+						The continuous truth intervals allow for an element to be given a non-binary value from zero to one rating of how much that element
+						is part of a particular fuzzy set. Fuzzy sets also have very clean geometric properties allowing for easy visual interpretation of
 						how a particular element relates to a certain fuzzy set. Through the rules of fuzzy logic, Fuzzy Networks were inspired.
 					</p>
 
@@ -95,13 +94,11 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 					</figure>
 
 					<p></p>
-					<p> &emsp; Fuzzy networks are usually classification models however, there are variants that do regression. In this post, I will
+					<p> &emsp; Fuzzy networks are usually classification models; however, there are variants that do regression. In this post, I will
 						be covering Fuzzy Networks that do classification. Furthermore, Fuzzy Networks are supervised, learning models. The data set
-						consists of training examples with labeled targets of two or more different classes. Fuzzy Networks create trainable sets based around fuzzy sets called hyperboxes.
-						Hyperboxes consists of two parameters, a min, and a max, that define a lower and upper corner of a rectangular area. Although
-						I am describing the hyperboxes having a rectangular area based on the min and max parameters, this is only for the sake of conceptual explanation.
-						Hyperbox min and max parameters can be vectors larges than two dimensions. Two dimensions simply allow for a convenient visual explanation for the system.
-						All the principles of the Fuzzy Network apply to N-dimension data samples. Hyperboxes also have a membership function that states how much an element is part
+							consists of training examples with labeled targets of two or more different classes. Fuzzy Networks create trainable sets based around fuzzy sets called hyperboxes.
+							Hyperboxes consist of two parameters, a min, and a max, that define a lower and upper corner of a rectangular area. Although
+ 						I am describing the hyperboxes having a rectangular area based on the min and max parameters, and this is only for the sake of conceptual explanation. Hyperbox min and max parameters can be vectors larges than two dimensions. Two dimensions simply allow for a convenient visual explanation for the system. All the principles of the Fuzzy Network apply to N-dimension data samples. Hyperboxes also have a membership function that states how much an element is part
 						of that particular hyperbox based on its distance from the defined hyperboxe's area.
 					</p>
 
@@ -111,10 +108,10 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 					</figure>
 					<p></p>
 
-					<p> The membership function takes in several variables. The function takes the min~V and max~V parameter of the
-						hyperbox. It takes in a tuning parameter gamma (gamma values vary from one to four on average)
-						which adjust the sensitivity of the distance measurement. The membership function has a composed function within it, a ramp function, which sets a tested elements
-						membership value to one of the element falls directly within its area.
+					<p> The membership function takes in several variables. The function takes the min~V
+						and max~V parameter of the hyperbox. It takes in a tuning parameter gamma (gamma
+						values vary from one to four on average), which adjusts the sensitivity of the distance measurement.
+						The membership function has a composed function within it, a ramp function, which sets a tested element membership value to one of the elements falls directly within its area.
 					</p>
 
 					<figure>
@@ -131,12 +128,9 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 
 					<p></p>
 					<p> &emsp; During the expansion phase, hyperboxes are created or expanded by connecting to other hyperboxes. When a data sample
-						is introduced during the expansion phase two outcomes can happen. One, a new hyperbox could be formed. This occurs when no
-						hyperboxes meet expansion criteria (refer to the paper for further detail), thus a new hyperbox of the respective labeled class is created.
-						This implies whenever a data sample from a class is introduced for the first time, a hyperbox with the tag of that respective class will always
-						be made. The min and max parameters will be a vector equivalent to the training sample's values. It is necessary that your input data be scaled between zero and one.
-						Initially, min and max parameters are equal to each other, although this set is called a hyperbox, it initially, geometrically appears as a point.
-						The second event that can occur during the expansion phase is expansion itself.
+ 					is introduced during the expansion phase; two outcomes can happen. One, a new hyperbox could be formed. This occurs when no
+					hyperboxes meet expansion criteria (refer to the paper for further detail); thus a new hyperbox of the respective labeled class is created. This implies whenever a data sample from a class is introduced for the first time, a hyperbox with the tag of that respective class will always
+					be made. The min and max parameters will be a vector equivalent to the training sample's values. It is necessary that your input data be scaled between zero and one. Initially, min and max parameters are equal to each other, although this set is called a hyperbox, it initially, geometrically appears as a point. The second event that can occur during the expansion phase is expansion itself.
 					</p>
 
 					<figure>
@@ -146,17 +140,13 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 
 
 					<p></p>
-					<p> &emsp; If two points meet the expansion criteria, then two hyperboxes join together to form one large hyperbox with min and max parameters
-						based on the min[min-parameter] and max[max-parameter] of the two sets. Expansion can only occur if the class of the two hyperboxes are the same.
-						The second part of the training phase, contraction, occurs if the hyperbox that was just expanded now overlaps an already existing hyperbox of different classes.
-						Based off of different cases in how the boxes overlap, the overlapping boxes
-						get assigned new min and max parameter, causing the boxes to be no longer overlapping.
+					<p> &emsp; If two points meet the expansion criteria, then two hyperboxes join together to form one large hyperbox with min and max parameters based on the min[min-parameter] and max[max-parameter] of the two sets. Expansion can only occur if the class of the two hyperboxes is the same.  The second part of the training phase, contraction, occurs if the hyperbox that was just expanded now overlaps an already existing hyperbox of different classes. Based off of different cases in how the boxes overlap, the overlapping boxes
+ 					get assigned new min and max parameters, causing the boxes to be no longer overlapping.
 					</p>
 
 					<p> &emsp; After the training period in which hyperboxes are made, for the different data classes presented
-						in the training data, the model is now ready to predict test data. When the model is shown a test sample,
-						the membership value is calculated for every hyperbox that was created. Of these calculated
-						memebership values, the max membership values from any particular defined class are considered the prediction.
+						in the training data, the model is now ready to predict test data. When the model is shown a test sample, the membership value is calculated for every hyperbox that was created. Of these calculated
+						membership values, the max membership values from any particular defined class are considered the prediction.
 					</p>
 
 					</p>
@@ -175,10 +165,8 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 					<h5> General Reflex Fuzzy Min-Max Neural Network </h5>
 					<p> &emsp; The General Reflex Fuzzy Min-Max Neural Network, GRFMMN, is unique in the way in which
 						it adds two new types of hyperboxes that help break ties between samples that are closely categorized.
-						In total there are three types of hyperboxes in the GRFMMN: classifying,
-						overlap compensation, and containment compensation hyperboxes. The classifying
-						hyperbox is the same hyperbox in the standard Fuzzy Network, so I will be discussing
-						the two unique hyperboxes in the GFRMMN which are the overlap compensation neuron (OCN) and the containment compensation neuron (CCN).
+						In total, there are three types of hyperboxes in the GRFMMN: classifying, overlap compensation,
+						and containment compensation hyperboxes. The classifying hyperbox is the same hyperbox in the standard Fuzzy Network, so I will be discussing the two unique hyperboxes in the GFRMMN, which are the overlap compensation neuron (OCN) and the containment compensation neuron (CCN).
 					</p>
 
 					<figure>
@@ -210,11 +198,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 					</figure>
 
 					<p></p>
-					<p> &emsp; After the training period in which the CLN, OCN, and CCN hyperboxes are made, the network is ready to
-						predict on test samples. Like the standard Fuzzy Network, the membership value is calculated in respect to each CLN
-						and the max values in respect to each class are the accepted output, however, the prediction also takes into account
-						the outputs of the OCN and CCN hyperboxes. The min value of each class from the OCN and CCN hyperbox outputs are considered
-						as their predictions. These values, respective to each class, are then added to the values outputed from the CLN hyperboxes
+					<p> &emsp; After the training period in which the CLN, OCN, and CCN hyperboxes are made, the network is ready to predict on test samples. Like the standard Fuzzy Network, the membership value is calculated with respect to each CLN, and the max values with respect to each class are the accepted output; however, the prediction also takes into account the outputs of the OCN and CCN hyperboxes. The min value of each class from the OCN and CCN hyperbox outputs are considered as their predictions. These values, respective to each class, are then added to the values output from the CLN hyperboxes
 						and the max value of the combined outputs is considered the network's prediction.
 					</p>
 
