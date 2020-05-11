@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<!--
+	Read Only by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+	<title>Enrique Nueve Blog</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<body class="is-preload">
+
+	<!-- Header -->
+	<section id="header">
+		<header>
+			<span class="image avatar"><img src="images/me_pic.jpg" alt="" /></span>
+			<h1 id="logo"><a href="index.html">Enrique Nueve</a></h1>
+			<p>Statistics Major and Aspiring Researcher</p>
+		</header>
+		<nav id="nav">
+			<ul>
+				<li><a href="index.html" class="active">Home</a></li>
+
+			</ul>
+		</nav>
+		<footer>
+			<ul class="icons">
+				<li><a href="https://github.com/RealestRick-C137" class="icon brands fa-github"><span class="label">Github</span></a></li>
+				<li><a href="https://www.linkedin.com/in/enrique-nueve-7a050115b/" class="icon brands fa-linkedin"><span class="label">linkedin</span></a></li>
+			</ul>
+		</footer>
+	</section>
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Main -->
+		<div id="main">
+
+			<!-- One -->
+			<section id="one">
+				<div class="image main" data-position="center">
+					<img src="images/chicago_banner.jpg" alt="" />
+				</div>
+				<div class="container">
+					<header class="major">
+						<h2>Portfolio Theory</h2>
+						<p> Fall 2019 </p>
+					</header>
+
+
+					<h2> This post first talks about the experiance of my first academic
+						research project. If you are solely intersted in the technical details
+						of the project, <a href="#jump1"> <u>click here</u> </a>. </h2>
+
+					<br></br>
+					<h5> Intro </h5>
+					<p> &emsp; This project was my first full-scale Machine Learning model implementation. I collected the data, cleaned the data, built the model from scratch, ran the test, and wrote an academic paper. Before this project, I had almost no experience with Deep Learning models besides working with an MLP on a generic data set such as MNIST
+						or Iris. I've never had formal teaching in machine learning; even today, I've never taken a class. Even so, I was ambitious and wanted to become fluent in Deep Learning. This was my junior year in college, and I had just transferred from Community College and wanted to immerse myself in the new environment. I thought upon transferring from Community College; I would then be able to take classes on Machine Learning and work with professors who were experienced in Machine Learning. With that in mind, I signed up for a research program for transfer students who had no research experience. To my surprise, it was left up to the students to find a professor to work with. Even more, to more surprise, the three professors at the university who work in Machine Learning were all on sabbatical. I knew I wanted to get into Machine Learning and decided
+						to teach myself. How hard could it be?
+					</p>
+
+					<!-- ########################################################	-->
+
+					<p></p>
+					<h5> 1. Minimum Variance Portfolio </h5>
+					<p> To do ...
+					</p>
+					<p></p>
+
+					<!-- ########################################################	-->
+
+					<p></p>
+					<h5> 2. High Sharpe Portfolio </h5>
+					<p> To do ...
+					</p>
+					<p></p>
+
+					<!-- ########################################################	-->
+
+					<p></p>
+					<h5> 3. Inverse-Volatility Weighted Portfolio </h5>
+					<p> To do ...
+					</p>
+					<p></p>
+
+					<!-- ########################################################	-->
+
+					<p></p>
+					<h5> 4. Inverse-Variance Weighted Portfolio </h5>
+					<p> To do ...
+					</p>
+					<p></p>
+
+					<!-- ########################################################	-->
+
+					<p></p>
+					<h5> 5. Equal Weighted Portfolio </h5>
+					<p> To do ...
+					</p>
+					<p></p>
+
+					<!-- ########################################################	-->
+
+					<p></p>
+					<h5> 6. Risk Parity Portfolio </h5>
+					<p> To do ...
+					</p>
+					<p></p>
+
+					<!-- ########################################################	-->
+
+					<p></p>
+					<h5> 7. Risk Parity Portfolio with Constraints </h5>
+					<p> To do ...
+					</p>
+					<p></p>
+
+					<!-- ########################################################	-->
+
+					<p></p>
+					<h5> 8. Unlevered Min-Variance </h5>
+					<p> To do ...
+					</p>
+					<p></p>
+
+					<!-- ########################################################	-->
+
+					<p></p>
+					<h5> 9. Unlevered High-Sharpe </h5>
+					<p> To do ...
+					</p>
+					<p></p>
+
+					<!-- ########################################################	-->
+
+					<p></p>
+					<h5> 10. Hierarchical Risk Parity </h5>
+					<p> To do ...
+					</p>
+					<p></p>
+
+
+
+
+
+					<figure>
+						<img src="RAU_images/NEAF_graph.png" class="image fit" alt="NEAF graph" />
+						<figcaption> Visual of NEAF </figcaption>
+					</figure>
+
+					<p></p>
+
+					<p> NEAF can be expressed through a composite function. The function fist passes
+						inputted values through the clipped sigmoid or tanh. Then the output of the clipped
+						function is passed through another function, which adds the exponential noise. The
+						sigmoid version of NEAF is expressed through the formula below.
+					</p>
+
+					<figure>
+						<img src="RAU_images/NEAF_formula.png" class="image fit" alt="NEAF formula" />
+						<figcaption> Sigmoid NEAF Formula </figcaption>
+					</figure>
+
+
+					<pre><code>
+	import numpy as np
+
+	def NEAF(x, deriv=False):
+	    def noise(x):
+	        return np.abs(np.random.randn(np.size(x)))
+
+	    def linear(x, deriv=False):
+	        if deriv:
+	            return 0.25
+	        return 0.25*x + 0.5
+
+	    def hard_sigmoid(x, deriv=False):
+	        if deriv:
+	            x = np.piecewise(x,[x >= 2, (-2<x) & (x<2) ,x <= -2],[lambda x: 0, lambda x: .25 ,lambda x: 0])
+	            return x
+	        return np.maximum(0, np.minimum(1, (x + 2) / 4))
+
+	    if deriv:
+	        x = linear(x)
+	        x = np.piecewise(x,[x > .975, (-.025<=x) & (x<=.975) ,x <= .025],
+	        [lambda x: -.01*noise(x)*(1-hard_sigmoid(x,deriv=True))*np.exp(x-hard_sigmoid(x)),
+	        lambda x: 1 ,
+	        lambda x: .01*noise(x)*(hard_sigmoid(x,deriv=True)-1)*np.exp(hard_sigmoid(x)-x)])
+	        x = x*.25
+	        return x
+
+	    x = linear(x)
+	    x = np.piecewise(x ,[x < 0.025, x > 0.025],[lambda x: 0.01 * np.exp(hard_sigmoid(x) - x) * noise(x), lambda x: x])
+	    x = np.piecewise(x ,[x > 0.975, x < 0.975],[lambda x: 1 - 0.01 * np.exp(x-hard_sigmoid(x)) * noise(x), lambda x: x])
+	    return x
+
+</code></pre>
+
+					<p></p>
+
+					<h5> Conclusion </h5>
+					<p> So ..
+					</p>
+
+
+
+				</div>
+			</section>
+
+
+
+
+		</div>
+
+		<!-- Footer -->
+		<section id="footer">
+			<div class="container">
+				<ul class="copyright">
+					<li>&copy; Untitled. All rights reserved.</li>
+					<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+				</ul>
+			</div>
+		</section>
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
