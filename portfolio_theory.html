@@ -65,7 +65,9 @@
 					</p>
 
 
+					<hr>
 					<!-- ########################################################	-->
+					<hr>
 
 					<p></p>
 					<h5> 0. Fetch Data </h5>
@@ -124,6 +126,8 @@ if Call_API == True:
 					</p>
 					<p></p>
 
+
+
 <pre><code>
 assets = os.listdir(working_dir+'/Data/')
 assets.sort()
@@ -162,7 +166,9 @@ Monthly_Returns = Prices[['AMAT','JPM','TSLA','NFLX']].resample('M').ffill().pct
 Monthly_Returns = Monthly_Returns.dropna()
 </code></pre>
 
+					<hr>
 					<!-- ########################################################	-->
+					<hr>
 
 					<p></p>
 					<h5> 1. Minimum Variance Portfolio </h5>
@@ -200,8 +206,11 @@ for i,weight in enumerate(min_var_weights):
 
 
 
+					<hr>
 					<!-- ########################################################	-->
+					<hr>
 
+					
 					<p></p>
 					<h5> 2. High Sharpe Portfolio </h5>
 
@@ -254,7 +263,9 @@ print("CML angle with horizontal: %.4f"%(angle))
 
 
 
+					<hr>
 					<!-- ########################################################	-->
+					<hr>
 
 					<p></p>
 					<h5> 3. Inverse-Volatility Weighted Portfolio </h5>
@@ -282,7 +293,9 @@ print("Inverse-Volatility Weighted Portfolio weights: ",inv_vol_weighted_port_we
 </code></pre>
 
 
+					<hr>
 					<!-- ########################################################	-->
+					<hr>
 
 					<p></p>
 					<h5> 4. Inverse-Variance Weighted Portfolio </h5>
@@ -308,7 +321,10 @@ print("Inverse-Variance Weighted Portfolio weights: ",inv_var_weighted_port_weig
 </code></pre>
 
 
+					<hr>
 					<!-- ########################################################	-->
+					<hr>
+
 
 					<p></p>
 					<h5> 5. Equal Weighted Portfolio </h5>
@@ -327,8 +343,9 @@ equal_weighted_weights = equal_weighted_port(len(assets))
 print("Equal Weighted Portfolio weights: ",equal_weighted_weights.T)
 </code></pre>
 
-
+					<hr>
 					<!-- ########################################################	-->
+					<hr>
 
 					<p></p>
 					<h5> 6. Risk Parity Portfolio </h5>
@@ -362,7 +379,9 @@ print("Unlevered Risk Parity weights: ",risk_par_weights.T)
 </code></pre>
 
 
+					<hr>
 					<!-- ########################################################	-->
+					<hr>
 
 					<p></p>
 					<h5> 7. Risk Parity Portfolio with Constraints </h5>
@@ -394,7 +413,9 @@ risk_par_const_weights = risk_par(cov,allocations)
 print("Risk Parity with Constraints: ",np.round(risk_par_const_weights,4).T)
 </code></pre>
 
+					<hr>
 					<!-- ########################################################	-->
+					<hr>
 
 					<p></p>
 					<h5> 8. Unlevered Min-Variance </h5>
@@ -431,7 +452,9 @@ MinVar_unlevered_weights =solve_MinVar_unleverd_weights(cov)
 print("Unlevered MinVar weights: ", MinVar_unlevered_weights.T)
 </code></pre>
 
+					<hr>
 					<!-- ########################################################	-->
+					<hr>
 
 					<p></p>
 					<h5> 9. Unlevered High-Sharpe </h5>
@@ -468,7 +491,9 @@ High_Sharpe_unlevered_weights = solve_High_Sharpe_unleverd_weights(mu, cov, r)
 print("Unlevered High Sharpe weights: ",High_Sharpe_unlevered_weights.T)
 </code></pre>
 
+					<hr>
 					<!-- ########################################################	-->
+					<hr>
 
 					<p></p>
 					<h5> 10. Hierarchical Risk Parity </h5>
@@ -540,12 +565,12 @@ print("Unlevered High Sharpe weights: ",High_Sharpe_unlevered_weights.T)
 </code></pre>
 
 
+					<hr>
 					<!-- ########################################################	-->
-
+					<hr>
 
 					<p></p>
 
-					<!-- ########################################################	-->
 
 					<h5> Conclusion </h5>
 					<p> So ..
