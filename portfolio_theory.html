@@ -81,7 +81,7 @@ working_dir = " --- PUT HERE THE DIRECTORY WHERE YOU WILL HAVE YOUR CODE AND DAT
 # Import Modules
 import multiprocessing as mp
 from itertools import repeat
-import scipy
+from scipy.optimize import minimize
 import scipy.cluster.hierarchy as sch
 from alpha_vantage.timeseries import TimeSeries
 from tqdm import tqdm,trange
@@ -159,7 +159,7 @@ Prices = pd.DataFrame(Prices,columns = [asset.split(".")[0] for i,asset in enume
 Prices.index = pd.to_datetime(date_index)
 
 Monthly_Returns = Prices[['AMAT','JPM','TSLA','NFLX']].resample('M').ffill().pct_change()
-Monthly_Returns = Monthly_Returns.dropna()		
+Monthly_Returns = Monthly_Returns.dropna()
 </code></pre>
 
 					<!-- ########################################################	-->
@@ -421,7 +421,7 @@ def solve_MinVar_unleverd_weights(cov):
 	W = np.ones([n])/n # start with equal weights
 	b_ = [(0.,1.) for i in range(n)] # weights between 0%..100%. No leverage, no shorting
 	c_ = ({'type':'eq', 'fun': lambda W: sum(W)-1. })   # Sum of weights = 100%
-	optimized = scipy.optimize.minimize(fitness, W, (cov),
+	optimized = minimize(fitness, W, (cov),
 	                method='SLSQP', constraints=c_, bounds=b_)
 	if not optimized.success:
 		raise BaseException(optimized.message)
@@ -457,7 +457,7 @@ def solve_High_Sharpe_unleverd_weights(mu, cov, rf):
 	W = np.ones([n])/n # start with equal weights
 	b_ = [(0.,1.) for i in range(n)] # weights between 0%..100%. No leverage, no shorting
 	c_ = ({'type':'eq', 'fun': lambda W: sum(W)-1. })   # Sum of weights = 100%
-	optimized = scipy.optimize.minimize(fitness, W, (mu, cov, rf),
+	optimized = minimize(fitness, W, (mu, cov, rf),
 	                method='SLSQP', constraints=c_, bounds=b_)
 	if not optimized.success:
 	        raise BaseException(optimized.message)
