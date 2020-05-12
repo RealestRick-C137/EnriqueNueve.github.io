@@ -58,8 +58,109 @@
 
 					<br></br>
 					<h5> Intro </h5>
-					<p> &emsp; To do
+					<p> &emsp; During my senior year, I performed an independent study on Portfolio
+							Theory and also took an Algorithmic Trading class that covered part of Portfolio
+							Theory. During my studies, I implemented many of the methods. In this post, a
+							short description of each technique uses and a Python implementation is provided.
 					</p>
+
+
+					<!-- ########################################################	-->
+
+					<p></p>
+					<h5> 0. Fetch Data </h5>
+					<p>
+ 					Stock data was collected through the Alpha Vantage API. To use their API for free,
+					sign up on their website at "https://www.alphavantage.co/".
+					</p>
+					<p></p>
+
+<pre><code>
+working_dir = " --- PUT HERE THE DIRECTORY WHERE YOU WILL HAVE YOUR CODE AND DATA STORED "
+
+# Import Modules
+import multiprocessing as mp
+from itertools import repeat
+import scipy
+import scipy.cluster.hierarchy as sch
+from alpha_vantage.timeseries import TimeSeries
+from tqdm import tqdm,trange
+import numpy as np
+import pandas as pd
+import os
+
+class DataFetcher(object):
+	def __init__(self,key):
+  		self.AlphaVantageKey = key
+
+  def CallAlphaVantage(self,ticker):
+      try:
+          # Call API
+          ts = TimeSeries(key=self.AlphaVantageKey, output_format='pandas')
+          #print(dir(ts)) # see what call there are
+          df, meta_data = ts.get_daily_adjusted(symbol=ticker, outputsize='full')
+
+          # Save data to csv
+          df.to_csv(working_dir+"/Data/" + ticker + '.csv')
+          print("Called: ", ticker)
+      except:
+          print(ticker, " could not be called!")
+
+assets = ["AMAT","TSLA","JPM","NFLX"]
+
+Call_API = False
+if Call_API == True:
+	data_gather = DataFetcher(key=' PLACE YOUR API KEY HERE ')
+	[data_gather.CallAlphaVantage(asset) for i,asset in enumerate(assets)]
+</code></pre>
+
+					<p>
+ 					Upon collecting data, you need to calculate the percentage returns. I calculated the monthly returns.
+					The monthly returns will be used to form expected return vectors and covariance
+					matrices, which will be used for the different portfolio methods. The adjusted close value
+					of each asset was used for calculating the monthly returns. Data from four assets
+					were collected: AMAT, JPM, NFLX, and TSLA. Data from 2010-06-29 to 2019-06-01 was used
+					to fit the models.
+					</p>
+					<p></p>
+
+<pre><code>
+assets = os.listdir(working_dir+'/Data/')
+assets.sort()
+
+data = []
+for i,asset in tqdm(enumerate(assets)):
+    df = pd.read_csv(working_dir+"/Data/"+asset)
+    df.columns.name = asset.split(".")[0]
+    data.append(df)
+
+# Select only adjusted close
+for i in trange(len(data)):
+	data[i].index = data[i]["date"]
+	data[i] = data[i][["date","5. adjusted close"]]
+	data[i].index = data[i]["date"]
+
+min_date = []
+for i in range(len(data)):
+	min_date.append(data[i].index[-1])
+
+test_data = []
+for i in range(len(data)):
+	test_data.append(data[i].loc['2019-07-01':'2019-06-01'])
+	data[i] = data[i].loc['2019-06-01':'2010-06-29']
+
+Prices = []
+date_index =  data[0].index
+for i,df in enumerate(data):
+	p = df["5. adjusted close"].copy()
+	Prices.append(p.values)
+Prices = np.vstack(Prices).T
+Prices = pd.DataFrame(Prices,columns = [asset.split(".")[0] for i,asset in enumerate(assets)])
+Prices.index = pd.to_datetime(date_index)
+
+Monthly_Returns = Prices[['AMAT','JPM','TSLA','NFLX']].resample('M').ffill().pct_change()
+Monthly_Returns = Monthly_Returns.dropna()		
+</code></pre>
 
 					<!-- ########################################################	-->
 
@@ -70,9 +171,34 @@
 						<img src="Portfolio_Images/minvar.jpg" class="image fit" />
 					</figure>
 
-					<p> To do ...
+					<p>
+						Minimum Variance Portfolio answers the following question. What allocation of
+						capital over a set of risky assets would allow an investor to have the largest
+						expected return (in respect to historical prices) and also have the minimal amount
+						of risk (in respect to historical risk) given that the investor is allowed to go long
+						or short on any of the risky assets?
 					</p>
 					<p></p>
+
+<pre><code>
+def min_var(cov):
+	e = np.ones((cov.shape[0],1))
+	V_inv = np.linalg.inv(cov)
+	A = (e.T).dot(V_inv).dot(e)
+	risk = 1/np.sqrt(A)
+	w = np.divide(np.dot(V_inv,e),A)
+	return w,risk
+
+cov = Monthly_Returns.cov().values
+
+min_var_weights,risk = min_var(cov)
+print("Portfolio risk: {}".format(risk))
+asset_names = [asset.split(".")[0] for i,asset in enumerate(assets)]
+for i,weight in enumerate(min_var_weights):
+    print("Asset: {} with weight of {}".format(asset_names[i],weight))
+</code></pre>
+
+
 
 					<!-- ########################################################	-->
 
@@ -83,9 +209,50 @@
 						<img src="Portfolio_Images/highsharpe.jpg"  class="image fit"  />
 					</figure>
 
-					<p> To do ...
+					<p>
+					High Sharpe (otherwise known as Max Sharpe Portfolio) answers the following question.
+					If an investor had access to some risk-free security and decided to short the risk-free
+					security and then reinvest the gained cash from shorting into a Markowitz portfolio,
+					which Markowitz portfolio is optimal to place the extra cash?
 					</p>
 					<p></p>
+
+
+<pre><code>
+def high_sharpe(mean,cov,rf):
+	e = np.ones((len(mean),1))
+	V_inv = np.linalg.inv(cov)
+
+	A = (e.T).dot(V_inv).dot(e)
+	B = (mean.T).dot(V_inv).dot(e)
+	C = (mean.T).dot(V_inv).dot(mean)
+
+	mu = (C-B*rf)/(B-A*rf)
+	weights = np.matmul(V_inv, mean-rf*e)
+	weights = weights/(B-A*rf)
+
+	risk_premium = np.dot(mean.T,weights)-rf
+	risk = np.sqrt(np.matmul(weights.T,np.matmul(cov,weights)))
+	sharpe_ratio = risk_premium/risk
+
+	angle = np.degrees(np.arctan(sharpe_ratio/1))
+
+	return weights, risk, sharpe_ratio, angle
+
+mu = Monthly_Returns.mean().values
+mu = mu.reshape(mu.shape[0],1)
+
+rf = .01 # Risk-free rate
+high_sharpe_weights, risk, sharpe_ratio, angle = high_sharpe(mu,cov,rf)
+
+print("Risky: ", high_sharpe_weights.T)
+print("Portfolio Risk: ", risk)
+print("Sharpe Ratio: ",sharpe_ratio)
+print("CML angle with horizontal: %.4f"%(angle))
+
+</code></pre>
+
+
 
 					<!-- ########################################################	-->
 
@@ -96,9 +263,24 @@
 						<img src="Portfolio_Images/inv_vol.jpg"  />
 					</figure>
 
-					<p> To do ...
+					<p>
+						The Inverse-Volatility Weighted Portfolio answers the following question.
+						If an investor wanted to lose all of their money as fast as possible, what
+						weight distribution should they use?
 					</p>
 					<p></p>
+
+<pre><code>
+def inv_vol_weighted_port(std):
+	weights = 1/std
+	weights = weights/np.sum(weights)
+	return weights.reshape(weights.shape[0],1)
+
+std =  Monthly_Returns.std().values
+inv_vol_weighted_port_weights = inv_vol_weighted_port(std)
+print("Inverse-Volatility Weighted Portfolio weights: ",inv_vol_weighted_port_weights.T)
+</code></pre>
+
 
 					<!-- ########################################################	-->
 
@@ -109,33 +291,108 @@
 						<img src="Portfolio_Images/inv_var.jpg" class="float:right; margin-right:1000px; padding-right:800px;" />
 					</figure>
 
-					<p> To do ...
+					<p>
+					A second way to loose money as fast as possible?
 					</p>
 					<p></p>
+
+<pre><code>
+def inv_var_weighted_port(std):
+	weights = 1/np.square(std)
+	weights = weights/np.sum(weights)
+	return weights.reshape(weights.shape[0],1)
+
+std =  Monthly_Returns.std().values
+inv_var_weighted_port_weights = inv_var_weighted_port(std)
+print("Inverse-Variance Weighted Portfolio weights: ",inv_var_weighted_port_weights.T)
+</code></pre>
+
 
 					<!-- ########################################################	-->
 
 					<p></p>
 					<h5> 5. Equal Weighted Portfolio </h5>
-					<p> To do ...
+					<p>
+						The equal-weighted portfolio states how to "equally" spread an investment
+						across all of the assets in a portfolio.
 					</p>
 					<p></p>
+
+<pre><code>
+def equal_weighted_port(n):
+	weights = np.ones((n,1))
+	return weights/n
+
+equal_weighted_weights = equal_weighted_port(len(assets))
+print("Equal Weighted Portfolio weights: ",equal_weighted_weights.T)
+</code></pre>
+
 
 					<!-- ########################################################	-->
 
 					<p></p>
 					<h5> 6. Risk Parity Portfolio </h5>
-					<p> To do ...
+					<p>
+					The Risk Parity portfolio answers the following question. If an investor did
+					not care about the historical expected return and only cared about historical
+					volatility, what weight vector would allow each asset in the portfolio to carry
+					an equal amount of historical risk?
 					</p>
 					<p></p>
+
+<pre><code>
+def unlevered_risk_par(cov,n=10000):
+	n_assets = cov.shape[0]
+	w = np.ones((n_assets,1))/n_assets
+
+	w_o = w = np.ones((n_assets,1))/n_assets
+	for i in range(n):
+		w = (1/np.dot(cov,w))/sum(1/np.dot(cov,w))
+
+	  if np.linalg.norm(w-w_o) < .0000001:
+	  	print(f"Broke loop at {i}")
+	    break
+	  else: w_o = w
+
+	return w
+
+risk_par_weights = unlevered_risk_par(cov)
+print("Unlevered Risk Parity weights: ",risk_par_weights.T)
+
+</code></pre>
+
 
 					<!-- ########################################################	-->
 
 					<p></p>
 					<h5> 7. Risk Parity Portfolio with Constraints </h5>
-					<p> To do ...
+					<p>
+					Risk Parity Portfolio with Constraints answers the following question: If
+					an investor wanted to choose how much risk each asset holds in the portfolio,
+					what weight vector would correspond with said custom risk allocations?
 					</p>
 					<p></p>
+
+<pre><code>
+def risk_par(cov ,allocations=np.ones((cov.shape[0],1)) ,n=10000):
+	n_assets = cov.shape[0]
+	w = np.ones((n_assets,1))/n_assets
+
+	w_o = w = np.ones((n_assets,1))/n_assets
+	for i in range(n):
+		w = (1/np.dot(cov,w))/sum(1/np.dot(cov,w))
+	  w = np.multiply(w,allocations)
+
+	  if np.linalg.norm(w-w_o) < .0000001:
+	  	print(f"Broke at {i}")
+	    break
+	  else: w_o = w
+	return w/np.sum(w)
+
+allocations = np.array([[0.4, 0.3, .15,.15]]).T
+risk_par_const_weights = risk_par(cov,allocations)
+print("Risk Parity with Constraints: ",np.round(risk_par_const_weights,4).T)
+</code></pre>
 
 					<!-- ########################################################	-->
 
@@ -146,9 +403,33 @@
 						<img src="Portfolio_Images/u_minvar.jpg" class="float:right; margin-right:1000px; padding-right:800px;"  />
 					</figure>
 
-					<p> To do ...
+					<p>
+					The Unlevered Min-Variance portfolio answers the following question. If
+					an investor wanted to maximize expected returns (based on historical prices)
+					and minimize risk (based on historical prices), without shorting any of the
+					risky assets, what weight vector would allow this?
 					</p>
 					<p></p>
+
+<pre><code>
+def solve_MinVar_unleverd_weights(cov):
+	def fitness(W, cov):
+		# calculate variance of the portfolio
+	  var = np.dot(np.dot(W, cov), W)
+	  return var # minimize variance
+	n = len(mu)
+	W = np.ones([n])/n # start with equal weights
+	b_ = [(0.,1.) for i in range(n)] # weights between 0%..100%. No leverage, no shorting
+	c_ = ({'type':'eq', 'fun': lambda W: sum(W)-1. })   # Sum of weights = 100%
+	optimized = scipy.optimize.minimize(fitness, W, (cov),
+	                method='SLSQP', constraints=c_, bounds=b_)
+	if not optimized.success:
+		raise BaseException(optimized.message)
+	return optimized.x  # Return optimized weights
+
+MinVar_unlevered_weights =solve_MinVar_unleverd_weights(cov)
+print("Unlevered MinVar weights: ", MinVar_unlevered_weights.T)
+</code></pre>
 
 					<!-- ########################################################	-->
 
@@ -159,30 +440,107 @@
 						<img src="Portfolio_Images/u_highsharpe.jpg" class="float:right; margin-right:1000px; padding-right:800px;" />
 					</figure>
 
-					<p> To do ...
+					<p>
+					This is just the High-Sharpe portfolio, but with no leverage allowed.
 					</p>
 					<p></p>
+
+<pre><code>
+def solve_High_Sharpe_unleverd_weights(mu, cov, rf):
+	def fitness(W, mu, cov, rf):
+		# calculate mean/variance of the portfolio
+	  mean = np.sum(W*mu)
+	  var = np.dot(np.dot(W, cov), W)
+	  util = (mean - rf) / np.sqrt(var) # utility = Sharpe ratio
+	  return 1/util # maximize the utility
+	n = len(mu)
+	W = np.ones([n])/n # start with equal weights
+	b_ = [(0.,1.) for i in range(n)] # weights between 0%..100%. No leverage, no shorting
+	c_ = ({'type':'eq', 'fun': lambda W: sum(W)-1. })   # Sum of weights = 100%
+	optimized = scipy.optimize.minimize(fitness, W, (mu, cov, rf),
+	                method='SLSQP', constraints=c_, bounds=b_)
+	if not optimized.success:
+	        raise BaseException(optimized.message)
+	return optimized.x  # Return optimized weights
+
+r = .06
+High_Sharpe_unlevered_weights = solve_High_Sharpe_unleverd_weights(mu, cov, r)
+print("Unlevered High Sharpe weights: ",High_Sharpe_unlevered_weights.T)
+</code></pre>
 
 					<!-- ########################################################	-->
 
 					<p></p>
 					<h5> 10. Hierarchical Risk Parity </h5>
-					<p> To do ...
+					<p>
+					Hierarchical Risk Parity answers the following question. If an investor wanted
+					to group similar performing assets together and then allocate capital within these
+					groups to make the competitiveness of allocating local, what weight vector would
+					provide this?
 					</p>
 					<p></p>
 
+<pre><code>
+	def getQuasiDiag(link):
+	    # Sort items by distance
+	    link = link.astype(int)
+	    sortIx = pd.Series([link[-1,0],link[-1,1]])
+	    numItems = link[-1,3] # Number of original items
+	    while sortIx.max() >= numItems:
+	        sortIx.index = range(0,sortIx.shape[0]*2,2) # Make space
+	        df0 = sortIx[sortIx >= numItems] # Find clusters
+	        i = df0.index
+	        j = df0.values-numItems
+	        sortIx[i] = link[j,0] # Item 1
+	        df0 = pd.Series(link[j,1], index=i+1)
+	        sortIx = sortIx.append(df0) # Item 2
+	        sortIx = sortIx.sort_index() # Resort
+	        sortIx.index = range(sortIx.shape[0]) # Reindex
+	    return(sortIx.tolist())
+
+	def getIVP(cov, **kargs):
+	    # Compute the inverse-variance portfolio
+	    ivp = 1. / np.diag(cov)
+	    ivp /= ivp.sum()
+	    return ivp
+
+	def getClusterVar(cov,cItems):
+	    # Compute variance per cluster
+	    cov_=cov.loc[cItems,cItems] # matrix slice
+	    w_=getIVP(cov_).reshape(-1,1)
+	    cVar=np.dot(np.dot(w_.T,cov_),w_)[0,0]
+	    return cVar
+
+	def getRecBipart(cov, sortIx):
+	    # Compute HRP alloc
+	    w = pd.Series(1, index=sortIx)
+	    cItems = [sortIx]  # initialize all items in one cluster
+	    while len(cItems) > 0:
+	        cItems = [i[j:k] for i in cItems for j, k in ((0, len(i) // 2),\
+					(len(i) // 2, len(i))) if len(i) > 1]  # bi-section
+	        for i in range(0, len(cItems), 2):  # parse in pairs
+	            cItems0 = cItems[i]  # cluster 1
+	            cItems1 = cItems[i + 1]  # cluster 2
+	            cVar0 = getClusterVar(cov, cItems0)
+	            cVar1 = getClusterVar(cov, cItems1)
+	            alpha = 1 - cVar0 / (cVar0 + cVar1)
+	            w[cItems0] *= alpha  # weight 1
+	            w[cItems1] *= 1 - alpha  # weight 2
+	    return(w)
+
+	cov, corr = Monthly_Returns.cov(), Monthly_Returns.corr()
+	dist = ((1-corr)/2)**.5 # Distance matrix
+	link = sch.linkage(dist,'single') # Linkage matrix
+	sortIx = getQuasiDiag(link)
+	sortIx = corr.index[sortIx].tolist()
+	df0 = corr.loc[sortIx,sortIx]
+	HRP_weights = getRecBipart(cov,sortIx)
+	HRP_weights= HRP_weights[np.lexsort((-HRP_weights.values,HRP_weights.index))]
+	print(HRP_weights)
+</code></pre>
 
 
 					<!-- ########################################################	-->
-
-<pre><code>
-import numpy as np
-
-def example():
-	pass
-
-
-</code></pre>
 
 
 					<p></p>
