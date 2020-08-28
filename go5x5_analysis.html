@@ -53,7 +53,7 @@
 						<p> August 2020</p>
 					</header>
 
-					<img src="images/go_banner.jpg" class="image fit"/>
+					<img src="images/go_banner.jpg" class="image fit" />
 
 
 					<br></br>
@@ -72,9 +72,9 @@
 					</p>
 
 					<h3>Rules of Go</h3>
-					<p> &emsp; As mentioned Go is a two player game. Go is played on a board that has a grid pattern, traditionaally of size 19x19 [1].
+					<p> &emsp; As mentioned Go is a two player game. Go is played on a board that has a grid pattern, traditionally of size 19x19 [1].
 						Each player is given (or chooses) a set of stones. Stones are the playing pieces of the game. There are black stones (which number to 181)
-						and there are white stones (which numbere to 180) [1]. Whoever has the black stones goes first.
+						and there are white stones (which numbere to 180) [2]. Whoever has the black stones goes first.
 						<br> </br>
 						&emsp; During one's turn, such as the first turn performed by black, the player is allowed to place a stone
 						of their color on an empty intersection on the board (which includes edges and corners). Upon placing one's stone on the board, the player's
@@ -87,29 +87,71 @@
 						&emsp; To capture an opponent's stone or stones, you must enclose all of your opponent's said stones' liberties. What is a liberty, though? A liberty is the relative horizontal and verticle paths directly connected to a stone or
 						a set of stones that are connected in a non-diagonal manner. Makes sense, right? If not, don't worry, examples and images
 						shall be presented in the following paragraph.
+						<br> </br>
+						&emsp;For example, a stone placed in an interior intersection has four liberties, being that there is an adjacent intersection above,
+						below, to the right, and to the left (given no existing stones are placed next to it). Another case is when a stone is placed
+						on the edge of the board. A stone on the board's edge has open positions to the left, right, and facing inward to the board;
+						thus, the stone has three liberties. A third case to consider is when a stone is placed on the corner intersection of the board.
+						A stone placed in a corner has two liberties being that there are two horizontal and vertical intersections with respect to the stone's
+						location in the corner. Examples of the three mentioned cases are provided in the images below. As mentioned, to capture an opponent's
+						stone, you must enclose of all of the liberties.
+						<br> </br>
+					<figure>
+						<img src="images/go_blog_images/liberties_examples.jpg" class="image fit" />
+						<figcaption> Fig 1: Left ~ Four Liberties, Center ~ Three Liberties, Right ~ Two Liberties </figcaption>
+					</figure>
+					<br> </br>
+					&emsp; To explain this conept of capturing an oponents stone, I will refer to the photos directly below as refrence.
+					<figure>
+						<img src="images/go_blog_images/ko_example.jpg" class="image fit" />
+						<figcaption> Fig 2: Left ~ Atari, Center ~ Capture, Right ~ Ko </figcaption>
+					</figure>
+					In the photo on the left, the white stone has one liberty left. The reason that the white stone has only one liberty left is because
+					the stone only has one vertical or horizontal intersection adjacent to it not covered by an opponent's black stone. This situation
+					where a stone has only one liberty left is called 'atari.' Suppose it is currently the black player's turn, and they place a stone
+					on the last open liberty with respect to the white stone. This completes a capture and the white stone is removed from the board (refer to
+					the center image). Now it is the white player's turn. It is necessary to know that the white player can not play immediately after in the same position to attempt to
+					reclaim the territory; this is referred to as 'ko.' However, in this particular case, the white player may not place a stone even after a cycle of turns
+					in the same spot since the move would cause suicide, and the stone would be recaptured. Suicidal moves are banned in Go. To prevent captures of one's stones,
+					it is stragic to form groups out of them.
+					<br> </br>
+					&emsp; A group is formed when a player connects two or more of their own stones adjacnetly in a verticle or horizontal fashion.
+					For example, three stones placed verticly adjacnt to one another forms a group (refer to image below on the left). By forming
+					a group, the stones act as a single strucure and their liberties are in a manner "combined." In refence to the previouslty metnioned
+					example of three stones (as shown in the image below on the left), the group has a total of eight liberties. However, recall for stones
+					to be connected in order to form a group, the stones must be touching with respect to a verticle or horizontal relationship. The image provided
+					below to the right is an example of two stones that do not form a group since they are only touching in a diagonal relationship.
+					<figure>
+						<img src="images/go_blog_images/connected_example.jpg" class="image fit" />
+						<figcaption> Fig 3: Left ~ Connected, Right ~ Not Connected </figcaption>
+					</figure>
+					<br> </br>
+					&emsp; Now that we have covered the general interactions that can occur during the game, it is time to address how the game is scored.
+					As mentioned, suppose two consecutive passes occur, and the game has come to an end. The scoring formula is as such: a player's score is
+					equal to the number of controlled territories minus the number of their stones taken as captive [1]. To understand the given formula, it is
+					necessary to understand what is a captured territory. Placing a stone on the board is not in itself a captured territory. A captured territory
+					is a space in which a single color's stone blocks all of its surrounding area. Examples of captures are provided in the images below.
+					<br> </br>
+					<figure>
+						<img src="images/go_blog_images/count_colored.jpg" class="image fit" />
+						<figcaption> Fig 4: White points ~ blue X's and Black points ~ red X's </figcaption>
+					</figure>
+					<br> </br>
+					&emsp; In "Fig 4," a sample game on a smaller than the traditional sized board is shown. The blue X's are the captured territories of white totaling
+					to six while the red X's are the black points totaling to seventeen (recall to subtract taken prisoners to your score). Thus, the black player
+					would have won this game. Depending on the skill of your opponent, white may get a handicap to their score called 'komi' (usually six and a half to seven points)
+					due to going second. So, from reading this post, do you know all of the rules of Go now? Unfournatly, no. Go has many nuances due to the numerous situations that may arise during the game. For myself, I watched many videos and read many
+					blogs to gather a fundamental understanding of the rules of Go.
+					However, I believe the fastest way to learn Go is by playing it, particularly playing Go a lot. To do so, I decided to play Go online.
 					</p>
 
 
-					<figure>
-						<img src="images/go_blog_images/connected.jpg" class="center" width="300" height="300" />
-						<img src="images/go_blog_images/not_connected.jpg" class="center" width="300" height="300" />
-						<figcaption> Left ~ Connected, Right ~ Not Connected </figcaption>
-					</figure>
 
-					<figure>
-						<img src="images/go_blog_images/four_liberties.jpg" class="center" width="200" height="200" />
-						<img src="images/go_blog_images/edge.jpg" class="center" width="200" height="200" />
-						<img src="images/go_blog_images/corner.jpg" class="center" width="200" height="200" />
-						<figcaption> Left ~ Four Liberties, Center ~ Three Liberties, Right ~ Two Liberties </figcaption>
-					</figure>
 
-					<figure>
-						<img src="images/go_blog_images/atari.jpg" class="center" width="200" height="200" />
-						<img src="images/go_blog_images/capture.jpg" class="center" width="200" height="200" />
-						<img src="images/go_blog_images/ko.jpg" class="center" width="200" height="200" />
-						<figcaption> Left ~ Atari, Center ~ Capture, Right ~ Ko </figcaption>
-					</figure>
-					<p></p>
+
+
+
+
 
 					<h3>A few ways how not to win 5x5 Go</h3>
 					<p>
@@ -133,7 +175,9 @@
 
 					<h3>Reference</h3>
 					<p>
-						[1] HOW TO PLAY GO, www.kiseido.com/ff.htm. <br>
+						[1] GO RULES QUICK REFRENCE, https://www.britgo.org/files/rules/GoQuickRef.pdf <br>
+						[2] HOW TO PLAY GO, www.kiseido.com/ff.htm. <br>
+
 					</p>
 
 
