@@ -146,30 +146,76 @@
 					</p>
 
 
-
-
-
-
-
-
-
-					<h3>A few ways how not to win 5x5 Go</h3>
+					<h3>5x5 Go</h3>
 					<p>
-						&emsp; under construction
+						&emsp; As mentioned, I started to play Go online in order to develop my understanding of the game. Particularly,
+						I started to play 5x5 Go (Go that uses a 5x5 board). I had read that beginners should learn to play
+						on a smaller board. This led me to play against this nightmare machine of a bot at <a href="https://www.cosumi.net/en/">https://www.cosumi.net/en/</a>.
+						In essence, this machine became my overlord haunting my dreams. Every game I would play against it, I would lose. No matter how close I got to win,
+						it would turn the game and win. This machine was likely running some Dynamic Programming algorithm, which almost guaranteed its victory.
+						I thought changing the bot's difficulty, but oh wait, there was no way to change the difficulty. However, my pride had gotten the better of me, and I was not ready to back against down.
 					</p>
 
 
 					<h3>One possible way to win 5x5 Go </h3>
-					<p> &emsp; under construction
+					<p> &emsp; With the board being 5x5, the number of permutations of game outcomes
+						were beyond cognitive abilities, so I opted for a probablistic approach to
+						playing the game. In the online game, the robot was always asassigned white thus, I played black
+						and went first. My strategy was to play the first move in the center ,thus giving me the most options of dividing the board.
+						I played some seventy to eighty games with trying to play my first stone in the center yet, no luck at all.
+						<br></br>
+						&emsp; The bot would then play wide and work around the board, blocking me internally and then capturing my pieces.
+						I also thought to play in the center and then try to divide the board almost in half with more area in my favor. However, being
+						that I was playing against a computer, it perfectly calculated how many stones to place and when to skip so that
+						the last move was in its favor letting it win by a point or two. At this point, I questioned the possibility
+						of whether or not it was possible to beat this bot. All of these losses made me question if playing in the center
+						was an optimal move to begin the game.
+						<br></br>
+						&emsp; At this point, I had lost over a hundred games, and about seven weeks had passed. My motivation
+						to continue playing was lacking yet, I was still upset with the idea of submitting to a
+						bot. From the several previous games, I noticed I would lose by only one or two points, so I hypothesized
+						that the game would be a close call. I mentally could not establish a strategy to build of off due
+						to the sheer number of possible ways, the game could turn. To reduce the potential number of plays
+						that could occur, I sought to develop a strategy that leveraged eyes.
+						<br></br>
+						&emsp; Eyes are a particular style of groups that are impossible to capture. Eyes are possible
+						due to the structure of the game in which a player may only place one stone per turn. For example,
+						take a look at the images below (Fig 5).
+					<br></br>
+					<figure>
+						<img src="images/go_blog_images/eyes_a.jpg" class="image fit" />
+						<figcaption> Fig 5: Example of Eyes </figcaption>
+					</figure>
+					<br></br>
+					&emsp; The white player would need first to surround the group and then place stones at the same time
+					inside of the empty spaces in the eyes. Yet, if the white player places a stone inside the eyes,
+					they would commit suicide, which isn't allowed. Therefore, to capture the eyes, both spots
+					would have to be filled simultaneously, which is not possible, making the group uncapturable.
+
+					<br></br>
+					As mentioned, I leveraged eyes to create a field advantge to limit the number of outcomes
+					in order to formulate a strategy. The following images below show how I establshed eyes
+					in the gain field domance- steps of the game read left to right in the images.
+					<br></br>
+					<figure>
+						<img src="images/go_blog_images/game_1.jpg" class="image fit" />
+						<img src="images/go_blog_images/game_2.jpg" class="image fit" />
+						<img src="images/go_blog_images/game_3.jpg" class="image fit" />
+						<figcaption> Fig 6: Repeated images means that a pass occurred </figcaption>
+					</figure>
+					<br></br>
 					</p>
-
-
 
 
 
 					<h3>Conclusion</h3>
 					<p>
-						&emsp; under construction
+						&emsp; Through the use of eyes, I was able to beat the bot by two points. Looking back
+					 at the plays I did, this strategy could be used to win by four points if modfied. Overall, I was
+					 able to learn the fundamentals of Go and establish human domance over this Dynamic Programming
+					 devil. If you desire to learn how to play Go, I reccommend playing agasint this bot
+					 (<a href="https://www.cosumi.net/en/">https://www.cosumi.net/en/</a>). As frustring as it got, 
+					 I was able to develop an understanding of the rules and basic strategies of Go.
 					</p>
 
 
