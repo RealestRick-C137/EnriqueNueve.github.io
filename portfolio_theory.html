@@ -441,6 +441,8 @@ print("Risk Parity with Constraints: ",np.round(risk_par_const_weights,4).T)
 					<p></p>
 
 <pre><code>
+from scipy.optimize import minimize
+
 def solve_MinVar_unleverd_weights(cov):
 	def fitness(W, cov):
 		# calculate variance of the portfolio
@@ -477,6 +479,8 @@ print("Unlevered MinVar weights: ", MinVar_unlevered_weights.T)
 					<p></p>
 
 <pre><code>
+from scipy.optimize import minimize
+	
 def solve_High_Sharpe_unleverd_weights(mu, cov, rf):
 	def fitness(W, mu, cov, rf):
 		# calculate mean/variance of the portfolio
