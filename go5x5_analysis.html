@@ -74,7 +74,7 @@
 					<h3>Rules of Go</h3>
 					<p> &emsp; As mentioned Go is a two player game. Go is played on a board that has a grid pattern, traditionally of size 19x19 [1].
 						Each player is given (or chooses) a set of stones. Stones are the playing pieces of the game. There are black stones (which number to 181)
-						and there are white stones (which numbere to 180) [2]. Whoever has the black stones goes first.
+						and there are white stones (which numbere to 180) [2]. Whoever has the black stones go first.
 						<br> </br>
 						&emsp; During one's turn, such as the first turn performed by black, the player is allowed to place a stone
 						of their color on an empty intersection on the board (which includes edges and corners). Upon placing one's stone on the board, the player's
@@ -89,11 +89,11 @@
 						shall be presented in the following paragraph.
 						<br> </br>
 						&emsp;For example, a stone placed in an interior intersection has four liberties, being that there is an adjacent intersection above,
-						below, to the right, and to the left (given no existing stones are placed next to it). Another case is when a stone is placed
+						below, to the right, and to the left (given no stones are placed next to it). Another case is when a stone is placed
 						on the edge of the board. A stone on the board's edge has open positions to the left, right, and facing inward to the board;
 						thus, the stone has three liberties. A third case to consider is when a stone is placed on the corner intersection of the board.
-						A stone placed in a corner has two liberties being that there are two horizontal and vertical intersections with respect to the stone's
-						location in the corner. Examples of the three mentioned cases are provided in the images below. As mentioned, to capture an opponent's
+						A stone placed in a corner has two liberties being that there are two intersections located non-diagonally
+						with respect to the corner. Examples of the three mentioned cases are provided in the images below. As mentioned, to capture an opponent's
 						stone, you must enclose of all of the liberties.
 						<br> </br>
 					<figure>
@@ -106,21 +106,22 @@
 						<img src="images/go_blog_images/ko_example.jpg" class="image fit" />
 						<figcaption> Fig 2: Left ~ Atari, Center ~ Capture, Right ~ Ko </figcaption>
 					</figure>
-					In the photo on the left, the white stone has one liberty left. The reason that the white stone has only one liberty left is because
+					In the photo on the left, the white stone has one liberty left. The reason that the white stone has only one liberty is because
 					the stone only has one vertical or horizontal intersection adjacent to it not covered by an opponent's black stone. This situation
 					where a stone has only one liberty left is called 'atari.' Suppose it is currently the black player's turn, and they place a stone
 					on the last open liberty with respect to the white stone. This completes a capture and the white stone is removed from the board (refer to
 					the center image). Now it is the white player's turn. It is necessary to know that the white player can not play immediately after in the same position to attempt to
 					reclaim the territory; this is referred to as 'ko.' However, in this particular case, the white player may not place a stone even after a cycle of turns
 					in the same spot since the move would cause suicide, and the stone would be recaptured. Suicidal moves are banned in Go. To prevent captures of one's stones,
-					it is stragic to form groups out of them.
+					it is strategic to form groups out of them.
 					<br> </br>
-					&emsp; A group is formed when a player connects two or more of their own stones adjacnetly in a verticle or horizontal fashion.
-					For example, three stones placed verticly adjacnt to one another forms a group (refer to image below on the left). By forming
+					&emsp; A group is formed when a player connects two or more of their own stones adjacently in a verticle or horizontal fashion.
+					For example, three stones placed verticly adjacent to one another forms a group (refer to image below on the left). By forming
 					a group, the stones act as a single strucure and their liberties are in a manner "combined." In refence to the previouslty metnioned
 					example of three stones (as shown in the image below on the left), the group has a total of eight liberties. However, recall for stones
 					to be connected in order to form a group, the stones must be touching with respect to a verticle or horizontal relationship. The image provided
 					below to the right is an example of two stones that do not form a group since they are only touching in a diagonal relationship.
+					<br> </br>
 					<figure>
 						<img src="images/go_blog_images/connected_example.jpg" class="image fit" />
 						<figcaption> Fig 3: Left ~ Connected, Right ~ Not Connected </figcaption>
@@ -128,7 +129,7 @@
 					<br> </br>
 					&emsp; Now that we have covered the general interactions that can occur during the game, it is time to address how the game is scored.
 					As mentioned, suppose two consecutive passes occur, and the game has come to an end. The scoring formula is as such: a player's score is
-					equal to the number of controlled territories minus the number of their stones taken as captive [1]. To understand the given formula, it is
+					equal to the number of controlled territories minus the number of their stones taken captive [1]. To understand the given formula, it is
 					necessary to understand what is a captured territory. Placing a stone on the board is not in itself a captured territory. A captured territory
 					is a space in which a single color's stone blocks all of its surrounding area. Examples of captures are provided in the images below.
 					<br> </br>
@@ -140,7 +141,8 @@
 					&emsp; In "Fig 4," a sample game on a smaller than the traditional sized board is shown. The blue X's are the captured territories of white totaling
 					to six while the red X's are the black points totaling to seventeen (recall to subtract taken prisoners to your score). Thus, the black player
 					would have won this game. Depending on the skill of your opponent, white may get a handicap to their score called 'komi' (usually six and a half to seven points)
-					due to going second. So, from reading this post, do you know all of the rules of Go now? Unfournatly, no. Go has many nuances due to the numerous situations that may arise during the game. For myself, I watched many videos and read many
+					due to going second. So, from reading this post, do you know all of the rules of Go now? Unfournatly, no. Go has many nuances due to the numerous situations that may arise during the game.
+					For myself, I watched many videos and read
 					blogs to gather a fundamental understanding of the rules of Go.
 					However, I believe the fastest way to learn Go is by playing it, particularly playing Go a lot. To do so, I decided to play Go online.
 					</p>
@@ -153,20 +155,21 @@
 						on a smaller board. This led me to play against this nightmare machine of a bot at <a href="https://www.cosumi.net/en/">https://www.cosumi.net/en/</a>.
 						In essence, this machine became my overlord haunting my dreams. Every game I would play against it, I would lose. No matter how close I got to win,
 						it would turn the game and win. This machine was likely running some Dynamic Programming algorithm, which almost guaranteed its victory.
-						I thought changing the bot's difficulty, but oh wait, there was no way to change the difficulty. However, my pride had gotten the better of me, and I was not ready to back against down.
+						I thought to change the bot's difficulty, but oh wait, there was no way to change the difficulty.
+						However, my pride had gotten the better of me, and I was not ready to back against down.
 					</p>
 
 
 					<h3>One possible way to win 5x5 Go </h3>
 					<p> &emsp; With the board being 5x5, the number of permutations of game outcomes
-						were beyond cognitive abilities, so I opted for a probablistic approach to
-						playing the game. In the online game, the robot was always asassigned white thus, I played black
+						were beyond cognitive interpretation, so I opted for a probablistic approach to
+						playing the game. In the online game, the robot was always assigned white thus, I played black
 						and went first. My strategy was to play the first move in the center ,thus giving me the most options of dividing the board.
 						I played some seventy to eighty games with trying to play my first stone in the center yet, no luck at all.
 						<br></br>
 						&emsp; The bot would then play wide and work around the board, blocking me internally and then capturing my pieces.
 						I also thought to play in the center and then try to divide the board almost in half with more area in my favor. However, being
-						that I was playing against a computer, it perfectly calculated how many stones to place and when to skip so that
+						that I was playing against a computer, it perfectly calculated how many stones to place and when to pass so that
 						the last move was in its favor letting it win by a point or two. At this point, I questioned the possibility
 						of whether or not it was possible to beat this bot. All of these losses made me question if playing in the center
 						was an optimal move to begin the game.
@@ -174,8 +177,8 @@
 						&emsp; At this point, I had lost over a hundred games, and about seven weeks had passed. My motivation
 						to continue playing was lacking yet, I was still upset with the idea of submitting to a
 						bot. From the several previous games, I noticed I would lose by only one or two points, so I hypothesized
-						that the game would be a close call. I mentally could not establish a strategy to build of off due
-						to the sheer number of possible ways, the game could turn. To reduce the potential number of plays
+						that the game would be a close call. I mentally could not establish a strategy due
+						to the sheer number of possible moves. To reduce the potential number of plays
 						that could occur, I sought to develop a strategy that leveraged eyes.
 						<br></br>
 						&emsp; Eyes are a particular style of groups that are impossible to capture. Eyes are possible
@@ -193,9 +196,9 @@
 					would have to be filled simultaneously, which is not possible, making the group uncapturable.
 
 					<br></br>
-					As mentioned, I leveraged eyes to create a field advantge to limit the number of outcomes
-					in order to formulate a strategy. The following images below show how I establshed eyes
-					in the gain field domance- steps of the game read left to right in the images.
+					&emsp; As mentioned, I leveraged eyes to create a field advantge to limit the number of outcomes
+					in order to formulate a strategy. The following images below show how I establshed multiple eyes
+					in the order to win the game.
 					<br></br>
 					<figure>
 						<img src="images/go_blog_images/game_1.jpg" class="image fit" />
@@ -213,8 +216,8 @@
 						&emsp; Through the use of eyes, I was able to beat the bot by two points. Looking back
 					 at the plays I did, this strategy could be used to win by four points if modfied. Overall, I was
 					 able to learn the fundamentals of Go and establish human domance over this Dynamic Programming
-					 devil. If you desire to learn how to play Go, I reccommend playing agasint this bot
-					 (<a href="https://www.cosumi.net/en/">https://www.cosumi.net/en/</a>). As frustring as it got, 
+					 devil. If you desire to learn how to play Go, I reccommend playing agasint this same bot
+					 (<a href="https://www.cosumi.net/en/">https://www.cosumi.net/en/</a>). As frustring as it was,
 					 I was able to develop an understanding of the rules and basic strategies of Go.
 					</p>
 
