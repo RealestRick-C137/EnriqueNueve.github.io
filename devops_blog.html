@@ -1,0 +1,733 @@
+<!DOCTYPE HTML>
+<!--
+	Read Only by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+	<title>Enrique Nueve Blog</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<body class="is-preload">
+
+	<!-- Header -->
+	<section id="header">
+		<header>
+			<span class="image avatar"><img src="images/me_pic.jpg" alt="" /></span>
+			<h1 id="logo"><a href="index.html">Enrique Nueve</a></h1>
+			<p>ML Engineer and Aspiring Researcher</p>
+		</header>
+		<nav id="nav">
+			<ul>
+				<li><a href="index.html" class="active">Home</a></li>
+
+			</ul>
+		</nav>
+		<footer>
+			<ul class="icons">
+				<li><a href="https://github.com/EnriqueNueve" class="icon brands fa-github"><span class="label">Github</span></a></li>
+				<li><a href="https://www.linkedin.com/in/enrique-nueve-7a050115b/" class="icon brands fa-linkedin"><span class="label">linkedin</span></a></li>
+			</ul>
+		</footer>
+	</section>
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Main -->
+		<div id="main">
+
+			<!-- One -->
+			<section id="one">
+				<div class="image main" data-position="center">
+					<img src="images/chicago_banner.jpg" alt="" />
+				</div>
+				<div class="container">
+					<header class="major">
+						<h2>End to end model development</h2>
+						<p> Fall 2020</p>
+					</header>
+
+					<br></br>
+					<h3> Intro</h3>
+					<p> &emsp; Like most, I have learned about Deep Learning on my own. The number
+					of classes for Deep Learning related topics were close to none during my days in college.
+					In hand, I have learned piece by piece different aspects of Deep Learning. I originally
+					implemented Neural Networks through Numpy and would derive each respective
+					function's gradients and would perform backpropagation accordingly. However,
+					such a practice can only go so far, and I moved on to choosing a Deep Learning
+					framework, which happened to be TensorFlow. TensorFlow has changed immensely
+					since its conception. I found Tensorflow version one to be a nightmare to work
+					with due to the lack of documentation and numerous blatant bugs that were not addressed.
+					However, TensorFlow version two is a different story.
+					</p>
+
+					<p> &emsp; Although TensorFlow version two is an immense improvement, the documentation from a learning perspective
+						doesn't exactly read like a textbook. One of the most crucial steps in developing code for a Deep Learning model
+						is to create a functional data pipeline. Due to the limited amount of RAM in a computer, it is unfeasible to load all
+						of a data set (especially if the data set consists of thousands of samples) into RAM. Making a data pipeline that
+						uses a generator to load data as needed for training is necessary for training a Deep Learning model. However, this
+						can become somewhat challenging.
+					</p>
+
+					<p> &emsp; For optimal speed in opening and closing data, it is ideal to implement a generator which is
+						capable of operating over parallel. It would also be ideal if the generator is capable of being GPU compatible if
+						the training of the model is to be done using a GPU. Truthfully, this is no easy task. Ideally, sometype of generator
+						already included within TensorFlow made by a development team aware of the innerworkngs of TensorFlow would be included
+						within TensorFlow. Luckily, there is a generator included within TensorFlow however, for quite some time the documentation
+						 of said generator could not be decoded by Chomsky himself.
+					</p>
+
+					<p> &emsp; Beyond just trying to use a generator to train a TensorFlow model, it isn't necessarily apparent
+						 how to make a user interface to interact with a created Deep Learning model. It is also not clear how to make
+						  a model deployable. In all, I hope to provide some insight into overlooked areas of writing code to make a Deep
+							Learning model beyond architectural design of a said model.
+					</p>
+
+					<p> &emsp; That is why, in this post. I will be showing a demonstration of how to use the built-in data
+						generator within TensorFlow. I will also be showing how to make an interface for your created Deep Learning
+						model with a package called streamlit. Finally, for good measure, I will also be showing how to Dockerize
+						the program so that your final creation will be easily deployable. Through this post, I hope to provide insight
+						into the total process of creating a model with TensorFlow: preparing data, training a model, and deployment.
+					</p>
+
+					<h3>Part 1: Preparing the Data</h3>
+					<p> &emsp; For this tutorial, I will be creating a VAE that is trained on face images. The exact data set is the
+						CFD data set (https://chicagofaces.org/default/). To train the VAE, I will use the built in data generator within
+						Tensorflow called tf.data.TFRecordDataset. However, to use tf.data.TFRecordDataset, you need to convert your data into tfrecords files. Huh?
+					</p>
+					<p> &emsp; Tensorflow requires that you convert your dataset into their custom binary file type called tfrecords in
+						order to be read in by tf.data.TFRecordDataset. This is absolutely necessary in order to use tf.data.TFRecordDataset and
+						thus, I will attempt to explain this as clearly as possible. To begin, lets import our needed packages for this tutorial.
+					</p>
+
+<pre><code>
+	import os
+	import glob as glob
+	import random
+	import time
+
+	import numpy as np
+	import tensorflow as tf
+	from tensorflow import keras
+	from tensorflow.keras import layers
+	from tensorflow.keras import backend as K
+	from tensorflow.keras import Model
+
+	from PIL import Image
+	import matplotlib.pyplot as plt
+	import matplotlib.image as mpimg
+</code></pre>
+
+					<p> &emsp; To begin, I created a folder in my working directory called images to store all of the
+						face images I cared to use from the CFD dataset. I also created a directory called tfData, which is where
+						I would store my soon to be made tfrecord files. I then proceeded to rename all of the images by just assigning
+						a unique integer starting from zero. Below is the code used to rename the files. I also declared some variables
+						for storing strings that expressed the paths of my data (change the paths as needed for your application).
+					</p>
+
+
+<pre><code>
+	working_dir = '/Users/rick/GithubPortfolio/InProgress/ML_Docker'
+	img_dir = working_dir + "/images"
+	tfData_dir = working_dir + "/tfData"
+</code></pre>
+
+
+<pre><code>
+	img_names = [name.split("/")[-1] for name in glob.glob(img_dir + "/*.jpg")]
+	random.shuffle(img_names)
+	print(len(img_names))
+
+	for i, name in enumerate(img_names):
+			os.rename(img_dir+"/"+name,img_dir+"/"+str(i)+".jpg")
+</code></pre>
+
+
+					<figure>
+					<img src="images/img_folder.png" class="image fit"/>
+					<figcaption> Photo of inside images folder after renaming files</figcaption>
+				  </figure>
+					<p></p>
+
+					<p> &emsp;
+						Now that we have a list of image names, this list will be used to call image samples
+						to be loaded and then to be made into a tfRecord file. To perform this conversion of
+						data, some functions will be needed, which are presented below.
+					</p>
+
+<pre><code>
+	def _bytes_feature(value):
+			"""Returns a bytes_list from a string / byte."""
+			if isinstance(value, type(tf.constant(0))):
+					value = value.numpy()  # BytesList won't unpack a string from an EagerTensor.
+			return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
+
+	def _float_feature(value):
+			"""Returns a float_list from a float / double."""
+			return tf.train.Feature(float_list=tf.train.FloatList(value=[value]))
+
+	def _int64_feature(value):
+			"""Returns an int64_list from a bool / enum / int / uint."""
+			return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
+</code></pre>
+
+					<p> &emsp;
+						Although somewhat confusing upon inspection, the three functions below are used to transform different
+						types of data (string, float, or int64) into a TensorFlow comptable data type that can be made into a tfRecord.<br>
+						<ol>
+						  <li>_bytes_feature: Returns a bytes_list from a string / byte</li>
+						  <li>_float_feature: Returns a float_list from a float / double.</li>
+						  <li>_int64_feature: Returns an int64_list from a bool / enum / int / uint.</li>
+						</ol>
+						In our case, we need to convert images into tfRecord files. Our image data samples can be converted
+						into tfRecords using the _bytes_feature function. However, after converting an image into a bytes
+						list, we will not know how to reconstruct the image into it's original shape. Thus, we will also store
+						the images dimensions within the tfRecord file. To do this, we will convert the dimensions of the image
+						(which are int values) with _int64_feature. Below is the function which converts image samples into a
+						tf.Example (a tf.Example can be then written into a tf.Record.
+					</p>
+
+<pre><code>
+	def make_img_tfRecord(path: str, img_shape: tuple):
+			"""
+			Takes image path and img shape. The path is
+			used to load the image with Image.open(path).
+			I then proceed to resize the image to my
+			passed shape (just in case of size differences).
+			I then create a dict which stores the sample
+			pieces: three dimensions of image and the image
+			itself. Finally, I return the dict as a tf.train.Example
+			which can be written to a tf.Record.
+			"""
+
+			img = Image.open(path)
+			img = img.resize((img_shape[0],img_shape[1]))
+			img = np.array(img)
+
+			feature = {
+					'dim_1': _int64_feature(img_shape[1]),
+					'dim_2': _int64_feature(img_shape[0]),
+					'dim_3': _int64_feature(img_shape[2]),
+					'image_raw': _bytes_feature(img.tobytes()),
+					}
+
+			return tf.train.Example(features=tf.train.Features(feature=feature))
+</code></pre>
+
+<p> &emsp;
+I then proceed to use a built in context manager from TensorFlow to write tf.Examples into a tf.Record.
+</p>
+
+<pre><code>
+	# Desired image shape
+	img_shape = (600,400,3)
+
+	# Create a tf.Record file for training
+	record_file = os.path.join(tfData_dir,'train_record.tfrecords')
+	with tf.io.TFRecordWriter(record_file) as writer:
+			# I use the first thousand images for training
+			for i in range(0,1000):
+					path = "images/"+img_names[i]
+					tf_example = make_img_tfRecord(path,img_shape)
+					writer.write(tf_example.SerializeToString())
+
+	# Create a tf.Record file for validation
+	record_file = os.path.join(tfData_dir,'test_record.tfrecords')
+	with tf.io.TFRecordWriter(record_file) as writer:
+			# I use the next 50 images for validation
+			for i in range(1000,1050):
+					path = "images/"+img_names[i]
+					tf_example = make_img_tfRecord(path,img_shape)
+					writer.write(tf_example.SerializeToString())
+</code></pre>
+
+
+					<figure>
+					<img src="images/tfData_folder.png" class="image fit"/>
+					<figcaption>Photo of inside tfData folder after creating tfRecords</figcaption>
+				  </figure>
+					<p></p>
+
+					<p> &emsp; Now that we have made these tfRecord files, how do we get the data out of them to train a model?
+						 Well ... we need to make another function to read data from the tfRecord file. To do so, I will use two functions:
+						 parse_record and decode record. parse_record creates a empty variable to load the image into while decode_record,
+						 which is called within parse_record, reads the file from the tfRecord file. Finally, parse_record returns the loaded variable.
+					</p>
+
+<pre><code>
+	def parse_record(record):
+			name_to_features = {
+					'dim_1': tf.io.FixedLenFeature([], tf.int64),
+					'dim_2': tf.io.FixedLenFeature([], tf.int64),
+					'dim_3': tf.io.FixedLenFeature([], tf.int64),
+					'image_raw': tf.io.FixedLenFeature([], tf.string),
+			}
+			return tf.io.parse_single_example(record, name_to_features)
+
+	def decode_record(record):
+			img = tf.io.decode_raw(
+					record['image_raw'], out_type='uint8', little_endian=True, fixed_length=None, name=None
+			)
+			dim1 = record['dim_1']
+			dim2 = record['dim_2']
+			dim3 = record['dim_3']
+			img = tf.reshape(img, (dim1, dim2,dim3))
+			return (img)
+</code></pre>
+
+					<p> &emsp; To use the above functions, we use a Tensorflow function called tf.data.TFRecordDataset. Below,
+						 both the train and valid data sets are loaded from the tfRecord files.
+					</p>
+
+<pre><code>
+train_dataset = tf.data.TFRecordDataset(os.path.join(tfData_dir,'train_record.tfrecords'), buffer_size=100)
+test_dataset = tf.data.TFRecordDataset(os.path.join(tfData_dir,'test_record.tfrecords'), buffer_size=100)
+</code></pre>
+
+<p> As evidence that the data is being loaded properly, lets view an image from the data set.</p>
+
+<pre><code>
+	for record in test_dataset:
+			parsed_record = parse_record(record)
+			test_image = decode_record(parsed_record)
+
+	img = test_image.numpy()
+	img = Image.fromarray(img,'RGB')
+	imgplot = plt.imshow(img)
+	plt.show()
+</code></pre>
+
+
+<figure>
+<img src="images/sample_load_pic.png" class="image fit"/>
+</figure>
+
+<p> Now that we have created tfRecord files, we are ready to train the model.<p>
+
+
+<h3>Part 2: Training the Model</h3>
+
+<p> &emsp; In this section, I present the VAE code. However, I do not train the VAE here. I persoanlly used a device
+a different device with a GPU to train this model.</p>
+
+
+<pre><code>
+	codings_size = 1000
+	n_pixels = 400*600*3
+
+	class Sampling(layers.Layer):
+			def call(self, inputs):
+					mean, log_var = inputs
+					return tf.random.normal(tf.shape(log_var)) * tf.math.exp(log_var / 2) + mean
+
+	def rounded_accuracy(y_true, y_pred):
+			return keras.metrics.binary_accuracy(tf.round(y_true), tf.round(y_pred))
+
+	class VAE(Model):
+			def train_step(self, data):
+					# Unpack the data. Its structure depends on your model and
+					# on what you pass to `fit()`.
+					x, y = data
+
+					with tf.GradientTape() as tape:
+							y_pred = self(x, training=True)  # Forward pass
+							# Compute the loss value
+							# (the loss function is configured in `compile()`)
+							loss = self.compiled_loss(y, y_pred, regularization_losses=self.losses)
+
+					# Compute gradients
+					trainable_vars = self.trainable_variables
+					gradients = tape.gradient(loss, trainable_vars)
+					# Update weights
+					self.optimizer.apply_gradients(zip(gradients, trainable_vars))
+					# Update metrics (includes the metric that tracks the loss)
+					self.compiled_metrics.update_state(y, y_pred)
+					# Return a dict mapping metric names to current value
+					return {m.name: m.result() for m in self.metrics}
+
+			def test_step(self, data):
+					# Unpack the data
+					x, y = data
+					# Compute predictions
+					y_pred = self(x, training=False)
+					# Updates the metrics tracking the loss
+					self.compiled_loss(y, y_pred, regularization_losses=self.losses)
+					# Update the metrics.
+					self.compiled_metrics.update_state(y, y_pred)
+					# Return a dict mapping metric names to current value.
+					# Note that it will include the loss (tracked in self.metrics).
+					return {m.name: m.result() for m in self.metrics}
+</code></pre>
+
+<pre><code>
+	inputs = keras.Input(shape=(400,600,3))
+	z = keras.layers.InputLayer(input_shape=(400, 600, 3))(inputs)
+	z = keras.layers.Conv2D(filters=12, kernel_size=3, strides=(2, 2),\
+																			data_format='channels_last',activation='relu')(z)
+	z = keras.layers.Conv2D(filters=6, kernel_size=3, strides=(2, 2)\
+																			,data_format='channels_last',activation='relu')(z)
+	z = keras.layers.Flatten()(z)
+	z = keras.layers.Dense(codings_size*2)(z)
+	codings_mean = keras.layers.Dense(codings_size)(z)
+	codings_log_var = keras.layers.Dense(codings_size)(z)
+	codings = Sampling()([codings_mean, codings_log_var])
+	encoder = keras.models.Model(
+			inputs=[inputs], outputs=[codings_mean, codings_log_var, codings])
+	print(encoder.summary())
+</code></pre>
+
+<pre><code>
+	decoder_inputs = tf.keras.Input(shape=(codings_size,))
+	x = tf.keras.layers.Dense(units=90000, activation=tf.nn.relu)(decoder_inputs)
+	x = tf.keras.layers.Reshape(target_shape=(100, 150, 6))(x)
+	x = tf.keras.layers.Conv2DTranspose(
+											data_format='channels_last',filters=6, kernel_size=3, strides=2, padding='same',
+											activation='relu')(x)
+	x = tf.keras.layers.Conv2DTranspose(
+											data_format='channels_last',filters=12, kernel_size=3, strides=2, padding='same',
+											activation='relu')(x)
+	outputs = tf.keras.layers.Conv2DTranspose(
+											filters=3, kernel_size=3, strides=1, padding='same')(x)
+	decoder = keras.models.Model(inputs=[decoder_inputs], outputs=[outputs])
+	print(decoder.summary())
+</code></pre>
+
+
+<pre><code>
+	_, _, codings = encoder(inputs)
+	reconstructions = decoder(codings)
+
+	vae = VAE(inputs=[inputs], outputs=[reconstructions])
+	print(vae.summary())
+</code></pre>
+
+
+					<p> &emsp;To use our tfRecord files for training the model, I go on to create two more functions: read_tf_image_and_label and get_training_dataset.
+					These functions create a tf.data.TFRecordDataset object and also shape the data, cast the data to a float, and scale the data between 0 and 1.
+					Notice, that read_tf_image_and_label returns the img twice. This is because for the VAE, an autoencoder, the target value is also the input.
+				</p>
+
+
+<pre><code>
+	AUTO = tf.data.experimental.AUTOTUNE
+
+	def read_tf_image_and_label(record):
+			parsed_record = parse_record(record)
+			img = decode_record(parsed_record)
+			img = tf.cast(img, tf.float32) / 255.0
+			return (img,img)
+
+	def get_training_dataset(record_files):
+			dataset = tf.data.TFRecordDataset(record_files, buffer_size=100)
+			dataset = dataset.map(read_tf_image_and_label, num_parallel_calls=AUTO)
+			dataset = dataset.batch(batch_size)
+			dataset = dataset.prefetch(AUTO)
+			return dataset
+</code></pre>
+
+<pre><code>
+train_dataset = get_training_dataset(os.path.join(tfData_dir,'train_record.tfrecords'))
+test_dataset = get_training_dataset(os.path.join(tfData_dir,'test_record.tfrecords'))
+</code></pre>
+
+<p> &emsp;To train the tf.keras model, proceed to pass train_dataset and test_dataset to vae.fit()
+	for the train dataset and validation dataset arguement.</p>
+
+<pre><code>
+	latent_loss = -0.5 * tf.math.reduce_sum(
+			1 + codings_log_var - tf.math.exp(codings_log_var) - tf.math.square(codings_mean),
+			axis=-1)
+
+	opt = tf.keras.optimizers.Adam(1e-4)
+
+	epochs = 1
+	batch_size = 150
+
+	vae.add_loss(tf.math.reduce_mean(latent_loss) / n_pixels)
+	vae.compile(loss="binary_crossentropy", optimizer=opt, metrics=[rounded_accuracy])
+	history = vae.fit(train_dataset, epochs=epochs, batch_size=batch_size,
+															 validation_data=test_dataset)
+</code></pre>
+
+
+					<p> &emsp; Upon completing the training, proceed to save the weights of the encoder and decoder.</p>
+
+<pre><code>
+encoder.save_weights('encoder')
+decoder.save_weights('decoder')
+</code></pre>
+
+					<p> &emsp;
+						Overall, the VAE has a total of 271,108,307 parameters. That is enormous. Thus, since I intened to package this model
+						and want good performance, I decided to convert the encoder (the part which I will use in the app) into a tf.lite model.
+					</p>
+
+<pre><code>
+decoder = keras.models.load_model("decoder")
+decoder.summary()
+</code></pre>
+
+<pre><code>
+converter = tf.lite.TFLiteConverter.from_saved_model("decoder")
+tflite_model = converter.convert()
+open("decoder_lite.tflite", "wb").write(tflite_model)
+</code></pre>
+
+					<p> &emsp; To test out our newly made VAE, lets use the tf.lite package to peform inference with our model.</p>
+
+
+<pre><code>
+	codings_size = 1000
+
+	interpreter = tf.lite.Interpreter(model_path="decoder_lite.tflite")
+	interpreter.allocate_tensors()
+
+	input_details = interpreter.get_input_details()
+	output_details = interpreter.get_output_details()
+
+	input_data = tf.random.normal([1, codings_size],mean=-2,stddev=1)
+	interpreter.set_tensor(input_details[0]['index'], input_data)
+	interpreter.invoke()
+	img = interpreter.get_tensor(output_details[0]['index'])
+
+	img = img[0,:,:,:]*255
+	img = img.astype(int)
+	plt.imshow(img)
+	plt.axis("off")
+	plt.show()
+</code></pre>
+
+
+
+						<figure>
+						<img src="images/vae_img_sample.png" class="image fit"/>
+						<figcaption>Example of generated face image from VAE</figcaption>
+					  </figure>
+						<p></p>
+
+						<p> &emsp; Now that we have created a VAE trained on face images and we can generate new face images, we would like to build an
+							interface to interact with the model.</p>
+
+
+					<h3>Part 3: Making an App</h3>
+					<p> &emsp;
+							We want others to be able to use our model, however, unless somebody writes up some. Python code,
+							this can not happen. That is why it is ideal for placing your model within an app with a GUI. Making a GUI is a
+							large task and is often outside of the knowledge set of a Machine Learning Engineer or Data Scientist. A very nice
+							interface called streamlit can make high-quality apps show your Machine Learning model. To begin, we need to install streamlit.
+					</p>
+
+<pre><code>
+pip install streamlit
+</code></pre>
+
+					<p> &emsp;
+					Upon installing steamlit, I was ready to make my app. To make my app using streamlit, it only required 60 lines of code.
+					I proceeded to make a python file called vae_app.py. My code can be broken down into three parts: import modules, load model,
+					and build app. For parts one and two, I will skip over the details given that they are nothing streamlit particular.
+				</p>
+
+<pre><code>
+	import streamlit as st
+
+	from PIL import Image
+	import tensorflow as tf
+	from tensorflow import keras
+	from tensorflow.keras import layers
+	from tensorflow.keras import backend as K
+	from tensorflow.keras import Model
+</code></pre>
+
+
+<pre><code>
+	codings_size = 1000
+
+	interpreter = tf.lite.Interpreter(model_path="decoder_lite.tflite")
+	interpreter.allocate_tensors()
+
+	input_details = interpreter.get_input_details()
+	output_details = interpreter.get_output_details()
+</code></pre>
+
+
+
+
+					<p> &emsp;	Now part three will be using commands from streamlit to make the app. I highly recommend reading through the example
+				  documentation on the streamlit website to understand further the code below (https://docs.streamlit.io/en/stable/).
+				</p>
+
+<pre><code>
+	# Present title
+	st.title('Variational Autoencoder')
+	st.text('This app presents an interactive Variational Autoencoder, where  \nyou can explore how changing the mean and variance value of the normal random  \nvariable used to generate values from the latent vector affects generated  \nsamples.')
+
+
+	# Explain data
+	st.header('Training Data')
+	st.text('For the training of the  Variational Autoencoder (VAE), the CFD dataset \n(https://chicagofaces.org/default/) was used. This dataset consists of \nhigh-quality pictures of faces from an array of people. By training the \nVAE on this face dataset, the VAE becomes capable of generating new face \nimages. Below are two examples of the images from the CFD dataset.')
+
+
+	img1 = Image.open('36.jpg')
+	img2 = Image.open('57.jpg')
+
+	st.image(img1,use_column_width=True)
+	st.image(img2,use_column_width=True)
+
+
+	# Explain how to make images
+	st.header('Generate Images')
+	st.text('To generate images from the VAE trained on the CFD dataset, first adjust the \nsliders for the desired mean and variance value, then click Make Image, and Walla!')
+	st.text('The quality of the generated imgaes ... well uhmm hmm maybe I\'ll try a GAN next time.')
+
+	mean = st.slider('mean',min_value=-10.0,max_value=10.0,value=0.0,step=.05)
+	std = st.slider('standard deviation',min_value=0.01,max_value=10.0,value=1.0,step=.05)
+
+	st.write("Mean: ",mean)
+	st.write("Std: ", std)
+
+	if st.button("Make Image"):
+			input_data = tf.random.normal([1, codings_size],mean=-.5,stddev=1)
+			interpreter.set_tensor(input_details[0]['index'], input_data)
+			interpreter.invoke()
+			g_img = interpreter.get_tensor(output_details[0]['index'])
+			g_img = g_img[0,:,:,:]*255
+			g_img = g_img.astype(int)
+
+			st.image(g_img,use_column_width=True)
+</code></pre>
+
+							<p> &emsp; Now that the app has been written, it is time to run the app. To run the app, type in the
+								terminal (where the vae_app.py file is stored):</p>
+
+<pre><code>
+streamlit run vae_app.py
+</code></pre>
+
+
+								<p> &emsp;
+								This will cause a tab to open in your browser at: http://localhost:8501/ .
+							</p>
+
+									<figure>
+									<img src="images/app_img_a.png" class="image fit"/>
+									<figcaption>Image of top of app</figcaption>
+								  </figure>
+									<p></p>
+
+
+									<figure>
+									<img src="images/app_img_b.png" class="image fit"/>
+									<figcaption>Image of bottom of app</figcaption>
+								  </figure>
+									<p></p>
+
+
+									<p> &emsp;
+									To use the app, adjust the sliders to change the VAE's latent sampling distribution's mean and std and
+									then press "make image." This will generate a face image-based of on the learned disentangled latent features from the data set.
+								</p>
+
+
+									<figure>
+									<img src="images/app_img_c.png" class="image fit"/>
+									<figcaption> Image of face made from app</figcaption>
+									</figure>
+									<p></p>
+
+
+
+									<p> &emsp; Now that we have made an app, it is time to Dockerize the app so that it can be easily deployed on any kind of system.</p>
+
+
+					 <h3>Part 4: Docker Time</h3>
+					 <p> &emsp; Docker is a program that allows you to deploy your code within a container. A container is a way to modulize
+						  your code to run on any system that has Docker installed. A whole series of books could be written on how to use Docker
+							to its fullest; however, I will try to keep this portion of the post-high-level yet informative. I recommend the reader
+							to take a look at some of the teaching material on the Docker website (https://www.docker.com/play-with-docker).
+ 					 </p>
+
+
+<pre><code>
+	# Dockerfile
+	# docker build -t vae_app .
+	# docker run -p 8501:8501 vae_app
+	# http://localhost:8501/
+
+	FROM python:3.7
+
+	# streamlit-specific commands
+	RUN mkdir -p /root/.streamlit
+	RUN bash -c 'echo -e "\
+	[general]\n\
+	email = \"\"\n\
+	" > /root/.streamlit/credentials.toml'
+	RUN bash -c 'echo -e "\
+	[server]\n\
+	enableCORS = false\n\
+	" > /root/.streamlit/config.toml'
+
+	# exposing default port for streamlit
+	EXPOSE 8501
+
+	WORKDIR /usr/src/app
+
+	COPY requirements.txt ./
+	RUN pip install --no-cache-dir -r requirements.txt
+
+	COPY vae_app.py ./
+	COPY 36.jpg ./
+	COPY 57.jpg ./
+	COPY decoder_lite.tflite ./
+</code></pre>
+
+							<p> &emsp;To build the docker file run the following command: docker run -p 8501:8501 vae_app	</p>
+					<p> &emsp;
+			    Then type in your browser: http://localhost:8501/ . This will direct you to the app running within the docker container
+				</p>
+
+
+					<h3>Conclusion</h3>
+					<p>
+					&emsp; Overall, making and deploying a model is a lengthy process. Ideally, after making several models, you will
+					be able to build a set of tools to accelerate this process. Through this post, I hope to have provided insight into
+					the overall process of making a model. This post does not go into immense detail on the different programs used: tf.Data,
+					streamlit, and docker. However, I hope this provides direction for the reader into what to look into so that you can make your
+					own desired deployable Deep Learning model. A repository for the final app can be found at: https://github.com/EnriqueNueve/VAE_App .
+					</p>
+
+
+
+				</div>
+			</section>
+		</div>
+
+		<!-- Footer -->
+		<section id="footer">
+			<div class="container">
+				<ul class="copyright">
+					<li>&copy; Untitled. All rights reserved.</li>
+					<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+				</ul>
+			</div>
+		</section>
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
