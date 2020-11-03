@@ -517,7 +517,7 @@ plt.show()
 
 					<h3>Part 3: Making an App</h3>
 					<p> &emsp;
-							We want others to be able to use our model, however, unless somebody writes up some. Python code,
+							We want others to be able to use our model, however, unless somebody writes up some Python code,
 							this can not happen. That is why it is ideal for placing your model within an app with a GUI. Making a GUI is a
 							large task and is often outside of the knowledge set of a Machine Learning Engineer or Data Scientist. A very nice
 							interface called streamlit can make high-quality apps show your Machine Learning model. To begin, we need to install streamlit.
@@ -650,6 +650,12 @@ streamlit run vae_app.py
 							to take a look at some of the teaching material on the Docker website (https://www.docker.com/play-with-docker).
  					 </p>
 
+<p> &emsp; Docker is a program that allows you to deploy your code within a container. A container is a way to modulize
+						  your code to run on any system that has Docker installed. A whole series of books could be written on how to use Docker
+							to its fullest; however, I will try to keep this portion of the post-high-level yet informative. I recommend the reader
+							to take a look at some of the teaching material on the Docker website (https://www.docker.com/play-with-docker).
+</p>
+
 
 <pre><code>
 # Dockerfile
@@ -684,9 +690,9 @@ COPY 57.jpg ./
 COPY decoder_lite.tflite ./
 </code></pre>
 
-							<p> &emsp;To build the docker file run the following command: docker run -p 8501:8501 vae_app	</p>
-					<p> &emsp;
-			    Then type in your browser: http://localhost:8501/ . This will direct you to the app running within the docker container
+							<p> &emsp;To build the docker image, run the following command: docker build -t vae_app .	.
+							To run the docker container, run the following command: docker run -p 8501:8501 vae_app	.
+			    Then type in your browser: http://localhost:8501/ . This will direct you to the app running within the docker container.
 				</p>
 
 
