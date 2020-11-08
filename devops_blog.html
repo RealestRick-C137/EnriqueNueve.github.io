@@ -75,9 +75,10 @@
 					</p>
 
 					<p> &emsp; For optimal speed in opening and closing data, it is ideal for implementing a
-						generator that is capable of operating over parallel. It would also be ideal if the
-						generator is capable of being GPU compatible if the training of the model is to be
-						done using a GPU. Truthfully, this is no easy task. Ideally, some type of generator
+						generator that is capable of operating over parallel. It would also be ideal if the generator is
+						capable of being GPU compatible if the training of the model is to be done using a GPU or
+						be able to perform data preparation operations such as standardization or normalizing.
+						Truthfully, this is no easy task. Ideally, some type of generator
 						already included within TensorFlow made by a development team aware of the inner workings
 						of TensorFlow would be included within TensorFlow. Luckily, there is a generator included
 						 within TensorFlow; however, for quite some time, the generator's documentation could
@@ -319,7 +320,10 @@ plt.show()
 
 <p> &emsp; In this section, I present the VAE code. However, I do not train the VAE here. I personally used a device
 a different device with a GPU to train this model. I won't explain how a VAE works as the focus of
-this post is on tfData and deployment; however, I recommend reading up on VAEs.</p>
+this post is on tfData and deployment; however, I recommend reading up on VAEs. Attached is a link
+to a post that does a great job at explaining VAEs: <a href="https://jaan.io/what-is-variational-autoencoder-vae-tutorial/">
+	https://jaan.io/what-is-variational-autoencoder-vae-tutorial/</a>. </p>
+
 
 
 <pre><code>
