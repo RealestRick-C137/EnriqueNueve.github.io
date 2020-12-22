@@ -54,9 +54,8 @@
 					</header>
 
 
-					<h2> This post first talks about the experiance of my first academic
-						research project. If you are solely intersted in the technical details
-						of the project, <a href="#jump1"> <u>click here</u> </a>. </h2>
+					<h2> This post first talks about the experience of my first academic research project.
+						If you are solely interested in the technical details of the project, <a href="#jump1"> <u>click here</u> </a>. </h2>
 
 					<br></br>
 					<h5> Intro </h5>
@@ -66,16 +65,32 @@
 					</p>
 					<p></p>
 					<h5> 1. Choosing a Topic </h5>
-					<p> &emsp; I was now enrolled in this research program with no guidance. I did find a professor to work under yet, his focus was in Data Mining, and had no experience in Deep Learning. Although he provided much insight into the structure of research regarding Deep Learning, he wasn't able to assist me. Even so, I wanted to be a Machine Learning researcher and wanted to be able to create and use Deep Learning models. At the time,
-						I thought I understood Neural Networks reasonably well. I did happen to build a Neural Network from scratch in Numpy (with the help of some tutorials...). In hand, I felt reasonably confident I could pull this project off yet, I didn't know at the time what the project was going to be.
+					<p> &emsp; I was now enrolled in this research program with no guidance. I did find a professor to work under yet,
+						his focus was in Data Mining, and he had no experience in Deep Learning. Although he provided much insight into the structure
+						of research regarding Deep Learning, he wasn't able to assist me. Even so, I wanted to be a Machine Learning
+						researcher and wanted to be able to create and use Deep Learning models. At the time, I thought I understood
+						Neural Networks reasonably well. I did happen to build a Neural Network from scratch in Numpy (with the help
+						of some tutorials...). In hand, I felt reasonably confident I could pull this project off yet, I didn't know
+						at the time what the project was going to be.
 						<br></br>
 						&emsp;
 						From my limited exposure, I knew only a handful of topics and concepts. Overall, I knew I wanted to be a Qunatitivae Analyst, and I wanted to do a Deep Learning project. Put one and one together, and after a quick couple of Googles, you realize why don't I do a Time Series forecasting project (as I mentioned, this was my first large scale Machine Learning project). I was convinced it was going to be a breeze, and since I was using "Deep Learning," it was going to be amazingly accurate. Even though I had no clue what was novel about this project at the time, I brushed it off and decided an idea would come to me during the project.
 					</p>
 					<p></p>
 					<h5> 2. Tensors? What does tension have to with Deep Learning? </h5>
-					<p> &emsp; It turns out tensors and tension have nothing to do with each other; this was shocking. However, not as surprising as having the realization that the majority of Deep Learning posts on the internet have no clue about the mathematics of backpropagation of networks. After a couple of weeks of pondering what to do for my project, I decided to build a Recurrent Network to perform Time Series forecasting. Also, I decided I was going to make it only with Numpy. That means that I had to perform the deviations for forward passing, backpropagation, and gradient updating by hand. After several weeks of no luck, I decided to look up some tutorials on the mathematics of backpropagation. Quickly, I noticed theses tutorials rarely showed any deviations but were just a discussion of the concept of backpropagation. Even so, I trudged on, and eventually, I could derive a Neural Network with all of its processes. I tested my deviations by building a new Neural Network from scratch (no tutorials) and was able to get it to work. Now I decided to go back and look at some deviations for Recurrent Networks. This time, less surprised, the deviations at best only showed how to perform forward passes but never backpropagation for Recurrent networks. So it was back
-						to the drawing board.
+					<p> &emsp;  It turns out tensors and tension have nothing to do with each other; this was shocking. However,
+						not as surprising as having the realization that the majority of Deep Learning posts on the internet have no
+						clue about the mathematics of backpropagation of networks. After a couple of weeks of pondering what to do for
+						my project, I decided to build a Recurrent Network to perform Time Series forecasting. Also, I decided I was
+						going to make it only with Numpy. That means that I had to perform the deviations for forward passing,
+						backpropagation, and gradient updating by hand. After several weeks of no luck, I decided to look up some
+						tutorials on the mathematics of backpropagation. Quickly, I noticed these tutorials rarely showed any
+						deviations but were just a discussion of the concept of backpropagation. Even so, I trudged on,
+						and eventually, I could derive a Neural Network with all of its processes. I tested my deviations
+						by building a new Neural Network from scratch (no tutorials) and was able to get it to work. Now
+						I decided to go back and look at some deviations for Recurrent Networks. This time, less surprised,
+						the deviations at best only showed how to perform forward passes but never backpropagation for
+						Recurrent networks. So it was back to the drawing board.
 					</p>
 					<p> &emsp; After relentless testing, I found that the mathematics for backpropagation
 						did not add up to how Reccruent networks perform forward passing. This led me to realize that yes, standard backpropagation does not work on Reccurent network. Although this may seem obvious if you have
@@ -112,7 +127,7 @@
 
 
 					<h5> 6. Noisy Exponential Activation Function, NEAF </h5>
-					<p> The Noisy Exponential Activation Function, NEAF, can be substituted for any sigmoid or tanh function. NEAF is built like a clipped sigmoid or tanh function. The values near the y-axis are passed through a linear function while values outside a defined interval based around the y-axis are stepped to either zero or one if sigmoid or negative one and one if tanh. For the stepped values, noise is added, causing the value to be pushed back down away from their respective bounds, which will cause the neuron not to saturate since overflow or underflow is avoided by the added noise. To help with convergence, the noise is passed through an exponential function causing the noise to maintain nonlinear attributes. This can be seen by the visual below.
+					<p> The Noisy Exponential Activation Function, NEAF, can be substituted for any sigmoid or tanh function. NEAF is built like a clipped sigmoid or tanh function. The values near the y-axis are passed through a linear function while values outside a defined interval-based around the y-axis are stepped to either zero or one if sigmoid or negative one and one if tanh. For the stepped values, noise is added, causing the value to be pushed back down away from their respective bounds, which will cause the neuron not to saturate since overflow or underflow is avoided by the added noise. To help with convergence, the noise is passed through an exponential function causing the noise to maintain nonlinear attributes. This can be seen in the visual below.
 					</p>
 
 					<figure>
@@ -135,8 +150,7 @@
 
 					<p></p>
 
-					<p> For the sake of simplicity regarding implementation to your favorite machine learning library, code for NEAF is provided in the example below with only NumPy. The function is broken into three sub-functions (linear, hard_sigmoid, and noise) for simplicity. The values are first passed through the linear function, then the through a piecewise function
-						that causes clipping by passing values outside of the designated interval through the hard_sigmoid function, and finally, the values that were just clipped by hard_sigmoid are passed through the noise function.
+					<p> For the sake of simplicity regarding implementation to your favorite machine learning library, code for NEAF is provided in the example below with only NumPy. The function is broken into three sub-functions (linear, hard_sigmoid, and noise) for simplicity. The values are first passed through the linear function, then through a piecewise function that causes clipping by passing values outside of the designated interval through the hard_sigmoid function, and finally, the values that were just clipped by hard_sigmoid are passed through the noise function.
 					</p>
 
 					<pre><code>
@@ -183,9 +197,7 @@
 						If you want to take a look at the github page where NEAF is implimented into an RAU
 						for Financial Time-Series Forecasting
 						<a href="https://github.com/RealestRick-C137/NEAF"> (CLICK HERE)</a>.
-						Overall, I was very happy with this experience, which I was able to learn in-depth more
-						about Deep Learning and was able to experience the critical thinking and challanges of a
-						research project.
+						Overall, I was very happy with this experience. I was able to learn more in-depth about Deep Learning and was able to experience the challenges of a research project.
 					</p>
 
 
