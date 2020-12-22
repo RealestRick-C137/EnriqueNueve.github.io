@@ -58,19 +58,19 @@
 
 					<br></br>
 					<h5> Intro </h5>
-					<p> &emsp;  Before this project, I had no experience with Multiprocessing. However, I had heard
-						of how MultiProcessing could greatly increase the speed of a program by distributing process
-						over multiple processing cores. With not knowing how Multiprocessing necessarily worked, I
-						decided to try using the "multiprocessing" library in Python to implement the rather simple
-						clustering algorithm K-Means.
+					<p> &emsp;   Before this project, I had no experience with parallel processing. However,
+						I had heard of how parallel processing could greatly increase the speed of a program
+						by distributing processes over multiple processing cores. With not knowing how
+						parallel processing necessarily worked, I decided to try using the "multiprocessing"
+						library in Python to implement the rather simple clustering algorithm K-Means.
 					</p>
 
 					<h5>Part 1: When to use Multiprocesing</h5>
-					<p> &emsp; Multiprocessing can be used whenever a task or subtask can be performed independently
-						 and then later have their individual results be clustered together. For example, renaming
-						 individual files in a directory. Another example would be BootStrapping Algotirhims, where the
-						 order of sampling is not relevant. Overall, a significant speed boost can occur if Multiprocessing
-						 is appropriately implemented and for the right situation.
+					<p> &emsp; Parallel processing can be used whenever a task or subtask can be performed
+						independently and later have their individual results clustered together. Examples
+						of parallel processing would be renaming individual files in a directory or using
+						a Boot Strapping Algorithms to sample a distribution. Overall, a significant speed
+						boost can occur if Multiprocessing is appropriately implemented and for the right situation.
 					<p>
 
 					<h5>Part 2: Multiprocesing in Python</h5>
@@ -122,23 +122,23 @@ As shown through the demo, multiprocessing can significantly increase the speed 
 
 
 					<h5>Part 3: K Means </h5>
-					<p> &emsp; K Means is a simplistic unsupervised clustering algorithm. If you are interested
+					<p> &emsp; K Means is a unsupervised clustering algorithm. If you are interested
 						in the inner working of K Means, I suggest reading the following article,
 						<a href="https://stanford.edu/~cpiech/cs221/handouts/kmeans.html"> (CLICK HERE)</a>.
 						Overall, I am not a fan of K Means. The results of K Means vary significantly by choice of
 						initial parameters and the initial randomized points. However, the structure of the algorithm
-						is ideal for parral processing; thus, I went ahead and used it for my project. Unfortunally,
+						is ideal for parral processing; thus, I went ahead and used it for my project. Unfortunately,
 						my personal implementation of K Means over parallel was actually slower than K Means
 						not over parallel. Why is that?
 					<p>
 
-					<p> &emsp; Multiprocessing "can" be faster; however, depending on how it is used for a specific task,
+					<p> &emsp; Parallel processing "can" be faster; however, depending on how it is used for a specific task,
 						it can be slower. The way I implemented the algorithm is very inefficient. First, I evaluate each
 						 point individually; this is much slower than if I implemented the algorithm to perform matrix operations. However, that does not explain why the multiprocessing implementation is slower. To perform multiprocesing, the data for K Means needs to be split. This is a very time-consuming operation which adds up to slower performance.
 					<p>
 
 					<h5> Conclusion </h5>
-					<p> Multiprocessing allows for an immense speed boost to code. It is very intriguing to think about
+					<p> Parallel processing can allow for an immense speed boost to code. It is very intriguing to think about
 						 ways multiprocessing can be used. However, in this case, due to improper design, I was unable to
 						 get a boost in speed with K Means. Being this was my first time using multiprocessing, it is
 						 understandable to have some difficulties. Even so, I highly recommend learning about multiprocessing
