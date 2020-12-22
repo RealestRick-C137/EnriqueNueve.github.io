@@ -58,31 +58,34 @@
 
 					<br></br>
 					<h3> Intro</h3>
-					<p> &emsp; With respect to the date I am writing this, I have been in
-						quarantine for around six months (give or take) due to Covid-19. My
-						interaction with society have been limited, leaving me with a surplus
-						of time to learn an array of things (and time to write unnecessary blog posts).
-						In particular, in the last two months, I have learned to play the game of Go. </a>
+					<p> &emsp;  With respect to the date I am writing this, I have been in quarantine
+						for around six months (give or take) due to Covid-19. My interaction with society
+						has been limited, leaving me with a surplus of time to learn an array of things
+						(and time to write unnecessary blog posts). In particular, in the last two months,
+						I have learned to play the game of Go. </a>
 						<br> </br>
-						&emsp; According to myself, Go is a two-player non-corporative strategy game in which the objective
-						of each player is to control the most territory as possible. Being that both players are trying to control as
-						much territory as possible on the same finite-dimensional board, the two players must strategize their captures
-						of territory in order to limit the possible collection of territory of the other player.
-						Yes, fascinating, but how does one play the game?
+						&emsp;  According to myself, Go is a two-player non-corporative strategy game in
+						which the objective of each player is to control the most territory as possible.
+						Since both players are trying to control as much territory as possible on the same
+						finite-dimensional board, the two players must strategize their captures of territory
+						to limit the possible collection of territory of the other player. Yes, fascinating, but how does one play the game?
 					</p>
 
 					<h3>Rules of Go</h3>
-					<p> &emsp; As mentioned Go is a two player game. Go is played on a board that has a grid pattern, traditionally of size 19x19 [1].
-						Each player is given (or chooses) a set of stones. Stones are the playing pieces of the game. There are black stones (which number to 181)
-						and there are white stones (which numbere to 180) [2]. Whoever has the black stones go first.
+					<p> &emsp;  As mentioned Go is a two-player game. Go is played on a board that has a grid pattern,
+						traditionally of size 19x19 [1]. Each player is given (or chooses) a set of stones. Stones are the
+						playing pieces of the game. There are black stones (which number to 181), and there are white stones
+						(which numbers to 180) [2]. Whoever has the black stones go first.
 						<br> </br>
-						&emsp; During one's turn, such as the first turn performed by black, the player is allowed to place a stone
-						of their color on an empty intersection on the board (which includes edges and corners). Upon placing one's stone on the board, the player's
-						turn is complete, in which the game then proceeds to the next player's turn. Beyond placing a stone during one's turn, a player
-						may choose to pass, which is the act of not placing a stone during one's turn. If a player passes, their turn is over, and it is the
-						other players turn once again. If two passes occur consecutively, meaning player one passes and then player two passes,
-						the game is over, and points are counted (point-counting will be discussed momentarily). However, arguably one of the most
-						critical aspects of Go has yet to be discussed, capturing your opponent's stones.
+						&emsp;  During one's turn, such as the first turn performed by black, the player is allowed to place a
+						stone of their color on an empty intersection on the board (which includes edges and corners).
+						Upon placing one's stone on the board, the player's turn is complete, in which the game then proceeds
+						to the next player's turn. Beyond placing a stone during one's turn, a player may choose to pass,
+						which is the act of not placing a stone during one's turn. If a player passes, their turn is over,
+						and it is the other player's turn once again. If two passes occur consecutively, meaning player
+						one passes and then player two passes, the game is over, and points are counted (point-counting
+						will be discussed momentarily). However, arguably one of the most critical aspects of Go has yet
+						to be discussed, capturing your opponent's stones.
 						<br> </br>
 						&emsp; To capture an opponent's stone or stones, you must enclose all of your opponent's said stones' liberties. What is a liberty, though? A liberty is the relative horizontal and verticle paths directly connected to a stone or
 						a set of stones that are connected in a non-diagonal manner. Makes sense, right? If not, don't worry, examples and images
@@ -94,7 +97,7 @@
 						thus, the stone has three liberties. A third case to consider is when a stone is placed on the corner intersection of the board.
 						A stone placed in a corner has two liberties being that there are two intersections located non-diagonally
 						with respect to the corner. Examples of the three mentioned cases are provided in the images below. As mentioned, to capture an opponent's
-						stone, you must enclose of all of the liberties.
+						stone, you must enclose all of the liberties.
 						<br> </br>
 					<figure>
 						<img src="images/go_blog_images/liberties_examples.jpg" class="image fit" />
@@ -116,8 +119,8 @@
 					it is strategic to form groups out of them.
 					<br> </br>
 					&emsp; A group is formed when a player connects two or more of their own stones adjacently in a verticle or horizontal fashion.
-					For example, three stones placed verticly adjacent to one another forms a group (refer to image below on the left). By forming
-					a group, the stones act as a single strucure and their liberties are in a manner "combined." In refence to the previouslty metnioned
+					For example, three stones placed vertically adjacent to one another forms a group (refer to the image below on the left). By forming
+					a group, the stones act as a single structure, and their liberties are in a manner "combined." In reference to the previously mentioned
 					example of three stones (as shown in the image below on the left), the group has a total of eight liberties. However, recall for stones
 					to be connected in order to form a group, the stones must be touching with respect to a verticle or horizontal relationship. The image provided
 					below to the right is an example of two stones that do not form a group since they are only touching in a diagonal relationship.
@@ -162,9 +165,9 @@
 
 					<h3>One possible way to win 5x5 Go </h3>
 					<p> &emsp; With the board being 5x5, the number of permutations of game outcomes
-						were beyond cognitive interpretation, so I opted for a probablistic approach to
-						playing the game. In the online game, the robot was always assigned white thus, I played black
-						and went first. My strategy was to play the first move in the center ,thus giving me the most options of dividing the board.
+						were beyond cognitive interpretation, so I opted for a probabilistic approach to
+						playing the game. In the online game, the robot was always assigned white; thus, I played black
+						and went first. My strategy was to play the first move in the center, thus giving me the most options of dividing the board.
 						I played some seventy to eighty games with trying to play my first stone in the center yet, no luck at all.
 						<br></br>
 						&emsp; The bot would then play wide and work around the board, blocking me internally and then capturing my pieces.
@@ -196,9 +199,9 @@
 					would have to be filled simultaneously, which is not possible, making the group uncapturable.
 
 					<br></br>
-					&emsp; As mentioned, I leveraged eyes to create a field advantge to limit the number of outcomes
-					in order to formulate a strategy. The following images below show how I establshed multiple eyes
-					in the order to win the game.
+					&emsp; As mentioned, I leveraged eyes to create a field advantage to limit the number of outcomes
+					in order to formulate a strategy. The following images below show how I established multiple eyes
+					in order to win the game.
 					<br></br>
 					<figure>
 						<img src="images/go_blog_images/game_1.jpg" class="image fit" />
@@ -214,10 +217,10 @@
 					<h3>Conclusion</h3>
 					<p>
 						&emsp; Through the use of eyes, I was able to beat the bot by two points. Looking back
-					 at the plays I did, this strategy could be used to win by four points if modfied. Overall, I was
-					 able to learn the fundamentals of Go and establish human domance over this Dynamic Programming
-					 devil. If you desire to learn how to play Go, I reccommend playing agasint this same bot
-					 (<a href="https://www.cosumi.net/en/">https://www.cosumi.net/en/</a>). As frustring as it was,
+					 at the plays I did, this strategy could be used to win by four points if modified. Overall, I was
+					 able to learn the fundamentals of Go and establish human dominance over this Dynamic Programming
+					 devil. If you desire to learn how to play Go, I recommend playing against this same bot
+					 (<a href="https://www.cosumi.net/en/">https://www.cosumi.net/en/</a>). As frustrating as it was,
 					 I was able to develop an understanding of the rules and basic strategies of Go.
 					</p>
 
