@@ -49,7 +49,7 @@
 				</div>
 				<div class="container">
 					<header class="major">
-						<h2>UNDER CONSTRUCTION</h2>
+						<h2> UNDER CONSTRUCTION </h2>
 						<h2>WeatherNet: Nowcasting Net Radiation over the Edge</h2>
 						<p> Summer 2020</p>
 					</header>
@@ -57,22 +57,51 @@
 					<br></br>
 					<h3> Prologue</h3>
 					<p> &emsp; In the summer of 2020, I was fortunate enough to be able to get a position
-						as an intern at Argonne National Laboratory. I worked on the SAGE team whose task is
-						to design a cyberinfrastructure for AI over Edge Computing. This blog
-						is a high-level (I mean high-high level) overview of the research I did over summer.
-						I plan to submit this work as a poster and as a short paper to two conferences in
-						which the full extent of the methodology and results will be shown. As updates occur,
-						I will post them here on the blog. To learn more about the SAGE project, please visit
-						their <a href="https://sagecontinuum.org/">website.</a>
-
-
+						as an intern as a Machine Learning Engineer at Argonne National Laboratory.
+						I worked on the SAGE team whose task is
+						to design a cyberinfrastructure for AI over Edge Computing. This blog is a high-level
+						(I mean high-high level) overview of the research I did over the summer of 2020.
+						Currently, a poster on this project has been accepted to the American Meteorigoal Society's
+						20th Conference on Artificial Intelligence for Environmental Science and as a long paper to
+						IEEE Conference on Technologies for Sustainability (SusTech 2021). This is my first
+						work I have had accepted for publication as the primary author. In this post, I cover some of the findings
+						from this work and also discuss the research/application process.
+						To learn more about the SAGE project, please visit their <a href="https://sagecontinuum.org/">website.</a>
 					</p>
+
+					<h3> Intro </h3>
+					<p> &emsp; Back in December 2020, I emailed a researcher at Argonne National Laboratory about a problem I was
+						stuck on that they might have insight on given their research expertise. Although the person was not able to
+						directly guide me for this problem, they suggested to me to apply to Argonne for an internship over the summer.
+						This was my senior year of college, and in previous years I was unable to secure a summer internship. Being that for
+						my first two years I went to community college, I assumed I didn't stand out much in my applications (free to play,
+						pay to win). During my junior year summer, I tried applying and had a few email exchanges, but they led nowhere. So I
+						was backed into a corner on securing a summer position, so I was more than happy to apply. After a single phone interview,
+						I heard back a week later and got the position. I was accepted onto the SAGE project, an initiative to design
+						a cyberinfrastructure for AI over Edge Computing. I didn't even know what Edge Computing at the time was yet, I
+						I was just happy to be able to have an official position where I was going to do work in Machine Learning. Given that
+						COVID-19 was occurring (and still at this time), the position was conducted virtually.
+					</p>
+					<p> At the time of starting, the SAGE project was still in quite early stages. The project leads wanted me and
+						the other interns to make up Machine Learning projects that could be run on their Edge devices to act as show
+						pieces for users of the future Edge network possible things they could do with it. I was given access to
+						an Edge node that had three cameras connected to it: a sky facing RGB camera, a horizon facing RGB camera, and a
+						FLIR camera (a camera that can pick up heat). With those three cameras, they asked me to come up with an application
+						that used multiple cameras in order to demonstrate how multiple sensors from a node could be used for an application.
+						With not knowing what to do (as usual), I came up with the idea of performing weather forecasting using the images from the cameras
+						along with data collected from a weather tower located on the Argonne property.
+					</p>
+
+					<h2> LEFT OFF HERE </h2>
+
+
+
 
 					<h3>What is Nowcasting?</h3>
 					<p> &emsp; Nowcasting is the task of weather forecasting within a horizon period of twenty-four hours.<sup>3</sup> By
 					being able to accurately nowcast, abrupt weather changes can be announced earlier. This could allow
 					people to have the needed time to prepare for weather-related dangers such as hail, thunder, or tornados.
-					<p>
+				 </p>
 
 					<h3>Nowcasting and Deep Learning</h3>
 					<p>
