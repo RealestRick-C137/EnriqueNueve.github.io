@@ -75,32 +75,30 @@
 						directly guide me for this problem, they suggested to me to apply to Argonne for an internship over the summer.
 						This was my senior year of college, and in previous years I was unable to secure a summer internship. Being that for
 						my first two years I went to community college, I assumed I didn't stand out much in my applications (free to play,
-						pay to win). During my junior year summer, I tried applying and had a few email exchanges, but they led nowhere. So I
-						was backed into a corner on securing a summer position, so I was more than happy to apply. After a single phone interview,
-						I heard back a week later and got the position. I was accepted onto the SAGE project, an initiative to design
+						pay to win). During my junior year summer, I tried applying and had a few email exchanges, but they led nowhere. Not
+						being able to get an internship in the past made my eary of my chances of getting a position yet I still applied. Luckily,
+						I was accepted onto the SAGE project, an initiative to design
 						a cyberinfrastructure for AI over Edge Computing. I didn't even know what Edge Computing at the time was yet, I
 						I was just happy to be able to have an official position where I was going to do work in Machine Learning. Given that
 						COVID-19 was occurring (and still at this time), the position was conducted virtually.
 					</p>
-					<p> At the time of starting, the SAGE project was still in quite early stages. The project leads wanted me and
+					<p> &emsp;At the time of starting, the SAGE project was still in quite early stages. The project leads wanted me and
 						the other interns to make up Machine Learning projects that could be run on their Edge devices to act as show
 						pieces for users of the future Edge network possible things they could do with it. I was given access to
 						an Edge node that had three cameras connected to it: a sky facing RGB camera, a horizon facing RGB camera, and a
 						FLIR camera (a camera that can pick up heat). With those three cameras, they asked me to come up with an application
 						that used multiple cameras in order to demonstrate how multiple sensors from a node could be used for an application.
 						With not knowing what to do (as usual), I came up with the idea of performing weather forecasting using the images from the cameras
-						along with data collected from a weather tower located on the Argonne property.
+						along with data collected from a weather tower located on the Argonne property. In particular, I came up with the idea
+						of nowcasting net radiation using the camera images and weather tower data over an Edge node.
 					</p>
 
-					<h2> LEFT OFF HERE </h2>
-
-
-
-
 					<h3>What is Nowcasting?</h3>
-					<p> &emsp; Nowcasting is the task of weather forecasting within a horizon period of twenty-four hours.<sup>3</sup> By
-					being able to accurately nowcast, abrupt weather changes can be announced earlier. This could allow
-					people to have the needed time to prepare for weather-related dangers such as hail, thunder, or tornados.
+					<p> &emsp; Nowcasting is the task of weather forecasting within a horizon period of twenty-four hours.<sup>3</sup>
+						By being able to accurately nowcast, abrupt weather changes can be announced earlier. Nowcasting can allow people
+						to have the needed time to prepare for weather-related dangers such as hail, thunder, or tornados. Nowcasting
+						 can also provide the needed detailed information to optimize industrial tasks such as photovoltaic management
+						  and solar thermal collection.
 				 </p>
 
 					<h3>Nowcasting and Deep Learning</h3>
@@ -117,7 +115,13 @@
 					</p>
 					<p>
 					&emsp; To explore the plausibility of using ground-based sensor data to enhance the performance of a nowcasting model,
-					I sought out to develop a rudimentary experiment that would provide insight into my hypothesis. I desired to construct a Deep Learning model that only used ground-based sensor data to perform nowcasting. The reasoning was that if I was able to perform nowcasting using only ground-based sensor data (which is unique from radar data), then it would be plausible that combining ground-based sensor data with radar data could create a more powerful model. Vice-versa, if a Deep Learning model that only used ground-based sensor data could not perform nowcasting to any degree, it would be unlogical to assume that combining ground-based sensor data and radar data would improve a model's ability to nowcast- thus voiding the plausibility of my hypothesis.
+					I sought out to develop a rudimentary experiment that would provide insight into my hypothesis. I desired to construct a
+					Deep Learning model that only used ground-based sensor data to perform nowcasting. The reasoning was that if I was
+					able to perform nowcasting using only ground-based sensor data (which is unique from radar data), then
+					it would be plausible that combining ground-based sensor data with radar data could create a more
+					powerful model. Vice-versa, if a Deep Learning model that only used ground-based sensor data could
+					not perform nowcasting to any degree, it would be unlogical to assume that combining ground-based
+					sensor data and radar data would improve a model's ability to nowcast- thus voiding my hypothesis's plausibility.
 					</p>
 
 
@@ -154,58 +158,57 @@
 						 form of a time-series, the Deep Learning model used was a Convolutional LSTM variant, named WeatherNet.
 						  Convolutional LSTM's allow images in the form of time series to be used as input and can learn the temporal
 							relationships between the images. This allowed WeatherNet to learn changes in the weather over time from
-							the camera's images.<sup>4</sup> By further modifying the traditional Convolutional LSTM, WeatherNet
+							the camera's images.<sup>4</sup> I also incopraated Seperable Convolutional layers wrapped in Time
+							Distributed layers for each of the camera's input before feeding in to the Convolutional LSTM layers.
+							This was done since Convolutional LSTM layers use a large amount of parameters relative to their input,
+							and given that I wanted this run on a remote Edge device, I needed to decrease the number of parameters.
+							Through using the Separable Convolutional layers wrapped in Time Distributed layers, I was able to
+							decrease the number of parameters but also preserve information about the time relationships between the images.
+							By further modifying the traditional Convolutional LSTM, WeatherNet
 							was also able to take as input, not just images, but also the tabular weather sensor data. WeatherNet
 							was then trained to nowcast net radiation for 15, 30, 60, 75, and 90 minute horizon periods.
 					</p>
 
-					<h4 style="text-align:center">Diagram of WeatherNet</h4>
+
+					<figure>
 					<img src="images/weathernet_banner.png" class="image fit"/>
+					<figcaption> Diagram of WeatherNet</figcaption>
+				  </figure>
+					<p></p>
+
+					<h3>Experiments</h3>
+
+					<p>
+					&emsp; To test the informativeness of the ground- based sensor data for the task of nowcasting net radiation, three experiments were conducted.
+					<ol>
+					  <li>Nowcasting Net Radiation with Weather Sensor Data</li>
+					  <li>Nowcasting Net Radiation with Ground- Based Camera Data</li>
+					  <li>Nowcasting Net Radiation with Weather Sensors and Ground-Based Camera Data</li>
+					</ol>
+					These three experiments performed nowcasting of net radiation for a 15, 30, 45, 60, 75, and 90-minute horizon.
+					Data was collected from January to June of 2020 from the previously mentioned ground-based sensors, located on the
+					property of Argonne National Laboratory. The data from January to May was used to train the models,
+					while June's data was used for testing. The cumulative MSE and R2 for each experiment for different horizons
+					can be viewed in the plots below.
+					</p>
+
+					<figure>
+					<img src="images/wn_mse_plot.jpg" class="image fit"/>
+					<figcaption>Experiments MSE results</figcaption>
+					</figure>
 					<p></p>
 
 
-					<p>
-					&emsp; As mentioned, WeatherNet was trained to nowcast net radiation for 15, 30, 60, 75, and 90 minute horizon periods.
-					WeatherNet was able to nowcast net radiation at a high of eighty-percent accuracy for a fifteen-minute horizon and at a
-					low of seventy percent accuracy for a ninety minute horizon.
-					</p>
-
-					<h4 style="text-align:center">Results of Experiment</h4>
-					<style type="text/css">
-					.tg  {border-collapse:collapse;border-spacing:0;}
-					.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-					  overflow:hidden;padding:10px 5px;word-break:normal;}
-					.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-					  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-					.tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
-					</style>
-					<table class="tg">
-					<thead>
-					  <tr>
-					    <th class="tg-c3ow">Horizon (Minutes)</th>
-					    <th class="tg-c3ow">15</th>
-					    <th class="tg-c3ow">30</th>
-					    <th class="tg-c3ow">45</th>
-					    <th class="tg-c3ow">60</th>
-					    <th class="tg-c3ow">75</th>
-					    <th class="tg-c3ow">90</th>
-					  </tr>
-					</thead>
-					<tbody>
-					  <tr>
-					    <td class="tg-c3ow">Accuracy</td>
-					    <td class="tg-c3ow">0.87</td>
-					    <td class="tg-c3ow">0.83</td>
-					    <td class="tg-c3ow">0.81</td>
-					    <td class="tg-c3ow">0.76</td>
-					    <td class="tg-c3ow">0.76</td>
-					    <td class="tg-c3ow">0.70</td>
-					  </tr>
-					</tbody>
-					</table>
+					<figure>
+					<img src="images/wn_r2_plot.jpg" class="image fit"/>
+					<figcaption>Experiments R2 results</figcaption>
+					</figure>
+					<p></p>
 
 
-					<h3>Conclusion</h3>
+
+
+					<h3>Reflection and Conclusion</h3>
 					<p>
 					&emsp; Through the positive results obtained from the experiment, my hypothesis of being able
 					to gain useful data from ground-based sensors to perform
