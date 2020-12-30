@@ -1,1 +1,144 @@
-<h1> Under Construction :) </h1>
+<!DOCTYPE HTML>
+<!--
+   Read Only by HTML5 UP
+   html5up.net | @ajlkn
+   Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+   -->
+<html>
+
+<head>
+  <title>Enrique Nueve Blog</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<body class="is-preload">
+  <!-- Header -->
+  <section id="header">
+    <header>
+      <span class="image avatar"><img src="images/me_pic.jpg" alt="" /></span>
+      <h1 id="logo"><a href="index.html">Enrique Nueve</a></h1>
+      <p>ML Engineer and Aspiring Researcher</p>
+    </header>
+    <nav id="nav">
+      <ul>
+        <li><a href="index.html" class="active">Home</a></li>
+      </ul>
+    </nav>
+    <footer>
+      <ul class="icons">
+        <li><a href="https://github.com/EnriqueNueve" class="icon brands fa-github"><span class="label">Github</span></a></li>
+        <li><a href="https://www.linkedin.com/in/enrique-nueve-7a050115b/" class="icon brands fa-linkedin"><span class="label">linkedin</span></a></li>
+      </ul>
+    </footer>
+  </section>
+  <!-- Wrapper -->
+  <div id="wrapper">
+    <!-- Main -->
+    <div id="main">
+      <!-- One -->
+      <section id="one">
+        <div class="image main" data-position="center">
+          <img src="images/chicago_banner.jpg" alt="" />
+        </div>
+        <div class="container">
+          <header class="major">
+            <h2>Under Construction</h2>
+            <h2>Image Segmentation</h2>
+            <p> Winter 2020</p>
+          </header>
+          <br></br>
+
+          <h3>1. Intro</h3>
+          <p> &emsp; Deep Learning has many uses within Computer Vision, such as classification, filling,
+            optical flow, object detection, and image segmentation. In this post, I will be presenting
+            an overview of the task of image segmentation and how I went about creating a Deep Learning
+            model, specifically a Fully Convolutional Network with transfer learning over a ResNet, with
+            TensorFlow 2 to perform image segmentation.
+          </p>
+          <p></p>
+
+          <h3>2. Image Segmentation</h3>
+          <p> &emsp; A common first exercise for Deep Learning is to make a model perform image classification.
+            This includes building a model that can
+            take in an image and then output a one-hot vector, which
+            represents the model's belief of what type of object is within the image.
+            Although in practice this could be very useful, in some instances, it would
+            also, be informative to know where in the image the believed object is located.
+            For example, say you created a model to classify whether a boat is stranded in the ocean
+            based on satellite imagery. If the model alerted the Coast Guard that there was a
+            stranded boat but didn't show where the boat was located would, it would make it
+            infeasible to act upon such knowledge. Image segmentation addresses such a dilemma.
+          </p>
+          <p> &emsp; Image segmentation is the task of classifying each pixel in an image. Instead
+            of just saying whether a class is present in an image, it will try to predict which pixels
+            within the image belong to said class. Image segmentation is inherently more informative
+            to a practitioner than plain image classification, yet the task is more challenging in
+            several ways.
+          </p>
+          <p> &emsp; Since image segmentation is trying to predict the class of each pixel, the
+            training data requires that each pixel be classified within an image. This causes the task of creating a
+            training set to be a grueling process. To counter such challenges of making a dataset,
+            different tools and paid services exist that will either assist or perform data labeling.
+            Beyond the challenges of creating a dataset, it is also challenging to train a model given
+            that the size of the data is rather large. Each target value consists of a 2D matrix where
+            the entries correspond to a number that corresponds to the class the pixel belongs to. The
+            size of the data makes it necessary in most cases to use data loaders and optimized
+            file types for reading and writing, such as tf.Records from TensorFlow 2. Finally, it can be rather
+            challenging for Deep Learning models to converge. Given that
+            each pixel contributes an error value; the model can easily have the gradient
+            explosion or collapse occur.
+          </p>
+
+
+          <p></p>
+
+          <h3>3. Fully Convolutional Network (FCN)</h3>
+          <p> &emsp; The start.
+          </p>
+          <p></p>
+
+          <h3>4. VOC 2012 Dataset</h3>
+          <p> &emsp; The start.
+          </p>
+          <p></p>
+
+          <h3>5. Implementation</h3>
+          <p> &emsp; The start.
+          </p>
+          <figure>
+            <img src="images/sample_pred_fcn.png" class="image fit" />
+            <figcaption> Example of predicted mask (Thats my dog Mocha)</figcaption>
+          </figure>
+          <p></p>
+
+          <h3>6. Conclusion</h3>
+          <p>
+            The end.
+          </p>
+
+        </div>
+      </section>
+    </div>
+    <!-- Footer -->
+    <section id="footer">
+      <div class="container">
+        <ul class="copyright">
+          <li>&copy; Untitled. All rights reserved.</li>
+          <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+  <!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/jquery.scrolly.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>
