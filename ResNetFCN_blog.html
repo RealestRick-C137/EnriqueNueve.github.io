@@ -45,21 +45,21 @@
         <div class="container">
           <header class="major">
             <h2>Under Construction</h2>
-            <h2>Image Segmentation</h2>
+            <h2>Semantic Segmentation</h2>
             <p> Winter 2020</p>
           </header>
           <br></br>
 
           <h3>1. Intro</h3>
           <p> &emsp; Deep Learning has many uses within Computer Vision, such as classification, filling,
-            optical flow, object detection, and image segmentation. In this post, I will be presenting
-            an overview of the task of image segmentation and how I went about creating a Deep Learning
+            optical flow, object detection, and semantic segmentation. In this post, I will be presenting
+            an overview of the task of semantic segmentation and how I went about creating a Deep Learning
             model, specifically a Fully Convolutional Network with transfer learning over a ResNet, with
-            TensorFlow 2 to perform image segmentation.
+            TensorFlow 2 to perform semantic segmentation.
           </p>
           <p></p>
 
-          <h3>2. Image Segmentation</h3>
+          <h3>2. Semantic Segmentation</h3>
           <p> &emsp; A common first exercise for Deep Learning is to make a model perform image classification.
             This includes building a model that can
             take in an image and then output a one-hot vector, which
@@ -69,15 +69,15 @@
             For example, say you created a model to classify whether a boat is stranded in the ocean
             based on satellite imagery. If the model alerted the Coast Guard that there was a
             stranded boat but didn't show where the boat was located would, it would make it
-            infeasible to act upon such knowledge. Image segmentation addresses such a dilemma.
+            infeasible to act upon such knowledge. Semantic segmentation addresses such a dilemma.
           </p>
-          <p> &emsp; Image segmentation is the task of classifying each pixel in an image. Instead
+          <p> &emsp; Semantic segmentation is the task of classifying each pixel in an image. Instead
             of just saying whether a class is present in an image, it will try to predict which pixels
             within the image belong to said class. Image segmentation is inherently more informative
             to a practitioner than plain image classification, yet the task is more challenging in
             several ways.
           </p>
-          <p> &emsp; Since image segmentation is trying to predict the class of each pixel, the
+          <p> &emsp; Since semantic segmentation is trying to predict the class of each pixel, the
             training data requires that each pixel be classified within an image. This causes the task of creating a
             training set to be a grueling process. To counter such challenges of making a dataset,
             different tools and paid services exist that will either assist or perform data labeling.
@@ -95,8 +95,25 @@
           <p></p>
 
           <h3>3. Fully Convolutional Network (FCN)</h3>
-          <p> &emsp; The start.
+          <p> &emsp; To perform semantic segmentation, I went about using a model called a Fully Convolutional Network (FCN) [1].
+            FCNs take in as input an image; this could be
+            a grayscale (width x height x 1) or color (width x height x 3) image, and then outputs
+            a 3D tensor (width x height x class) which expresses the prediction of each pixel's respective
+            class. This is done by first sending the input image through a series of convolutional layers and
+            then through a series of convolutional transposed layers that upscale the dimensionality of data
+            back to the original width and height of the input but with a depth of the number of target classes.
+            For those unfamiliar with the idea of convolutional transposed layers, it may be confusing how you could
+            increase the dimensionality of the output of a convolutional layer. To help build some intuition to how
+            convolutional transposed layers work, let's go over a numerical example.
           </p>
+          <h4>3a. Transposed Convolutions</h4>
+          <p>
+
+          </p>
+          <figure>
+            <img src="images/fcn_diagram.jpg" class="image fit" />
+            <figcaption> FCN diagram from [1]</figcaption>
+          </figure>
           <p></p>
 
           <h3>4. VOC 2012 Dataset</h3>
@@ -117,6 +134,13 @@
           <p>
             The end.
           </p>
+
+          <p>
+            <h5> Citations </h5>
+            [1] Long, Jonathan, Evan Shelhamer, and Trevor Darrell. "Fully convolutional networks for semantic segmentation."
+            Proceedings of the IEEE conference on computer vision and pattern recognition. 2015.
+          </p>
+
 
         </div>
       </section>
