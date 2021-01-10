@@ -112,15 +112,51 @@
           </figure>
 
           <h4>3a. Convolutions</h4>
+          <p>
+            &emsp;At the beginning of the FCN, you initially pass an input image through a series of Convolutional layers.
+            Each of the Convolutional layers have kernels which are trainable parameters. Intuitively, the kernel scans across each
+            row of the input image and outputs a value from each distinct position the kernel passes over. Although
+            the layer is called a Convolutional layer, the operation is actually the cross-correlation function. The cross-correlation
+            and a convolution act the same within a neural network due to trainable parameters; however,
+            from a purely mathematical definition, they are different.
+            To learn more about how convolutions are used for Convolutional networks, I would refer
+            to this <a href="https://www.deeplearningbook.org/contents/convnets.html">chapter</a> from the book
+            called Deep Learning (yes, the name of the book is Deep Learning). The cross-correlation function
+            is expressed by the formula below.
+          </p>
+          <figure>
+            <img src="images/cross_corr_formula.png" class="image fit" />
+            <figcaption> Convolution (Cross-Correlation) formula</figcaption>
+          </figure>
+          The formula expresses how to compute a value for a single location, S(i,j), between K, the kernel, and I,
+          the input value. In essence, the formula states to multiply each value of the kernel with the value of
+          the input in which it overlaps. Then, sum up all of the computed values between the kernel and the distinct
+          location on the input. This total value expresses the output for a location between the kernel and input.
+          Although somewhat abstract, this idea can be further expressed by taking a
+          look at the visual below, which shows a cross-correlation operation between a kernel and an input value.
+          Between using the formula and the diagram below, try to see how the outputted values are constructed.
+          Overall, there are many technicalities when implementing a Convluitional network, and by no means does
+          this summarize the operation. This except is just to provide intuition in order to understand the FCN.
+          As before, I recommend reading
+          the following <a href="https://www.deeplearningbook.org/contents/convnets.html">chapter</a> from the book
+          called Deep Learning.
           <figure>
             <img src="images/conv_pic.png" class="image fit" />
-            <figcaption> Convolution (Cross-function) example</figcaption>
+            <figcaption> Convolution (Cross-Correlation) example</figcaption>
           </figure>
-          <p>
 
-          </p>
+
 
           <h4>3b. Transposed Convolutions</h4>
+          Through using Convolutional layers, the model is able to shrink the input but, also, like any other neural network,
+          is able to perform feature engineering on the input as it goes through layers. Recall, the kernel from the
+          convolutional layers are trainable parameters. Therefore, after passing the input through a series of Convultinal Layers, a 
+          new smaller feature enhanced representation exist. This enhanced feature representation, the output from the
+          Convolutional layers is sometimes referred to as a Feature Map within Deep Learning Computer Vison literature. However, since
+          our task is semantic segmentation, which means we want to output a grid of the same size as our input where each value
+          in the grid corresponds to the class of each pixel from the original input image, we have an issue since our new
+          representation of the data is now smaller than it originally was.
+
           <figure>
             <img src="images/trans_conv_pic.png" class="image fit" />
             <figcaption> Transposed Convolution example </figcaption>
