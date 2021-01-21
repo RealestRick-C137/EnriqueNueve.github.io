@@ -51,17 +51,19 @@
           <br></br>
 
           <h3>1. Intro</h3>
-          <p> &emsp; Deep Learning has many uses within Computer Vision, such as classification, filling,
-            optical flow, object detection, and semantic segmentation. In this post, I will be presenting
-            an overview of the task of semantic segmentation and how I went about creating a Deep Learning
-            model, specifically a Fully Convolutional Network with transfer learning over a ResNet, with
+          <p> &emsp; Deep Learning has many uses within Computer Vision,
+            such as classification, image inpainting, optical flow, object detection,
+            and semantic segmentation. In this post, I will be presenting
+            an overview of the task of semantic segmentation and how I went
+            about creating a Deep Learning model, specifically a Fully
+            Convolutional Network with transfer learning using a ResNet, with
             TensorFlow 2 to perform semantic segmentation.
           </p>
           <p></p>
 
           <h3>2. Semantic Segmentation</h3>
-          <p> &emsp; A common first exercise for Deep Learning is to make a model perform image classification.
-            This includes building a model that can
+          <p> &emsp; A common first exercise for Deep Learning is to make a model
+            perform image classification. This includes building a model that can
             take in an image and then output a one-hot vector, which
             represents the model's belief of what type of object is within the image.
             Although in practice this could be very useful, in some instances, it would
@@ -72,7 +74,7 @@
             infeasible to act upon such knowledge. Semantic segmentation addresses such a dilemma.
           </p>
           <p> &emsp; Semantic segmentation is the task of classifying each pixel in an image. Instead
-            of just saying whether a class is present in an image, it will try to predict which pixels
+            of just saying whether a class is present in an image, the model will try to predict which pixels
             within the image belong to said class. Image segmentation is inherently more informative
             to a practitioner than plain image classification, yet the task is more challenging in
             several ways.
@@ -80,7 +82,7 @@
           <p> &emsp; Since semantic segmentation is trying to predict the class of each pixel,
             the training data requires that each pixel be classified within an image. This causes the task of creating a
             training set to be a grueling process. To counter such challenges of making a dataset,
-            different tools, and paid services exist that will either assist or perform data labeling.
+            different tools, and paid services exist that will either assist in data labeling.
             Beyond the challenges of creating a dataset, it is also challenging to train a model given
             that the size of the data is rather large. Each target value consists of a 2D matrix where the
             entries correspond to a number that corresponds to the class the pixel belongs to. The
@@ -88,24 +90,24 @@
             file types for reading and writing, such as tf.Records from TensorFlow 2. Finally, it can be rather
             challenging for Deep Learning models to converge. Given that
             each pixel contributes an error value; the model can easily have the gradient
-            explosion or collapse occur.
+            explode or collapse.
           </p>
 
 
           <p></p>
 
           <h3>3. Fully Convolutional Network (FCN)</h3>
-          <p> &emsp; To perform semantic segmentation, I went about using a model called a Fully Convolutional Network (FCN) [1].
+          <p> &emsp; I went about using a model called a Fully Convolutional Network (FCN) [1] to perform semantic segmentation.
             FCNs take in as input an image; this could be
             a grayscale (width x height x 1) or color (width x height x 3) image, and then outputs
-            a 3D tensor (width x height x class) which expresses the prediction of each pixel's respective
-            class. This is done by first sending the input image through a series of convolutional layers and
-            then through a series of convolutional transposed layers that upscale the dimensionality of data
+            a 3D tensor (width x height x number_class) which expresses the prediction of each pixel's respective
+            class. This is done by first sending the input image through a series of Convolutional layers and
+            then through a series of Convolutional Transposed layers that upscale the dimensionality of data
             back to the original width and height of the input but with a depth of the number of target classes.
-            For those unfamiliar with the idea of convolutional transposed layers, it may be confusing how
-            you could increase the dimensionality of the output of a convolutional layer. To help build some intuition to how
-            convolutional transposed layers work, I provide some more information and visuals on convolutions
-            and transposed convolutions.
+            For those unfamiliar with the idea of Convolutional Transposed layers, it may be confusing how you
+            could increase the dimensionality of the output of a convolutional layer. To help build some intuition to how
+            Convolutional Transposed layers work, I provide some more information and visuals on Convolutions
+            and Transposed Convolutions.
           </p>
           <figure>
             <img src="images/fcn_diagram.jpg" class="image fit" />
@@ -115,29 +117,25 @@
           <h4>3a. Convolutions</h4>
           <p>
             &emsp;At the beginning of the FCN, you initially pass an input image through a series of Convolutional layers.
-            Each of the Convolutional layers have kernels which are trainable parameters. Intuitively, the kernel
-            scans across each row of the input image and outputs a value from each distinct position the kernel passes over.
-            Although the layer is called a Convolutional layer, the operation is actually the cross-correlation function. The cross-correlation
-            and a convolution act the same within a neural network due to trainable parameters; however,
+            Each of the Convolutional layers have kernels that are trainable parameters. Intuitively, the kernel
+            scans across each row of the input image and output a value from each distinct position the kernel passes over.
+            Although the layer is called a Convolutional layer, the operation is actually the Cross-Correlation function. Cross-Correlation
+            and a Convolution act the same within a neural network due to trainable parameters; however,
             from a purely mathematical definition, they are different.
-            To learn more about how convolutions are used for Convolutional networks, I would refer to
+            To learn more about how Convolutions are used for Convolutional networks, I would refer to
             this <a href="https://www.deeplearningbook.org/contents/convnets.html">chapter</a> from the book called
-            Deep Learning (yes, the name of the book is Deep Learning). The cross-correlation function
-            is expressed by the formula below.
+            Deep Learning (yes, the name of the book is Deep Learning). The Cross-Correlation function is expressed by the formula below.
           </p>
           <figure>
             <img src="images/cross_corr_formula.png" class="image fit" />
             <figcaption> Convolution (Cross-Correlation) formula</figcaption>
           </figure>
           The formula expresses how to compute a value for a single location, S(i,j), between K, the kernel, and I,
-          the input value. In essence, the formula states to multiply each value of the kernel with the value of the
-          input in which it overlaps. Then, sum up all of the computed values between the kernel and the distinct location on
-          the input. This total value expresses the output for a location between the kernel and input.
+          the input value. In essence, the formula states to multiply each value of the kernel with the value of the input in which it overlaps. Then, sum up all of the computed values between the kernel and the distinct location on the input. This total value expresses the output for a location between the kernel and input.
           Although somewhat abstract, this idea can be further expressed by taking a
           look at the visual below, which shows a cross-correlation operation between a kernel and an input value.
           Between using the formula and the diagram below, try to see how the outputted values are constructed.
-          Overall, there are many technicalities when implementing a Convluitional network, and by no means does this
-          summarize the operation. This except is just to provide intuition in order to understand the FCN.
+          Overall, there are many technicalities when implementing a Convolutional network, and by no means does this summarize the operation. This except is just to provide intuition in order to understand the FCN.
           As before, I recommend reading
           the following <a href="https://www.deeplearningbook.org/contents/convnets.html">chapter</a> from the book
           called Deep Learning.
@@ -152,7 +150,7 @@
           is able to perform feature engineering on the input as it goes through layers. Recall, the kernel from the Convolutional
           Layers are trainable parameters. Therefore, after passing the input through a series of Convolutional Layers, a
           new smaller feature enhanced representation exist. This enhanced feature representation, the output from the
-          Convolutional layers is sometimes referred to as a Feature Map within Deep Learning Computer Vison literature. However, since
+          Convolutional layers are sometimes referred to as a Feature Map within Deep Learning Computer Vison literature. However, since
           our task is semantic segmentation, which means we want to output a grid of the same size as our input where each value
           in the grid corresponds to the class of each pixel from the original input image, we have an issue since our new
           representation of the data is now smaller than it originally was. To rescale the feature map so the original dimensions
@@ -164,7 +162,7 @@
           by corresponding every individual index of the feature map to multiple indexes corresponding to the kernel's size.
           A demonstration of a transposed convolution is shown below, where a 2x2 input (named x1) is scaled up to the size of 3x3.
           By combining Convolutional layers to extract informative features from the data and then
-          using transposed convolutions to rescale the compressed input to express what class each pixel belongs too,
+          using Transposed Convolutions to rescale the compressed input to express what class each pixel belongs too,
           FCNs are able to perform semantic segmentation.
           </p>
 
@@ -174,27 +172,30 @@
           </figure>
 
           <h3>4. VOC 2012 Dataset</h3>
-          <p> &emsp; To explore the task of image segmentation, I sought to implement a Deep Learning model to perform image segmentation. To train a model for image segmentation, I used the VOC 2012 dataset.
+          <p> &emsp; To explore the task of semantic segmentation, I sought to implement a Deep Learning model
+            to perform semantic segmentation. To train a model for semantic segmentation, I used the VOC 2012 dataset.
             This dataset consists of the following 20 different classes: person, bird, cat, cow, dog, horse, sheep,
             aeroplane, bicycle, boat, bus, car, motorbike, train, bottle, chair, dining table, potted plant, sofa,
-            and tv/monitor. The particular version of the dataset I used had 1000 images for training and 1000 images for validation. To learn more about the dataset or to download it yourself,
+            and tv/monitor. The particular version of the dataset I used had 1000 images for training and
+            1000 images for validation. To learn more about the dataset or to download it yourself,
             <a href="http://host.robots.ox.ac.uk/pascal/VOC/voc2012/" > click here</a>.
           </p>
           <p></p>
 
           <h3>5. Implementation</h3>
-          <p> &emsp; As mentioned, I used a model called a Fully Convolutional Network (FCN) to perform
-            image segmentation. The model compresses and extracts informative features using
-            Convolutional Layers and then rescales the compressed representation of the data
-            using Transposed Conlvitons to the original size of the input to predict each pixel's
-            respective classes. To implement the FCN, I used TensorFlow2.
+          <p> &emsp; As mentioned, I used a model called a Fully Convolutional Network (FCN)
+            to perform semantic segmentation. The model compresses and extracts informative
+            features using Convolutional layers and then rescales the compressed
+            representation of the data using Transposed Convolutions to the input's
+            original size to predict each pixel's respective classes. To implement the FCN,
+            I used TensorFlow2.
           </p>
           <p> &emsp; Keras, within TensorFlow2, has easy to use layer implementations of
             Convolutional and Transposed Convolutional layers. Through stacking a series of
             Convolutional layers and Transposed Convolutional layers, an FCN can be easily made.
-            Like most Conventional networks, I placed Max Pooling, Batch Normalization, and Noise
-            layers in between different layers to help regulate the network. I also used transfer learning
-            with a ResNet before passing the input into the FCN. This was done due to increasing the
+            Like most Convolutional networks, I placed Max Pooling, Batch Normalization, and Noise
+            layers in between different layers to help regulate the network. I also used transfer
+            learning with a ResNet before passing the input into the FCN. This was done due to increasing the
             performance of the model considering the training set only consisted of 1000 samples.
             Below is the code for the model class.
           </p>
@@ -288,7 +289,7 @@ class ResNetFCN(tf.keras.Model):
              on my repo on how to download the trained model, and placed the model within the ResNetFCN_app; the model
              is "easy" to use in "deployment." All you have to do is run the bash file within ResNetFCN_app
              called ResNetFCN_App.sh and pass it a flag of a path to an image you would like to perform image segmentation on.
-            For example, I used the docker contained of the ResNetFCN model to perform image segmentation of a picture
+            For example, I used the docker container of the ResNetFCN model to perform image segmentation of a picture
             of my dog.
           <p>
 
@@ -297,8 +298,9 @@ class ResNetFCN(tf.keras.Model):
 ./ResNetFCN_App.sh test_pic.jpg
 </code></pre>
 
-          <p> This outputs within a folder named output within the folder ResNetFCN_App a masked image
-            with correpsonding labels for each mask color. This is shown in the image below.
+          <p> This outputs within a folder named output within the folder ResNetFCN_App a
+            masked image with corresponding labels for each mask color. This is shown in the
+            image below.
           </p>
 
 
@@ -310,15 +312,15 @@ class ResNetFCN(tf.keras.Model):
 
           <h3>6. Conclusion</h3>
           <p>
-            Through this article, I presented a high-level overview of using Deep Learning for image segmentation.
+            Through this article, I presented a high-level overview of using Deep Learning for semantic segmentation.
             I recommend reading the original paper of the FCN by the name of
             "Fully convolutional networks for semantic segmentation" to get further insight into this model [1].
             By no means was the performance of my model state of the art; my model was far too simplistic.
-            Industrial models that use image segmentation for tasks such as
+            Industrial models that use semantic segmentation for tasks such as
             scene detection for self-driving cars use millions of samples, yet some of the same
             underlying principles, as shown in this post. I hope this post and corresponding code on
             my GitHub can provide a hand in your implementation of a Deep Learning model for the task
-            of image segmentation.
+            of semantic segmentation.
           </p>
 
           <p>
