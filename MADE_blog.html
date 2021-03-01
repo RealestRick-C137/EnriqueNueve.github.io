@@ -57,14 +57,35 @@
             provide insight into the probability of a sample but also can be used
             in more direct applications such as classification, denoising, missing input
             imputation, and data synthesis. In this post, a density estimation method by the name
-            of MADE, Masked Autoencoder for Density Estimation is examined along with a code
+            of MADE (Masked Autoencoder for Density Estimation) is examined along with a code
             implementation in Tf2.
           </p>
           <p></p>
 
-          <h3>2. Section 2 </h3>
-          <p> &emsp; Demo link
-            <a href="http://host.robots.ox.ac.uk/pascal/VOC/voc2012/" > click here</a>.
+          <h3>2. Autoregressive Property </h3>
+          <p> &emsp; MADE is built around the chain rule of probabity. The chain rule
+            of probability states that a joint probability distribution can be expressed
+            by an expansion of its conditional distributions in the following form expressed
+            by the equation below.
+            <figure>
+              <img src="images/made_images/eq1.png" class="image fit" />
+              <figcaption> Chain Rule of Probability </figcaption>
+            </figure>
+          </p>
+          <p> &emsp; If an autoencoder was able to output the individual pieces of
+            an expanded joint probability distribution in the form of the chain
+            rule of probability, optimizing cross-entropy, assuming the input space is
+            over binary values, leads to minimizing the negative log-likelihood.
+            Thus, allowing an autoencoder to perform density estimation. MADE
+            does just that, learns the individual components of an expanded joint
+            probability distribution in the form of the chain rule of probability.
+            This is possible by applying a series of masks to the weight layers of
+            the autoencoder such that the connections properly follow the
+            conditional distribution constraints of the chain rule of probability.
+            <figure>
+              <img src="images/made_images/eq2.png" class="image fit" />
+              <figcaption> Loss Function of MADE </figcaption>
+            </figure>
           </p>
           <p></p>
 
