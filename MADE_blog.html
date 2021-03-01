@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<!--
+   Read Only by HTML5 UP
+   html5up.net | @ajlkn
+   Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+   -->
+<html>
+
+<head>
+  <title>Enrique Nueve Blog</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<body class="is-preload">
+  <!-- Header -->
+  <section id="header">
+    <header>
+      <span class="image avatar"><img src="images/me_pic.jpg" alt="" /></span>
+      <h1 id="logo"><a href="index.html">Enrique Nueve</a></h1>
+      <p>ML Engineer and Aspiring Researcher</p>
+    </header>
+    <nav id="nav">
+      <ul>
+        <li><a href="index.html" class="active">Home</a></li>
+      </ul>
+    </nav>
+    <footer>
+      <ul class="icons">
+        <li><a href="https://github.com/EnriqueNueve" class="icon brands fa-github"><span class="label">Github</span></a></li>
+        <li><a href="https://www.linkedin.com/in/enrique-nueve-7a050115b/" class="icon brands fa-linkedin"><span class="label">linkedin</span></a></li>
+      </ul>
+    </footer>
+  </section>
+  <!-- Wrapper -->
+  <div id="wrapper">
+    <!-- Main -->
+    <div id="main">
+      <!-- One -->
+      <section id="one">
+        <div class="image main" data-position="center">
+          <img src="images/chicago_banner.jpg" alt="" />
+        </div>
+        <div class="container">
+          <header class="major">
+            <h2>Review of MADE</h2>
+            <p> Spring 2021</p>
+          </header>
+          <br></br>
+
+          <h3>1. Intro</h3>
+          <p> &emsp; Deep Learning has many uses within Computer Vision,
+            such as classification, image inpainting, optical flow, object detection,
+            and semantic segmentation. In this post, I will be presenting
+            an overview of the task of semantic segmentation and how I went
+            about creating a Deep Learning model, specifically a Fully
+            Convolutional Network with transfer learning using a ResNet, with
+            TensorFlow 2 to perform semantic segmentation.
+          </p>
+          <p></p>
+
+          <h3>4. VOC 2012 Dataset</h3>
+          <p> &emsp; To explore the task of semantic segmentation, I sought to implement a Deep Learning model
+            to perform semantic segmentation. To train a model for semantic segmentation, I used the VOC 2012 dataset.
+            This dataset consists of the following 20 different classes: person, bird, cat, cow, dog, horse, sheep,
+            aeroplane, bicycle, boat, bus, car, motorbike, train, bottle, chair, dining table, potted plant, sofa,
+            and tv/monitor. The particular version of the dataset I used had 1000 images for training and
+            1000 images for validation. To learn more about the dataset or to download it yourself,
+            <a href="http://host.robots.ox.ac.uk/pascal/VOC/voc2012/" > click here</a>.
+          </p>
+          <p></p>
+
+          <h3>5. Implementation</h3>
+          <p> &emsp; As mentioned,
+          </p>
+
+<pre><code>
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+from tensorflow.keras import Model
+from tensorflow.keras import regularizers
+
+class ResNetFCN(tf.keras.Model):
+  """FCN for VOC2012 with ResNet for Transfer Learning."""
+      def __init__(self,input_shape=(320, 224, 3), **kwargs):
+          super(ResNetFCN, self).__init__(**kwargs)
+          self.model = self.getModel(input_shape)
+</code></pre>
+
+
+
+          <figure>
+            <img src="images/sample_pred_fcn.png" class="image fit" />
+            <figcaption> Example of predicted mask (That's my dog Mocha)</figcaption>
+          </figure>
+          <p></p>
+
+          <h3>6. Conclusion</h3>
+          <p>
+
+          </p>
+
+          <p>
+            <h5> Citations </h5>
+            [1] Germain, Mathieu, et al. "Made: Masked autoencoder for distribution estimation."
+            International Conference on Machine Learning. PMLR, 2015.
+          </p>
+
+
+        </div>
+      </section>
+    </div>
+    <!-- Footer -->
+    <section id="footer">
+      <div class="container">
+        <ul class="copyright">
+          <li>&copy; Untitled. All rights reserved.</li>
+          <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+  <!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/jquery.scrolly.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>
