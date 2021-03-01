@@ -50,30 +50,23 @@
           <br></br>
 
           <h3>1. Intro</h3>
-          <p> &emsp; Deep Learning has many uses within Computer Vision,
-            such as classification, image inpainting, optical flow, object detection,
-            and semantic segmentation. In this post, I will be presenting
-            an overview of the task of semantic segmentation and how I went
-            about creating a Deep Learning model, specifically a Fully
-            Convolutional Network with transfer learning using a ResNet, with
-            TensorFlow 2 to perform semantic segmentation.
+          <p> &emsp; A key task in machine learning is density estimation.
+            Density estimation is the process of estimating from a set of samples
+            the underlying distribution of the data. Density estimation can
+            provide insight into the probability of a sample but also can be used
+            in more direct applications such as classification, denoising, missing input
+            imputation, and data synthesis. In this post, a density estimation method by the name
+            of MADE, Masked Autoencoder for Density Estimation is examined along with a code
+            implementation in Tf2. 
           </p>
           <p></p>
 
-          <h3>4. VOC 2012 Dataset</h3>
-          <p> &emsp; To explore the task of semantic segmentation, I sought to implement a Deep Learning model
-            to perform semantic segmentation. To train a model for semantic segmentation, I used the VOC 2012 dataset.
-            This dataset consists of the following 20 different classes: person, bird, cat, cow, dog, horse, sheep,
-            aeroplane, bicycle, boat, bus, car, motorbike, train, bottle, chair, dining table, potted plant, sofa,
-            and tv/monitor. The particular version of the dataset I used had 1000 images for training and
-            1000 images for validation. To learn more about the dataset or to download it yourself,
+          <h3>2. Section 2 </h3>
+          <p> &emsp; Demo link
             <a href="http://host.robots.ox.ac.uk/pascal/VOC/voc2012/" > click here</a>.
           </p>
           <p></p>
 
-          <h3>5. Implementation</h3>
-          <p> &emsp; As mentioned,
-          </p>
 
 <pre><code>
 import tensorflow as tf
