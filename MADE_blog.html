@@ -79,15 +79,39 @@
             Thus, allowing an autoencoder to perform density estimation. MADE
             does just that, learns the individual components of an expanded joint
             probability distribution in the form of the chain rule of probability.
+            This is refered to as the autoregressive property.
             This is possible by applying a series of masks to the weight layers of
             the autoencoder such that the connections properly follow the
             conditional distribution constraints of the chain rule of probability.
+
             <figure>
               <img src="images/made_images/eq2.png" class="image fit" />
               <figcaption> Loss Function of MADE </figcaption>
             </figure>
+
+            As can be seen by the loss function, applying the exponential function
+            to both sides leads to being able to calculate the probability
+            of an input sample x.
+
+            <figure>
+              <img src="images/made_images/eq3.png" class="image fit" />
+              <figcaption> Probability of a Sample </figcaption>
+            </figure>
           </p>
+
           <p></p>
+
+          <h3>3. MADE </h3>
+          <p> &emsp; To allow an autoencoder to express the autoregressive property, allowing
+            for density estimation, a series of mask can be used to enforce the needed
+            conditional properties of the chain rule.
+
+            <figure>
+              <img src="images/made_images/eq4.png" class="image fit" />
+              <figcaption> Masked Layers of MADE </figcaption>
+            </figure>
+
+          </p>
 
 
 <pre><code>
