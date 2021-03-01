@@ -104,12 +104,33 @@
           <h3>3. MADE </h3>
           <p> &emsp; To allow an autoencoder to express the autoregressive property, allowing
             for density estimation, a series of mask can be used to enforce the needed
-            conditional properties of the chain rule.
+            conditional properties of the chain rule. The hidden layers follow a
+            set of rules to make the mask while the last output layer
+            follows its own equation to make its mask. The equations for the layers
+            and the how to make the mask for each layer is shown below.
 
             <figure>
               <img src="images/made_images/eq4.png" class="image fit" />
+              <figcaption> Layers of MADE </figcaption>
+            </figure>
+            <figure>
+              <img src="images/made_images/eq5.png" class="image fit" />
               <figcaption> Masked Layers of MADE </figcaption>
             </figure>
+          </p>
+          <p> &emsp; To decide on the path of the connections within the mask,
+            the paper of MADE states to first randomly number each input node uniquely between 1
+            and the number of nodes. Each assigned number acts as an indicator of how the conditioning
+            distributions will be express through the network and masks. The paper of MADE suggests that
+            during training and validation, to use a different configuration of masks for each mini-batch
+            in order to make the model agnostic to the true ordering of how the random variables are
+            actually conditioned upon each other. During validation, it recommends passing a sample through
+             MADE multiple times with different masks and then taking an average of the predictions to estimate
+              the true probability of the sample emulating an ensemble model. However, during the experiment portion of the paper,
+            the author retracts, saying to only use a fixed number of masks configuration during training; otherwise,
+             the model fails to converge. For example, during an
+            experiment in the paper on the binarized mnist dataset, the paper tries between
+            8 to 64 masks.
 
           </p>
 
