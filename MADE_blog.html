@@ -45,7 +45,6 @@
         <div class="container">
           <header class="major">
             <h2>Review of MADE</h2>
-            <h2>Under Construction</h2>
             <p> Spring 2021</p>
           </header>
           <br></br>
@@ -57,31 +56,32 @@
             provide insight into the probability of a sample but also can be used
             in more direct applications such as classification, denoising, missing input
             imputation, and data synthesis. In this post, a density estimation method by the name
-            of MADE (Masked Autoencoder for Density Estimation) is examined along with a code
-            implementation in Tf2.
+            of MADE (Masked Autoencoder for Density Estimation)[1] is examined. A code implementation
+            of MADE in Tf2 is also provided.
           </p>
           <p></p>
 
           <h3>2. Autoregressive Property </h3>
-          <p> &emsp; MADE is built around the chain rule of probabity. The chain rule
+          <p> &emsp; MADE is built around the chain rule of probability. The chain rule
             of probability states that a joint probability distribution can be expressed
             by an expansion of its conditional distributions in the following form expressed
             by the equation below.
+
             <figure>
               <img src="images/made_images/eq1.png" class="image fit" />
               <figcaption> Chain Rule of Probability </figcaption>
             </figure>
           </p>
           <p> &emsp; If an autoencoder was able to output the individual pieces of
-            an expanded joint probability distribution in the form of the chain
-            rule of probability, optimizing cross-entropy, assuming the input space is
-            over binary values, leads to minimizing the negative log-likelihood.
+            expanded joint probability distribution in the form of the chain rule of
+            probability, optimizing cross-entropy, assuming, the input space is over
+            binary values, leads to minimizing the negative log-likelihood.
             Thus, allowing an autoencoder to perform density estimation. MADE
-            does just that, learns the individual components of an expanded joint
+            does just that. MADE learns the individual components of an expanded joint
             probability distribution in the form of the chain rule of probability.
-            This is refered to as the autoregressive property.
-            This is possible by applying a series of masks to the weight layers of
-            the autoencoder such that the connections properly follow the
+            This is referred to as the autoregressive property.
+            This is possible by applying a series of masks to the weight layers
+            of the MADE such that the connections properly follow the
             conditional distribution constraints of the chain rule of probability.
 
             <figure>
@@ -89,7 +89,7 @@
               <figcaption> Loss Function of MADE </figcaption>
             </figure>
 
-            As can be seen by the loss function, applying the exponential function
+            As can be seen, by the loss function, applying the exponential function
             to both sides leads to being able to calculate the probability
             of an input sample x.
 
@@ -102,12 +102,10 @@
           <p></p>
 
           <h3>3. MADE </h3>
-          <p> &emsp; To allow an autoencoder to express the autoregressive property, allowing
-            for density estimation, a series of mask can be used to enforce the needed
-            conditional properties of the chain rule. The hidden layers follow a
-            set of rules to make the mask while the last output layer
-            follows its own equation to make its mask. The equations for the layers
-            and the how to make the mask for each layer is shown below.
+          <p> &emsp; To allow an autoencoder to express the autoregressive property, allowing for density estimation,
+            a series of mask can be used to enforce the needed conditional properties of the chain rule. The hidden layers follow a
+            set of rules to make the mask, while the last output layer follows its own equation to make its mask.
+            The equations for the layers and how to make the mask for each layer is discussed further below.
 
             <figure>
               <img src="images/made_images/eq4.png" class="image fit" />
@@ -121,43 +119,281 @@
           <p> &emsp; To decide on the path of the connections within the mask,
             the paper of MADE states to first randomly number each input node uniquely between 1
             and the number of nodes. Each assigned number acts as an indicator of how the conditioning
-            distributions will be express through the network and masks. The paper of MADE suggests that
+            distributions will be expressed through the network and masks. The paper of MADE suggests that
             during training and validation, to use a different configuration of masks for each mini-batch
             in order to make the model agnostic to the true ordering of how the random variables are
             actually conditioned upon each other. During validation, it recommends passing a sample through
-             MADE multiple times with different masks and then taking an average of the predictions to estimate
-              the true probability of the sample emulating an ensemble model. However, during the experiment portion of the paper,
-            the author retracts, saying to only use a fixed number of masks configuration during training; otherwise,
+             MADE multiple times with different masks and then taking an average of the predictions
+             to estimate the probability of the sample. However, during the experiment portion of the paper,
+            the author retracts, saying only to use a fixed number of masks configuration during training; otherwise,
              the model fails to converge. For example, during an
-            experiment in the paper on the binarized mnist dataset, the paper tries between
+            an experiment in the paper on the binarized mnist dataset, the paper tries between
             8 to 64 masks.
+          </p>
 
+          <p> Upon initially reading the paper, I found the scheme used to decide on how the mask were constructed
+            to not be that clear. The concept of how the masks are made in my opinion, does transfer well to words or
+            equations. For myself, observing an animation gave the intuition of how the masks are made,
+            and then after, the equations and description within the paper made much more sense. I recommend
+            watching this <a href="https://www.youtube.com/watch?v=7q4ueFiJjAY&t=1s">video</a> in which
+            provides a visual of how the masks are constructed. However, this video does not talk about a
+            portion of the paper in which the authors propose a further extension to MADE.
+          </p>
+
+          <p> &emsp; The paper of MADE proposes two more methods by the name of output
+            with direct connections and conditioning weights to further improve MADE.
+            Output with direct connections is suggested due to a previous work which
+            found this method favorable. The paper of MADE does not, in my opinion, give
+            anywhere near enough information to express why this is so. They leave that
+            open to a citation to previous work. I personally did not incorporate this
+            extension in my implementation. The paper also expresses a method called
+            conditioning weights. Conditioning weights are proposed so that the model can
+            take into account the specific connections with respect to a given mask.
+            I did proceed to incorporate conditioning weights into my implementation
+            The formulas for the output with direct connections and conditioning
+            weights are listed below.
+
+            <figure>
+              <img src="images/made_images/eq6.png" class="image fit" />
+              <figcaption> Extensions of MADE </figcaption>
+            </figure>
+          </p>
+
+          <h3>4. Implementation</h3>
+
+          <p> &emsp; Upon looking at code implementations of MADE, by far, most of them were made
+            with PyTorch. Although I believe PyTorch to be a well-made framework, I personally use
+            TensorFlow and thus went ahead and implemented MADE using TensorFlow 2. Although I
+            use TensorFlow on a weekly, sometimes daily basis, I had a rather hard time implementing MADE.
+          </p>
+
+          <p> &emsp; The unique aspect of implementing MADE comes with how you construct the masks and
+            how they are applied. Certain design choices such as how/when the masks are made can lead to
+            memory overload or extremely slow performance. I found that using a
+            double for loop to assign each value to the masks caused an extremely large amount of time.
+            I also tried creating the masks using multi processes within Python yet,
+            that also led to issues of re-ordering the mask. I found that using a function from numpy
+            for assing values based on conditions of greater or less than allowed for extremely efficient
+            performance. I also had some very challenging issues with the loss function.
+          </p>
+          <p> &emsp; TensorFlow has several ways of calculating log-likelihood. In the case of
+            MADE, binary cross-entropy is equivalent to the negative log-likelihood. However,
+            TensorFlow has several methods which are not clearly documented, such as binary cross-entropy
+            as a loss function, binary cross-entropy as a metric, categorical cross-entropy
+            as a loss, binary cross-entropy with logits, etc. Through a lot of troubleshooting,
+            I decided to implement the loss from scratch, which allowed me to replicate the paper's
+            findings. Finally, the most challenging issue I had implementing MADE with TensorFlow
+            was aligning the masks with the weights.
+          </p>
+          <p> &emsp; In most literature, matrix and vector multiplication happen such that the matrix
+            is on the left and the vector is on the right (ex. Ax=b). However, after much struggle,
+            I found out that TensorFlow performs their operations of input data to weights within dense layers such that
+            the input sample is a vector as a row which is then multiplied from the left of the weight
+            matrix. Thus, following the paper will not work with TensorFlow. I figured out the proper
+            alignment strategy and the implementation was able to replicate the findings from the binarized
+            mnist experiment within the paper. Attached is a
+            <a href="https://github.com/EnriqueNueve/TF_Toolbox/tree/main/MADE_2.4.1">link</a>
+            to my GitHub repo with the code for MADE
+            and below is the code implementation of the model class for MADE.
           </p>
 
 
 <pre><code>
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import layers
-from tensorflow.keras import Model
-from tensorflow.keras import regularizers
+  class MaskLinear(keras.layers.Layer):
+      """y = w.x + b"""
+      def __init__(self,name,units=32, input_dim=32,hidden=False):
+          super(MaskLinear, self).__init__()
+          self.w = self.add_weight(str(name) + "_weight",
+                                 shape=[input_dim, units],
+                                 regularizer=tf.keras.regularizers.l1_l2(.0001))
+          self.b = self.add_weight(str(name) + "_bias",
+                                 shape=[units],
+                                 regularizer=tf.keras.regularizers.l1_l2(.0001))
 
-class ResNetFCN(tf.keras.Model):
-  """FCN for VOC2012 with ResNet for Transfer Learning."""
-      def __init__(self,input_shape=(320, 224, 3), **kwargs):
-          super(ResNetFCN, self).__init__(**kwargs)
-          self.model = self.getModel(input_shape)
+          self.hidden = hidden
+          if self.hidden == True:
+              self.u = self.add_weight(str(name) + "_u_weight",
+                  shape=[input_dim, units],
+                  regularizer=tf.keras.regularizers.l1_l2(.0001))
+              self.id_vect = tf.ones(input_dim)
+
+      def call(self, inputs,mask):
+          if self.hidden == True:
+              return tf.matmul(inputs, tf.math.multiply(self.w,mask)) + \
+                self.b + tf.tensordot(self.id_vect,tf.math.multiply(self.u,mask), 1)
+          else:
+              return tf.matmul(inputs, tf.math.multiply(self.w,mask)) + self.b
+
+  class MADE(Model):
+      def __init__(self,n_mask,input_dim,hidden_dim,hid_layers):
+          super(MADE, self).__init__()
+
+          self.n_mask = n_mask
+          self.input_dim = input_dim
+          self.hidden_dim = hidden_dim
+          self.hid_layers = hid_layers
+
+          # Make list of ids for each layer
+          print('Starting to make mask')
+          self.masks_ids = self.makeMasksIds()
+          self.masks = []
+          for m_id in self.masks_ids:
+              self.masks.append(self.makeMasks(m_id))
+          print('Finshed making mask')
+
+          # Declare model layers
+          self.model_layers = []
+          layer = MaskLinear(0,self.hidden_dim,self.input_dim,hidden=True)
+          self.model_layers.append(layer)
+          for i in range(self.hid_layers):
+              layer = MaskLinear(i+1,self.hidden_dim,self.hidden_dim,hidden=True)
+              self.model_layers.append(layer)
+          layer = MaskLinear(self.hid_layers+2,self.input_dim,self.hidden_dim)
+          self.model_layers.append(layer)
+
+          # Declare loss tracker
+          self.loss_tracker = keras.metrics.Mean(name="loss")
+
+      @property
+      def metrics(self):
+          """List of the model's metrics.
+          We make sure the loss tracker is listed as part of `model.metrics`
+          so that `fit()` and `evaluate()` are able to `reset()` the loss tracker
+          at the start of each epoch and at the start of an `evaluate()` call.
+          """
+          return [self.loss_tracker]
+
+      def makeMasksIds(self):
+          masks_ids = []
+          for i in range(self.n_mask):
+              ids = list(range(1,self.input_dim+1))
+              shuffle(ids)
+              dict_mask = {'ids':ids}
+              for j in range(1,self.hid_layers+2):
+                  h_ids = [1] + choices(list(range(1, self.input_dim)), k=self.hidden_dim-1)
+                  dict_mask["W"+str(j)] = h_ids
+              masks_ids.append(dict_mask)
+          return masks_ids
+
+      def maskLogic(self,input_ids,output_ids,hidden=True):
+          masks = np.ones((len(input_ids),len(output_ids)))
+          if hidden == True:
+              return np.abs(np.less(np.array(output_ids),\
+                          np.array(input_ids)[:,np.newaxis]).astype(int)-1)
+          else:
+              return np.abs(np.greater(np.array(output_ids),\
+                          np.array(input_ids)[:,np.newaxis]).astype(int))
+
+      def makeMasks(self,masks_ids):
+          masks = []
+
+          # Make input mask
+          input_m = self.maskLogic(masks_ids['ids'],masks_ids['W1'])
+          masks.append(input_m)
+          # Make hidden masks
+          for i in range(1,self.hid_layers+1):
+              hidden_m = self.maskLogic(masks_ids['W'+str(i)],masks_ids['W'+str(i+1)])
+              masks.append(hidden_m)
+          # Make output mask
+          output_m = self.maskLogic(masks_ids['W'+str(self.hid_layers)],masks_ids['ids'],hidden=False)
+          masks.append(output_m)
+
+          return masks
+
+      def call(self,X,masks=None):
+          if masks == None:
+              masks = choice(self.masks)
+
+          for i in range(len(self.model_layers)):
+              X = self.model_layers[i](X,masks[i])
+              if i < len(self.model_layers)-1:
+                  X = tf.nn.relu(X)
+          return X
+
+      def prob(self,X):
+          predictions = []
+          for m in self.masks:
+              yh = self(X,m)
+              yh = tf.math.sigmoid(yh)
+              yh = tf.math.reduce_mean(X*tf.math.log(yh)+(1-X)*tf.math.log(1-yh), axis=1)
+              yh = tf.math.exp(yh)
+              predictions.append(yh)
+          probs =  tf.math.reduce_mean(predictions,axis=0)
+          return probs
+
+      def train_step(self, data):
+          X, y = data
+          m_id = choice(range(len(self.masks)))
+          mask = self.masks[m_id]
+
+          with tf.GradientTape() as tape:
+              X = self(X,mask)
+              y = tf.math.reduce_sum(tf.nn.sigmoid_cross_entropy_with_logits(y,X),axis=1)
+              loss = tf.math.reduce_mean(y)
+
+          # Compute gradients
+          trainable_vars = self.trainable_variables
+          gradients = tape.gradient(loss, trainable_vars)
+
+          # Update weights
+          self.optimizer.apply_gradients(zip(gradients, trainable_vars))
+
+          # Return a dict mapping metric names to current value
+          self.loss_tracker.update_state(loss)
+          return {"loss": self.loss_tracker.result()}
+
+      def test_step(self, data):
+          X, y = data
+          predictions = []
+          for m in self.masks:
+              yh = self(X,m)
+              loss = tf.math.reduce_mean(tf.math.reduce_sum(tf.nn.sigmoid_cross_entropy_with_logits(X,yh),axis=1))
+              predictions.append(loss)
+          loss =  tf.math.reduce_mean(predictions)
+          self.loss_tracker.update_state(loss)
+          return {"loss": self.loss_tracker.result()}
+
+    n_mask = 8
+    input_dim = 784
+    hidden_dim = 500
+    hid_layers = 1
+
+    lr_schedule = keras.optimizers.schedules.ExponentialDecay(
+              initial_learning_rate=1e-3,
+              decay_steps=10000,
+              decay_rate=0.9)
+    opt = keras.optimizers.Adam(learning_rate=lr_schedule)
+
+    model = MADE(n_mask,input_dim,hidden_dim,hid_layers)
+    #model.compile(optimizer=opt)
+    model.compile(optimizer=opt,run_eagerly=True)
+
+    history = model.fit(X_train, X_train, epochs=25,\
+        batch_size=100,validation_data=(X_val, X_val))
+
 </code></pre>
 
 
+          <p> &emsp; As stated in the beginning, MADE is a density estimation method. To demonstrate,
+            I trained MADE on the binarized mnist dataset. I use the mentioned methods above to
+            calculate the probability of a normal sample through mnist and a noisy sample. MADE gave
+            an estimated probability of 0.8867 for the normal sample and an estimated 0.2208
+            for the noisy sample. A visual of the samples are provided
+            below.
 
-          <figure>
-            <img src="images/sample_pred_fcn.png" class="image fit" />
-            <figcaption> Example of predicted mask (That's my dog Mocha)</figcaption>
-          </figure>
-          <p></p>
+            <figure>
+              <img src="images/made_images/prob_sample.png" class="image fit" />
+              <figcaption> Probability of Two Samples </figcaption>
+            </figure>
 
-          <h3>6. Conclusion</h3>
+          </p>
+
+
+
+          <h3>5. Conclusion</h3>
+          In this post, I provided a light examination of the paper "Made: Masked autoencoder for distribution estimation."[1]
+          I also did a brief commentary on my experience implementing MADE in TensorFlow 2. I hope this post provides some
+          clarification on how MADE works and through the code a reference for one's own implementation.
           <p>
 
           </p>
